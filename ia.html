@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IA Educativa - Plataforma Docente</title>
+  <link href="bootstrap-5.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    html { scroll-behavior: smooth; }
+    #botonAsistencia, #botonVolverArriba { position: fixed; bottom: 20px; z-index: 1000; }
+    #botonAsistencia { right: 20px; }
+    #botonVolverArriba { right: 140px; display: none; }
+    .chat-container { max-height: 300px; overflow-y: auto; }
+    .chat-message { margin-bottom: 10px; padding: 10px; border-radius: 10px; }
+    .user-message { background-color: #e9ecef; text-align: right; }
+    .bot-message { background-color: #d1e7dd; }
+    .navbar-nav .nav-link.active { background-color: #0056b3; border-radius: 5px; }
+    .card, .modal-content { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .btn { transition: background-color 0.3s, transform 0.2s; }
+    .btn:hover { transform: translateY(-2px); }
+    .bg-light { background: linear-gradient(to bottom, #f8f9fa, #e9ecef) !important; }
+    .navbar-nav .nav-link i { margin-right: 5px; }
+    /* Estilos para modo oscuro */
+    .dark-mode {
+      background-color: #343a40;
+      color: #f8f9fa;
+    }
+    .dark-mode .navbar-dark.bg-primary {
+      background-color: #1a252f !important;
+    }
+    .dark-mode .bg-light {
+      background: linear-gradient(to bottom, #495057, #343a40) !important;
+    }
+    .dark-mode .card {
+      background-color: #6c757d;
+      color: #f8f9fa;
+    }
+    .dark-mode .modal-content {
+      background-color: #495057;
+      color: #f8f9fa;
+    }
+    .dark-mode .alert-success {
+      background-color: #2a7a39;
+      color: #f8f9fa;
+    }
+    .dark-mode .alert-warning {
+      background-color: #8a6d3b;
+      color: #f8f9fa;
+    }
+    .dark-mode .btn-outline-primary {
+      color: #f8f9fa;
+      border-color: #f8f9fa;
+    }
+    .dark-mode .btn-outline-primary:hover {
+      background-color: #f8f9fa;
+      color: #343a40;
+    }
+    .dark-mode .chat-message.user-message {
+      background-color: #495057;
+      color: #f8f9fa;
+    }
+    .dark-mode .chat-message.bot-message {
+      background-color: #2a7a39;
+      color: #f8f9fa;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">Plataforma Docente</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContenido" aria-controls="navbarContenido" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarContenido">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a id="themeToggle" class="nav-link" href="#" title="Cambiar tema" aria-label="Cambiar a modo oscuro">
+              <i class="bi bi-moon-stars-fill"></i>
+            </a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house"></i> Inicio</a></li>
+          <li class="nav-item"><a class="nav-link active" href="ia.html"><i class="bi bi-robot"></i> IA Educativa</a></li>
+          <li class="nav-item"><a class="nav-link" href="comunidad.html"><i class="bi bi-people"></i> Comunidad</a></li>
+          <li class="nav-item"><a class="nav-link" href="biblioteca.html"><i class="bi bi-book"></i> Biblioteca</a></li>
+          <li class="nav-item"><a class="nav-link" href="recursos.html"><i class="bi bi-folder"></i> Recursos</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Migas de pan -->
+  <nav aria-label="breadcrumb" class="container mt-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
+      <li class="breadcrumb-item active" aria-current="page">IA Educativa</li>
+    </ol>
+  </nav>
+
+  <!-- Contenido principal -->
+  <section class="p-5 bg-light">
+    <div class="container">
+      <h1 class="display-4 text-center fw-bold"><i class="bi bi-robot"></i> Herramientas de IA Educativa</h1>
+      <p class="lead text-center">Optimiza tu enseñanza con nuestras herramientas impulsadas por inteligencia artificial.</p>
+
+      <!-- Herramientas -->
+      <div class="row mt-5">
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">Generador de Cuestionarios</h5>
+              <p class="card-text">Crea cuestionarios personalizados en segundos.</p>
+              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#quizModal" data-bs-toggle="tooltip" title="Probar generador">Probar ahora</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">Corrector Automático</h5>
+              <p class="card-text">Corrige textos y exámenes de forma rápida.</p>
+              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#correctorModal" data-bs-toggle="tooltip" title="Probar corrector">Probar ahora</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">Asistente de Planificación</h5>
+              <p class="card-text">Planifica clases según tus necesidades.</p>
+              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#planificadorModal" data-bs-toggle="tooltip" title="Probar planificador">Probar ahora</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Destacados -->
+      <h3 class="text-center mt-5">Destacados</h3>
+      <div class="row mt-3">
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Nuevo Tema</h5>
+              <p class="card-text">Prueba el generador con "Ciencias - Biología".</p>
+              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#quizModal">Probar</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Corrección Avanzada</h5>
+              <p class="card-text">Corrige textos con tildes y gramática.</p>
+              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#correctorModal">Probar</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Plan Personalizado</h5>
+              <p class="card-text">Crea planes con objetivos claros.</p>
+              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#planificadorModal">Probar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal Generador de Cuestionarios -->
+  <div class="modal fade" id="quizModal" tabindex="-1" aria-labelledby="quizModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="quizModalLabel">Generador de Cuestionarios</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="quizTema" class="form-label">Selecciona un tema</label>
+            <select class="form-select" id="quizTema">
+              <option value="Matemáticas - Fracciones">Matemáticas - Fracciones</option>
+              <option value="Historia - Revolución Industrial">Historia - Revolución Industrial</option>
+              <option value="Literatura - Poesía">Literatura - Poesía</option>
+              <option value="Ciencias - Biología">Ciencias - Biología</option>
+              <option value="Geografía - Climas">Geografía - Climas</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="quizNivel" class="form-label">Nivel de dificultad</label>
+            <select class="form-select" id="quizNivel">
+              <option value="Básico">Básico</option>
+              <option value="Intermedio">Intermedio</option>
+              <option value="Avanzado">Avanzado</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" onclick="generateQuiz()">Generar Cuestionario</button>
+          <div id="quizResult" class="mt-3"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Corrector Automático -->
+  <div class="modal fade" id="correctorModal" tabindex="-1" aria-labelledby="correctorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="correctorModalLabel">Corrector Automático</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="textoCorrector" class="form-label">Ingresa el texto a corregir</label>
+            <textarea class="form-control" id="textoCorrector" rows="5" placeholder="Escribe aquí el texto..."></textarea>
+          </div>
+          <button class="btn btn-primary" onclick="correctText()">Corregir Texto</button>
+          <div id="correctorResult" class="mt-3"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Asistente de Planificación -->
+  <div class="modal fade" id="planificadorModal" tabindex="-1" aria-labelledby="planificadorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="planificadorModalLabel">Asistente de Planificación</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="temaPlan" class="form-label">Tema de la clase</label>
+            <input type="text" class="form-control" id="temaPlan" placeholder="Ej. Fracciones">
+          </div>
+          <div class="mb-3">
+            <label for="objetivosPlan" class="form-label">Objetivos de aprendizaje</label>
+            <textarea class="form-control" id="objetivosPlan" rows="3" placeholder="Ej. Comprender suma de fracciones"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="duracionPlan" class="form-label">Duración (minutos)</label>
+            <input type="number" class="form-control" id="duracionPlan" placeholder="Ej. 60">
+          </div>
+          <button class="btn btn-primary" onclick="generatePlan()">Generar Plan</button>
+          <div id="planResult" class="mt-3"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-primary text-white text-center p-3">
+    <p>© 2025 Plataforma Docente</p>
+  </footer>
+
+  <!-- Botón de asistencia -->
+  <button id="botonAsistencia" class="btn btn-danger shadow px-4 py-2 rounded" data-bs-toggle="modal" data-bs-target="#ayudaModal" data-bs-toggle="tooltip" title="Obtén ayuda">Ayuda</button>
+
+  <!-- Botón de volver arriba -->
+  <button id="botonVolverArriba" class="btn btn-secondary shadow px-4 py-2 rounded" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" data-bs-toggle="tooltip" title="Volver arriba">
+    <i class="bi bi-arrow-up"></i>
+  </button>
+
+  <!-- Modal inicial de ayuda -->
+  <div class="modal fade" id="ayudaModal" tabindex="-1" aria-labelledby="ayudaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="ayudaModalLabel">¿Cómo te podemos ayudar?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <p>Elige una opción:</p>
+          <button class="btn btn-primary mb-3 w-100" data-bs-toggle="modal" data-bs-target="#chatIAModal" onclick="document.querySelector('#ayudaModal').classList.remove('show');">Preguntar a la IA</button>
+          <button class="btn btn-secondary w-100" data-bs-toggle="modal" data-bs-target="#asistenciaModal" onclick="document.querySelector('#ayudaModal').classList.remove('show');">Contactar Asistencia</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de chat con IA -->
+  <div class="modal fade" id="chatIAModal" tabindex="-1" aria-labelledby="chatIAModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="chatIAModalLabel">Chat con IA</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="chat-container" id="chatContainer"></div>
+          <div class="input-group mt-3">
+            <input type="text" id="userInput" class="form-control" placeholder="Escribe tu pregunta..." aria-label="Escribe tu pregunta">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="tooltip" title="Seleccionar pregunta">
+              <i class="bi bi-list"></i>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Cómo usar el generador de cuestionarios?')">¿Cómo usar el generador de cuestionarios?</a></li>
+              <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Cómo cambiar el tema?')">¿Cómo cambiar el tema?</a></li>
+              <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Dónde encontrar recursos?')">¿Dónde encontrar recursos?</a></li>
+              <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Cómo buscar en la biblioteca?')">¿Cómo buscar en la biblioteca?</a></li>
+              <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Cómo unirme a un foro?')">¿Cómo unirme a un foro?</a></li>
+              <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Cómo descargar un recurso?')">¿Cómo descargar un recurso?</a></li>
+              <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Qué es el modo oscuro?')">¿Qué es el modo oscuro?</a></li>
+              <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Cómo participar en un grupo de la comunidad?')">¿Cómo participar en un grupo de la comunidad?</a></li>
+              <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Cómo generar un plan de clase?')">¿Cómo generar un plan de clase?</a></li>
+              <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Qué recursos hay en la biblioteca?')">¿Qué recursos hay en la biblioteca?</a></li>
+            </ul>
+            <button class="btn btn-primary" onclick="sendMessage()" data-bs-toggle="tooltip" title="Enviar pregunta">Enviar</button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#ayudaModal" onclick="document.querySelector('#chatIAModal').classList.remove('show');">Volver</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de asistencia -->
+  <div class="modal fade" id="asistenciaModal" tabindex="-1" aria-labelledby="asistenciaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="asistenciaModalLabel">Contactar Asistencia</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Un representante de asistencia se pondrá en contacto contigo. Por favor, describe tu consulta:</p>
+          <textarea id="asistenciaInput" class="form-control mt-3" rows="4" placeholder="Escribe tu consulta..."></textarea>
+          <div id="asistenciaFeedback" class="mt-2"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#ayudaModal" onclick="document.querySelector('#asistenciaModal').classList.remove('show');">Volver</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" onclick="submitAsistencia()">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="bootstrap-5.3.6-dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Inicializar tooltips
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+
+    // Alternar modo oscuro
+    document.getElementById('themeToggle').addEventListener('click', (e) => {
+      e.preventDefault();
+      document.body.classList.toggle('dark-mode');
+      const icon = document.querySelector('#themeToggle i');
+      if (document.body.classList.contains('dark-mode')) {
+        icon.classList.remove('bi-moon-stars-fill');
+        icon.classList.add('bi-sun-fill');
+      } else {
+        icon.classList.remove('bi-sun-fill');
+        icon.classList.add('bi-moon-stars-fill');
+      }
+      localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+    });
+
+    // Cargar tema guardado
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+      document.querySelector('#themeToggle i').classList.remove('bi-moon-stars-fill');
+      document.querySelector('#themeToggle i').classList.add('bi-sun-fill');
+    }
+
+    // Mostrar botón de volver arriba
+    window.addEventListener('scroll', () => {
+      const button = document.getElementById('botonVolverArriba');
+      if (window.scrollY > 300) {
+        button.style.display = 'block';
+      } else {
+        button.style.display = 'none';
+      }
+    });
+
+    // Generar cuestionario
+    function generateQuiz() {
+      const tema = document.getElementById('quizTema').value;
+      const nivel = document.getElementById('quizNivel').value;
+      const resultDiv = document.getElementById('quizResult');
+
+      resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
+
+      setTimeout(() => {
+        const quizzes = {
+          'Matemáticas - Fracciones': {
+            Básico: '1. ¿Qué es 1/2 + 1/4?<br>2. Divide 3/5 entre 2.',
+            Intermedio: '1. Resuelve 2/3 + 4/9.<br>2. Multiplica 5/6 x 3/4.',
+            Avanzado: '1. Simplifica (2/7 + 3/14) ÷ 1/2.<br>2. Resuelve 4/5 - 2/3.'
+          },
+          'Historia - Revolución Industrial': {
+            Básico: '1. ¿En qué siglo comenzó la Revolución Industrial?<br>2. ¿Qué es una máquina de vapor?',
+            Intermedio: '1. Nombra dos inventos de la Revolución Industrial.<br>2. ¿Qué fue el telar mecánico?',
+            Avanzado: '1. Explica el impacto de la Revolución Industrial en la urbanización.<br>2. ¿Cómo influyó el ferrocarril en la economía?'
+          },
+          'Literatura - Poesía': {
+            Básico: '1. ¿Qué es una rima?<br>2. Nombra un poeta famoso.',
+            Intermedio: '1. Define un soneto.<br>2. ¿Qué es una metáfora?',
+            Avanzado: '1. Analiza el uso de la aliteración en un poema.<br>2. Explica la estructura de un haiku.'
+          },
+          'Ciencias - Biología': {
+            Básico: '1. ¿Qué es una célula?<br>2. Nombra dos tipos de tejidos.',
+            Intermedio: '1. Describe la función del ADN.<br>2. ¿Qué es la fotosíntesis?',
+            Avanzado: '1. Explica la mitosis.<br>2. Analiza el ciclo del carbono.'
+          },
+          'Geografía - Climas': {
+            Básico: '1. ¿Qué es el clima?<br>2. Nombra un clima cálido.',
+            Intermedio: '1. Diferencia clima tropical y polar.<br>2. ¿Qué es la corriente del Golfo?',
+            Avanzado: '1. Analiza el impacto del cambio climático en los climas.<br>2. Explica la distribución de los desiertos.'
+          }
+        };
+
+        resultDiv.innerHTML = `
+          <div class="alert alert-success">
+            <h5>Cuestionario: ${tema} (${nivel})</h5>
+            <p>${quizzes[tema][nivel]}</p>
+          </div>
+        `;
+      }, 1000);
+    }
+
+    // Corregir texto
+    function correctText() {
+      const texto = document.getElementById('textoCorrector').value.trim();
+      const resultDiv = document.getElementById('correctorResult');
+
+      if (!texto) {
+        resultDiv.innerHTML = '<div class="alert alert-warning">Por favor, ingresa un texto.</div>';
+        return;
+      }
+
+      resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
+
+      setTimeout(() => {
+        const correccion = texto
+          .replace(/k/g, 'c')
+          .replace(/([.!?])\s*([a-z])/g, (match, p1, p2) => p1 + ' ' + p2.toUpperCase())
+          .replace(/a'/g, 'á').replace(/e'/g, 'é').replace(/i'/g, 'í').replace(/o'/g, 'ó').replace(/u'/g, 'ú');
+        resultDiv.innerHTML = `
+          <div class="alert alert-success">
+            <h5>Texto corregido:</h5>
+            <p>${correccion}</p>
+          </div>
+        `;
+      }, 1000);
+    }
+
+    // Generar plan
+    function generatePlan() {
+      const tema = document.getElementById('temaPlan').value.trim();
+      const objetivos = document.getElementById('objetivosPlan').value.trim();
+      const duracion = document.getElementById('duracionPlan').value;
+      const resultDiv = document.getElementById('planResult');
+
+      if (!tema || !duracion || !objetivos) {
+        resultDiv.innerHTML = '<div class="alert alert-warning">Por favor, completa todos los campos.</div>';
+        return;
+      }
+
+      resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
+
+      setTimeout(() => {
+        resultDiv.innerHTML = `
+          <div class="alert alert-success">
+            <h5>Plan de clase: ${tema}</h5>
+            <p>Duración: ${duracion} min</p>
+            <p><strong>Objetivos:</strong> ${objetivos}</p>
+            <ul>
+              <li>Introducción (10% del tiempo): Presentar ${tema}.</li>
+              <li>Actividad principal (${Math.floor(duracion * 0.6)} min): Ejercicios prácticos.</li>
+              <li>Cierre (10 min): Resumen y tarea.</li>
+            </ul>
+          </div>
+        `;
+      }, 1000);
+    }
+
+    // Placeholder dinámico para el chat
+    const placeholders = [
+      'Pregunta cómo usar el generador...',
+      'Consulta dónde encontrar recursos...',
+      'Escribe cómo unirme a un foro...'
+    ];
+    let placeholderIndex = 0;
+    const userInput = document.getElementById('userInput');
+    setInterval(() => {
+      userInput.placeholder = placeholders[placeholderIndex];
+      placeholderIndex = (placeholderIndex + 1) % placeholders.length;
+    }, 3000);
+
+    // Seleccionar pregunta del menú desplegable
+    function selectQuestion(question) {
+      userInput.value = question;
+      sendMessage();
+    }
+
+    // Chat con IA
+    function sendMessage() {
+      const userInput = document.getElementById('userInput');
+      const chatContainer = document.getElementById('chatContainer');
+      const message = userInput.value.trim();
+
+      if (!message) return;
+
+      // Añadir mensaje del usuario
+      const userMessage = document.createElement('div');
+      userMessage.className = 'chat-message user-message animate__animated animate__fadeInRight';
+      userMessage.innerHTML = `<strong>Tú:</strong> ${message}`;
+      chatContainer.appendChild(userMessage);
+
+      // Mostrar "Escribiendo..."
+      const typingMessage = document.createElement('div');
+      typingMessage.className = 'chat-message bot-message animate__animated animate__fadeInLeft';
+      typingMessage.innerHTML = '<strong>IA:</strong> Escribiendo...';
+      chatContainer.appendChild(typingMessage);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+
+      // Respuesta simulada de la IA
+      setTimeout(() => {
+        chatContainer.removeChild(typingMessage);
+        let response = '<strong>IA:</strong> Lo siento, no tengo una respuesta específica para eso. ¿Puedes dar más detalles?';
+        const responses = {
+          '¿Cómo usar el generador de cuestionarios?': '<strong>IA:</strong> Ve a "IA Educativa", haz clic en "Probar ahora" en la tarjeta del generador, selecciona un tema (por ejemplo, "Matemáticas - Fracciones") y un nivel, luego presiona "Generar".',
+          '¿Cómo cambiar el tema?': '<strong>IA:</strong> Haz clic en el ícono de luna o sol en la barra de navegación, a la izquierda de "Inicio".',
+          '¿Dónde encontrar recursos?': '<strong>IA:</strong> En la sección "Recursos" puedes descargar plantillas, evaluaciones y presentaciones. También revisa "Biblioteca" para libros y artículos.',
+          '¿Cómo buscar en la biblioteca?': '<strong>IA:</strong> En "Biblioteca", usa la barra de búsqueda para encontrar libros, artículos o guías. Prueba palabras como "matemáticas" o "historia".',
+          '¿Cómo unirme a un foro?': '<strong>IA:</strong> En "Comunidad", haz clic en "Ver grupos" o "Explorar foros" y selecciona un grupo o foro para participar.',
+          '¿Cómo descargar un recurso?': '<strong>IA:</strong> En "Recursos" o "Biblioteca", haz clic en el botón "Descargar" junto al recurso. Recibirás una confirmación simulada.',
+          '¿Qué es el modo oscuro?': '<strong>IA:</strong> El modo oscuro cambia la interfaz a colores oscuros para mayor comodidad visual. Actívalo con el ícono de luna/sol en la barra de navegación.',
+          '¿Cómo participar en un grupo de la comunidad?': '<strong>IA:</strong> En "Comunidad", selecciona un grupo en "Grupos de Interés" y haz clic en "Unirse". Recibirás una confirmación.',
+          '¿Cómo generar un plan de clase?': '<strong>IA:</strong> En "IA Educativa", usa el Asistente de Planificación, ingresa el tema, objetivos y duración, y haz clic en "Generar Plan".',
+          '¿Qué recursos hay en la biblioteca?': '<strong>IA:</strong> La biblioteca ofrece libros digitales (como "Historia Universal"), artículos académicos y guías (como "Matemáticas Básicas"). Usa la búsqueda para explorarlos.'
+        };
+
+        response = responses[message] || response;
+
+        const botMessage = document.createElement('div');
+        botMessage.className = 'chat-message bot-message animate__animated animate__fadeInLeft';
+        botMessage.innerHTML = response;
+        chatContainer.appendChild(botMessage);
+
+        // Limpiar input y desplazar chat
+        userInput.value = '';
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }, 1000);
+    }
+
+    // Enviar mensaje de asistencia
+    function submitAsistencia() {
+      const asistenciaInput = document.getElementById('asistenciaInput');
+      const feedback = document.getElementById('asistenciaFeedback');
+      if (!asistenciaInput.value.trim()) {
+        feedback.innerHTML = '<div class="alert alert-warning">Por favor, escribe una consulta.</div>';
+        return;
+      }
+      feedback.innerHTML = '<div class="alert alert-success">Mensaje enviado. Un representante te contactará pronto.</div>';
+      asistenciaInput.value = '';
+      setTimeout(() => feedback.innerHTML = '', 3000);
+    }
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+</body>
+</html>
