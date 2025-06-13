@@ -75,12 +75,9 @@
     .breadcrumb { background: transparent; }
     .breadcrumb-item a { color: #3b82f6; }
     .breadcrumb-item.active { color: #475569; }
+    .badge.bg-primary { background-color: #3b82f6 !important; border-radius: 6px; }
+    .badge.bg-success { background-color: #22c55e !important; border-radius: 6px; }
     .alert-success, .alert-warning { border-radius: 8px; }
-    .input-group .form-control {
-      border-radius: 8px 0 0 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-    .input-group .btn-primary { border-radius: 0 8px 8px 0; }
     .dark-mode {
       background: #0f172a;
       color: #f1f5f9;
@@ -105,16 +102,127 @@
     .dark-mode .btn-outline-primary { border-color: #93c5fd; color: #93c5fd; }
     .dark-mode .alert-success { background-color: #2a7a39; color: #f8f9fa; }
     .dark-mode .alert-warning { background-color: #8a6d3b; color: #f8f9fa; }
-    .dark-mode .input-group .form-control {
-      background: #1e293b;
-      border-color: #334155;
-      color: #f1f5f9;
-    }
+    .dark-mode .badge.bg-primary { background-color: #3b82f6 !important; }
+    .dark-mode .badge.bg-success { background-color: #22c55e !important; }
     @media (max-width: 576px) {
       h1 { font-size: 2rem; }
       p.lead { font-size: 1rem; }
       .card-body { padding: 1rem; }
       section { padding: 2rem 0 !important; }
+    }
+    /* Cambios para la sección Recursos */
+    section {
+      background: linear-gradient(135deg, #059669, #34d399);
+      position: relative;
+      overflow: hidden;
+    }
+    section .card {
+      background: #ffffff;
+      border: none;
+      border-radius: 16px;
+      padding: 1.5rem;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    section .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(5, 150, 105, 0.3);
+    }
+    section .card h5 {
+      color: #2563eb;
+      font-size: 1.4rem;
+      margin-bottom: 0.75rem;
+    }
+    section .card p {
+      color: #6b7280;
+      flex-grow: 1;
+    }
+    section .card .btn {
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+    }
+    section .card .btn:hover {
+      background: #1e40af;
+      transform: translateY(-2px);
+    }
+    section h1, section h3 {
+      color: #ffffff;
+    }
+    section p.lead {
+      color: #e0f2fe;
+    }
+    .dark-mode section {
+      background: linear-gradient(135deg, #064e3b, #1e3a8a);
+    }
+    .dark-mode section .card {
+      background: #334155;
+    }
+    .dark-mode section .card h5 {
+      color: #93c5fd;
+    }
+    .dark-mode section .card p {
+      color: #94a3b8;
+    }
+    .dark-mode section .card .btn {
+      background: #93c5fd;
+      color: #1e293b;
+    }
+    .dark-mode section .card .btn:hover {
+      background: #2563eb;
+    }
+    .dark-mode section h1, .dark-mode section h3 {
+      color: #f1f5f9;
+    }
+    .dark-mode section p.lead {
+      color: #bfdbfe;
+    }
+    /* Íconos de recursos */
+    .card-title i {
+      font-size: 1.5rem;
+      color: #2563eb;
+      margin-right: 0.5rem;
+    }
+    .dark-mode .card-title i {
+      color: #93c5fd;
+    }
+    /* Estilo para la barra de filtros */
+    .filter-bar {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .dark-mode .filter-bar {
+      background: #334155;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .filter-bar select, .filter-bar button {
+      border-color: #2563eb;
+    }
+    .filter-bar button {
+      background: #2563eb;
+      color: #ffffff;
+    }
+    .filter-bar button:hover {
+      background: #1e40af;
+    }
+    .dark-mode .filter-bar select {
+      border-color: #93c5fd;
+      background: #1e293b;
+      color: #f1f5f9;
+    }
+    .dark-mode .filter-bar button {
+      background: #93c5fd;
+      color: #1e293b;
+    }
+    .dark-mode .filter-bar button:hover {
+      background: #2563eb;
     }
   </style>
 </head>
@@ -154,75 +262,100 @@
   <!-- Contenido principal -->
   <section>
     <div class="container">
-      <h1 class="display-4 text-center fw-bold"><i class="bi bi-folder"></i> Recursos</h1>
-      <p class="lead text-center">Descarga plantillas, herramientas y materiales para tus clases.</p>
+      <h1 class="display-4 text-center fw-bold"><i class="bi bi-folder"></i> Recursos Docentes</h1>
+      <p class="lead text-center">Descarga plantillas, evaluaciones y presentaciones para tus clases.</p>
 
-      <!-- Barra de búsqueda -->
-      <div class="row mt-5 justify-content-center">
-        <div class="col-md-8">
-          <div class="input-group">
-            <input type="text" id="searchInput" class="form-control" placeholder="Busca por nombre o categoría..." aria-label="Busca recursos">
-            <button class="btn btn-primary" onclick="searchResources()" data-bs-toggle="tooltip" title="Buscar">
-              <i class="bi bi-search"></i>
-            </button>
+      <!-- Barra de filtros -->
+      <div class="filter-bar mb-5 animate__animated animate__fadeIn" style="animation-delay: 0.1s;">
+        <div class="row g-2">
+          <div class="col-md-4">
+            <select id="categoryFilter" class="form-select" aria-label="Filtrar por categoría">
+              <option value="">Todas las categorías</option>
+              <option value="Plantillas">Plantillas</option>
+              <option value="Evaluaciones">Evaluaciones</option>
+              <option value="Presentaciones">Presentaciones</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <select id="subjectFilter" class="form-select" aria-label="Filtrar por asignatura">
+              <option value="">Todas las asignaturas</option>
+              <option value="Matemáticas">Matemáticas</option>
+              <option value="Ciencias">Ciencias</option>
+              <option value="Historia">Historia</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <button class="btn w-100" onclick="applyFilters()" title="Aplicar filtros">Filtrar <i class="bi bi-filter"></i></button>
           </div>
         </div>
+        <div id="filterFeedback" class="mt-2"></div>
       </div>
 
-      <!-- Recursos -->
-      <h3 class="mt-5">Recursos Disponibles</h3>
-      <div class="row mt-3" id="resourceList">
+      <!-- Recursos destacados -->
+      <h3 class="mt-5">Recursos Destacados</h3>
+      <div class="row">
         <div class="col-md-4 mb-3">
           <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
             <div class="card-body">
-              <h5 class="card-title">Plantilla de Evaluación</h5>
-              <p class="card-text">Formato para crear exámenes.</p>
-              <button class="btn btn-outline-primary" onclick="downloadResource('Plantilla de Evaluación')" data-bs-toggle="tooltip" title="Descargar plantilla">Descargar</button>
+              <h5 class="card-title"><i class="bi bi-file-earmark-text"></i> Plantilla de Plan de Clase</h5>
+              <p class="card-text">Estructura editable para planificar tus lecciones.</p>
+              <span class="badge bg-primary">Plantilla</span>
+              <button class="btn mt-2" onclick="downloadResource('Plantilla de Plan de Clase')" title="Descargar">Descargar</button>
             </div>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
             <div class="card-body">
-              <h5 class="card-title">Presentación Interactiva</h5>
-              <p class="card-text">Diapositivas para clases dinámicas.</p>
-              <button class="btn btn-outline-primary" onclick="downloadResource('Presentación Interactiva')" data-bs-toggle="tooltip" title="Descargar presentación">Descargar</button>
+              <h5 class="card-title"><i class="bi bi-check-square"></i> Evaluación de Matemáticas</h5>
+              <p class="card-text">Examen de fracciones para primaria.</p>
+              <span class="badge bg-primary">Evaluación</span>
+              <button class="btn mt-2" onclick="downloadResource('Evaluación de Matemáticas')" title="Descargar">Descargar</button>
             </div>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
             <div class="card-body">
-              <h5 class="card-title">Guía de Estudio</h5>
-              <p class="card-text">Material de apoyo para estudiantes.</p>
-              <button class="btn btn-outline-primary" onclick="downloadResource('Guía de Estudio')" data-bs-toggle="tooltip" title="Descargar guía">Descargar</button>
+              <h5 class="card-title"><i class="bi bi-slideshow"></i> Presentación de Historia</h5>
+              <p class="card-text">Diapositivas sobre la Revolución Industrial.</p>
+              <span class="badge bg-primary">Presentación</span>
+              <button class="btn mt-2" onclick="downloadResource('Presentación de Historia')" title="Descargar">Descargar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categorías de recursos -->
+      <h3 class="mt-5">Explorar por Categoría</h3>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+            <div class="card-body">
+              <h5 class="card-title"><i class="bi bi-file-earmark-text"></i> Plantillas</h5>
+              <p class="card-text">Formatos para planes, informes y actividades.</p>
+              <span class="badge bg-success">25 recursos</span>
+              <button class="btn mt-2" data-bs-toggle="modal" data-bs-target="#plantillasModal" title="Ver categoría">Ver</button>
             </div>
           </div>
         </div>
         <div class="col-md-4 mb-3">
-          <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+          <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
             <div class="card-body">
-              <h5 class="card-title">Generador de Rúbricas</h5>
-              <p class="card-text">Crea rúbricas personalizadas para evaluar.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#rubricaModal" data-bs-toggle="tooltip" title="Crear rúbrica">Crear</button>
+              <h5 class="card-title"><i class="bi bi-check-square"></i> Evaluaciones</h5>
+              <p class="card-text">Exámenes y cuestionarios listos para usar.</p>
+              <span class="badge bg-success">20 recursos</span>
+              <button class="btn mt-2" data-bs-toggle="modal" data-bs-target="#evaluacionesModal" title="Ver categoría">Ver</button>
             </div>
           </div>
         </div>
         <div class="col-md-4 mb-3">
-          <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.5s;">
+          <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
             <div class="card-body">
-              <h5 class="card-title">Planificador de Horarios</h5>
-              <p class="card-text">Organiza tu semana de clases.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#horarioModal" data-bs-toggle="tooltip" title="Crear horario">Crear</button>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-3">
-          <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.6s;">
-            <div class="card-body">
-              <h5 class="card-title">Banco de Imágenes Educativas</h5>
-              <p class="card-text">Accede a imágenes libres para tus clases.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#imagenesModal" data-bs-toggle="tooltip" title="Buscar imágenes">Buscar</button>
+              <h5 class="card-title"><i class="bi bi-slideshow"></i> Presentaciones</h5>
+              <p class="card-text">Diapositivas para clases dinámicas.</p>
+              <span class="badge bg-success">15 recursos</span>
+              <button class="btn mt-2" data-bs-toggle="modal" data-bs-target="#presentacionesModal" title="Ver categoría">Ver</button>
             </div>
           </div>
         </div>
@@ -230,29 +363,20 @@
     </div>
   </section>
 
-  <!-- Modal Generador de Rúbricas -->
-  <div class="modal fade" id="rubricaModal" tabindex="-1" aria-labelledby="rubricaModalLabel" aria-hidden="true">
+  <!-- Modal Plantillas -->
+  <div class="modal fade" id="plantillasModal" tabindex="-1" aria-labelledby="plantillasModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="rubricaModalLabel">Generador de Rúbricas</h5>
+          <h5 class="modal-title" id="plantillasModalLabel">Plantillas</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <div class="mb-3">
-            <label for="rubricaNombre" class="form-label">Nombre de la rúbrica</label>
-            <input type="text" class="form-control" id="rubricaNombre" placeholder="Ej. Evaluación de Proyecto">
-          </div>
-          <div class="mb-3">
-            <label for="rubricaCriterios" class="form-label">Criterios (uno por línea)</label>
-            <textarea class="form-control" id="rubricaCriterios" rows="4" placeholder="Ej. Contenido\nCreatividad\nPresentación"></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="rubricaNiveles" class="form-label">Niveles de desempeño (separados por comas)</label>
-            <input type="text" class="form-control" id="rubricaNiveles" placeholder="Ej. Excelente, Bueno, Regular, Insuficiente">
-          </div>
-          <button class="btn btn-primary" onclick="generarRubrica()">Generar Rúbrica</button>
-          <div id="rubricaResult" class="mt-3"></div>
+          <ul class="list-group">
+            <li class="list-group-item">Plantilla de Plan de Clase <button class="btn btn-sm btn-primary float-end" onclick="downloadResource('Plantilla de Plan de Clase')">Descargar</button></li>
+            <li class="list-group-item">Informe de Progreso <button class="btn btn-sm btn-primary float-end" onclick="downloadResource('Informe de Progreso')">Descargar</button></li>
+            <li class="list-group-item">Actividad Grupal <button class="btn btn-sm btn-primary float-end" onclick="downloadResource('Actividad Grupal')">Descargar</button></li>
+          </ul>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -261,35 +385,19 @@
     </div>
   </div>
 
-  <!-- Modal Planificador de Horarios -->
-  <div class="modal fade" id="horarioModal" tabindex="-1" aria-labelledby="horarioModalLabel" aria-hidden="true">
+  <!-- Modal Evaluaciones -->
+  <div class="modal fade" id="evaluacionesModal" tabindex="-1" aria-labelledby="evaluacionesModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="horarioModalLabel">Planificador de Horarios</h5>
+          <h5 class="modal-title" id="evaluacionesModalLabel">Evaluaciones</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <div class="mb-3">
-            <label for="horarioDias" class="form-label">Días de la semana</label>
-            <select class="form-select" id="horarioDias" multiple>
-              <option value="Lunes">Lunes</option>
-              <option value="Martes">Martes</option>
-              <option value="Miércoles">Miércoles</option>
-              <option value="Jueves">Jueves</option>
-              <option value="Viernes">Viernes</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="horarioHoras" class="form-label">Horas (una por línea)</label>
-            <textarea class="form-control" id="horarioHoras" rows="4" placeholder="Ej. 08:00-09:00\n09:00-10:00"></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="horarioActividades" class="form-label">Actividades (una por línea, en orden de horas)</label>
-            <textarea class="form-control" id="horarioActividades" rows="4" placeholder="Ej. Matemáticas\nCiencias"></textarea>
-          </div>
-          <button class="btn btn-primary" onclick="generarHorario()">Generar Horario</button>
-          <div id="horarioResult" class="mt-3"></div>
+          <ul class="list-group">
+            <li class="list-group-item">Evaluación de Matemáticas <button class="btn btn-sm btn-primary float-end" onclick="downloadResource('Evaluación de Matemáticas')">Descargar</button></li>
+            <li class="list-group-item">Cuestionario de Ciencias <button class="btn btn-sm btn-primary float-end" onclick="downloadResource('Cuestionario de Ciencias')">Descargar</button></li>
+          </ul>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -298,21 +406,19 @@
     </div>
   </div>
 
-  <!-- Modal Banco de Imágenes Educativas -->
-  <div class="modal fade" id="imagenesModal" tabindex="-1" aria-labelledby="imagenesModalLabel" aria-hidden="true">
+  <!-- Modal Presentaciones -->
+  <div class="modal fade" id="presentacionesModal" tabindex="-1" aria-labelledby="presentacionesModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="imagenesModalLabel">Banco de Imágenes Educativas</h5>
+          <h5 class="modal-title" id="presentacionesModalLabel">Presentaciones</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <div class="mb-3">
-            <label for="imagenesBusqueda" class="form-label">Buscar imágenes</label>
-            <input type="text" class="form-control" id="imagenesBusqueda" placeholder="Ej. Biología, Matemáticas, Historia">
-          </div>
-          <button class="btn btn-primary" onclick="buscarImagenes()">Buscar</button>
-          <div id="imagenesResult" class="mt-3"></div>
+          <ul class="list-group">
+            <li class="list-group-item">Presentación de Historia <button class="btn btn-sm btn-primary float-end" onclick="downloadResource('Presentación de Historia')">Descargar</button></li>
+            <li class="list-group-item">Diapositivas de Biología <button class="btn btn-sm btn-primary float-end" onclick="downloadResource('Diapositivas de Biología')">Descargar</button></li>
+          </ul>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -327,12 +433,12 @@
   </footer>
 
   <!-- Botón de asistencia -->
-  <button id="botonAsistencia" class="btn shadow" data-bs-toggle="modal" data-bs-target="#ayudaModal" data-bs-toggle="tooltip" title="Obtén ayuda">
+  <button id="botonAsistencia" class="btn shadow" data-bs-toggle="modal" data-bs-target="#ayudaModal" title="Obtén ayuda">
     <i class="bi bi-question-circle-fill fs-5"></i>
   </button>
 
   <!-- Botón de volver arriba -->
-  <button id="botonVolverArriba" class="btn shadow" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" data-bs-toggle="tooltip" title="Volver arriba">
+  <button id="botonVolverArriba" class="btn shadow" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Volver arriba">
     <i class="bi bi-arrow-up fs-5"></i>
   </button>
 
@@ -368,7 +474,7 @@
           <div class="chat-container" id="chatContainer"></div>
           <div class="input-group mt-3">
             <input type="text" id="userInput" class="form-control" placeholder="Escribe tu pregunta..." aria-label="Escribe tu pregunta">
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="tooltip" title="Seleccionar pregunta">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Seleccionar pregunta">
               <i class="bi bi-list"></i>
             </button>
             <ul class="dropdown-menu">
@@ -383,7 +489,7 @@
               <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Cómo generar un plan de clase?')">¿Cómo generar un plan de clase?</a></li>
               <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Qué recursos hay en la biblioteca?')">¿Qué recursos hay en la biblioteca?</a></li>
             </ul>
-            <button class="btn btn-primary" onclick="sendMessage()" data-bs-toggle="tooltip" title="Enviar pregunta">Enviar</button>
+            <button class="btn btn-primary" onclick="sendMessage()" title="Enviar pregunta">Enviar</button>
           </div>
         </div>
         <div class="modal-footer">
@@ -419,7 +525,7 @@
   <script src="bootstrap-5.3.6-dist/js/bootstrap.bundle.min.js"></script>
   <script>
     // Inicializar tooltips
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    const tooltipTriggerList = document.querySelectorAll('[title]');
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
     // Alternar modo oscuro
@@ -454,158 +560,34 @@
       }
     });
 
-    // Buscar recursos
-    function searchResources() {
-      const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
-      const resourceList = document.getElementById('resourceList');
-      const resources = [
-        { title: 'Plantilla de Evaluación', description: 'Formato para crear exámenes.', action: 'download' },
-        { title: 'Presentación Interactiva', description: 'Diapositivas para clases dinámicas.', action: 'download' },
-        { title: 'Guía de Estudio', description: 'Material de apoyo para estudiantes.', action: 'download' },
-        { title: 'Generador de Rúbricas', description: 'Crea rúbricas personalizadas para evaluar.', action: 'modal', modal: 'rubricaModal' },
-        { title: 'Planificador de Horarios', description: 'Organiza tu semana de clases.', action: 'modal', modal: 'horarioModal' },
-        { title: 'Banco de Imágenes Educativas', description: 'Accede a imágenes libres para tus clases.', action: 'modal', modal: 'imagenesModal' }
-      ];
-
-      if (!searchInput) {
-        resourceList.innerHTML = resources.map((r, index) => `
-          <div class="col-md-4 mb-3">
-            <div class="card animate__animated animate__fadeInUp" style="animation-delay: ${0.1 * (index + 1)}s;">
-              <div class="card-body">
-                <h5 class="card-title">${r.title}</h5>
-                <p class="card-text">${r.description}</p>
-                <button class="btn btn-outline-primary" ${r.action === 'download' ? `onclick="downloadResource('${r.title}')"` : `data-bs-toggle="modal" data-bs-target="#${r.modal}"`} data-bs-toggle="tooltip" title="${r.action === 'download' ? `Descargar ${r.title.toLowerCase()}` : r.modal === 'rubricaModal' ? 'Crear rúbrica' : r.modal === 'horarioModal' ? 'Crear horario' : 'Buscar imágenes'}">${r.action === 'download' ? 'Descargar' : r.modal === 'imagenesModal' ? 'Buscar' : 'Crear'}</button>
-              </div>
-            </div>
-          </div>
-        `).join('');
+    // Aplicar filtros
+    function applyFilters() {
+      const categoryFilter = document.getElementById('categoryFilter').value;
+      const subjectFilter = document.getElementById('subjectFilter').value;
+      const feedback = document.getElementById('filterFeedback');
+      if (!categoryFilter && !subjectFilter) {
+        feedback.innerHTML = '<div class="alert alert-warning">Por favor, selecciona al menos un filtro.</div>';
         return;
       }
-
-      const filtered = resources.filter(r => r.title.toLowerCase().includes(searchInput) || r.description.toLowerCase().includes(searchInput));
-      resourceList.innerHTML = filtered.length ? filtered.map((r, index) => `
-        <div class="col-md-4 mb-3">
-          <div class="card animate__animated animate__fadeInUp" style="animation-delay: ${0.1 * (index + 1)}s;">
-            <div class="card-body">
-              <h5 class="card-title">${r.title}</h5>
-              <p class="card-text">${r.description}</p>
-              <button class="btn btn-outline-primary" ${r.action === 'download' ? `onclick="downloadResource('${r.title}')"` : `data-bs-toggle="modal" data-bs-target="#${r.modal}"`} data-bs-toggle="tooltip" title="${r.action === 'download' ? `Descargar ${r.title.toLowerCase()}` : r.modal === 'rubricaModal' ? 'Crear rúbrica' : r.modal === 'horarioModal' ? 'Crear horario' : 'Buscar imágenes'}">${r.action === 'download' ? 'Descargar' : r.modal === 'imagenesModal' ? 'Buscar' : 'Crear'}</button>
-            </div>
-          </div>
-        </div>
-      `).join('') : '<div class="col-12"><div class="alert alert-warning animate__animated animate__fadeIn">No se encontraron resultados.</div></div>';
+      const filterText = `${categoryFilter || 'Todas las categorías'} - ${subjectFilter || 'Todas las asignaturas'}`;
+      feedback.innerHTML = `<div class="alert alert-success">Mostrando recursos para "${filterText}" (simulación).</div>`;
+      setTimeout(() => feedback.innerHTML = '', 3000);
     }
 
     // Descargar recurso
-    function downloadResource(title) {
-      const resourceList = document.getElementById('resourceList');
-      resourceList.innerHTML = `
-        <div class="col-12">
-          <div class="alert alert-success animate__animated animate__fadeIn">
-            Descargando "${title}"... (Simulación completada).
-          </div>
-        </div>
-      `;
-      setTimeout(() => searchResources(), 2000);
+    function downloadResource(resourceName) {
+      const feedback = document.createElement('div');
+      feedback.className = 'alert alert-success mt-3 animate__animated animate__fadeIn';
+      feedback.innerHTML = `¡Descargando "${resourceName}"! (Simulación)`;
+      document.querySelector('.container').appendChild(feedback);
+      setTimeout(() => feedback.remove(), 3000);
     }
 
-    // Generar rúbrica
-    function generarRubrica() {
-      const nombre = document.getElementById('rubricaNombre').value.trim();
-      const criterios = document.getElementById('rubricaCriterios').value.trim().split('\n').filter(c => c);
-      const niveles = document.getElementById('rubricaNiveles').value.trim().split(',').map(n => n.trim()).filter(n => n);
-      const resultDiv = document.getElementById('rubricaResult');
-
-      if (!nombre || criterios.length < 1 || niveles.length < 2) {
-        resultDiv.innerHTML = '<div class="alert alert-warning animate__animated animate__fadeIn">Por favor, completa el nombre, al menos 1 criterio y 2 niveles.</div>';
-        return;
-      }
-
-      resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
-
-      setTimeout(() => {
-        let html = `
-          <div class="alert alert-success animate__animated animate__fadeIn">
-            <h5>Rúbrica: ${nombre}</h5>
-            <table class="table table-bordered">
-              <thead><tr><th>Criterio</th>${niveles.map(n => `<th>${n}</th>`).join('')}</tr></thead>
-              <tbody>
-                ${criterios.map(c => `
-                  <tr><td>${c}</td>${niveles.map(() => `<td>Descripción simulada</td>`).join('')}</tr>
-                `).join('')}
-              </tbody>
-            </table>
-            <button class="btn btn-outline-primary" onclick="downloadResource('Rúbrica: ${nombre}')">Descargar</button>
-          </div>
-        `;
-        resultDiv.innerHTML = html;
-      }, 1000);
-    }
-
-    // Generar horario
-    function generarHorario() {
-      const dias = Array.from(document.getElementById('horarioDias').selectedOptions).map(o => o.value);
-      const horas = document.getElementById('horarioHoras').value.trim().split('\n').filter(h => h);
-      const actividades = document.getElementById('horarioActividades').value.trim().split('\n').filter(a => a);
-      const resultDiv = document.getElementById('horarioResult');
-
-      if (dias.length < 1 || horas.length < 1 || actividades.length !== horas.length) {
-        resultDiv.innerHTML = '<div class="alert alert-warning animate__animated animate__fadeIn">Selecciona al menos un día, ingresa horas válidas y actividades correspondientes.</div>';
-        return;
-      }
-
-      resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
-
-      setTimeout(() => {
-        let html = `
-          <div class="alert alert-success animate__animated animate__fadeIn">
-            <h5>Horario Semanal</h5>
-            <table class="table table-bordered">
-              <thead><tr><th>Hora</th>${dias.map(d => `<th>${d}</th>`).join('')}</tr></thead>
-              <tbody>
-                ${horas.map((h, i) => `
-                  <tr><td>${h}</td>${dias.map(() => `<td>${actividades[i] || 'Libre'}</td>`).join('')}</tr>
-                `).join('')}
-              </tbody>
-            </table>
-            <button class="btn btn-outline-primary" onclick="downloadResource('Horario Semanal')">Descargar</button>
-          </div>
-        `;
-        resultDiv.innerHTML = html;
-      }, 1000);
-    }
-
-    // Buscar imágenes
-    function buscarImagenes() {
-      const busqueda = document.getElementById('imagenesBusqueda').value.trim();
-      const resultDiv = document.getElementById('imagenesResult');
-
-      if (!busqueda) {
-        resultDiv.innerHTML = '<div class="alert alert-warning animate__animated animate__fadeIn">Ingresa un término de búsqueda.</div>';
-        return;
-      }
-
-      resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
-
-      setTimeout(() => {
-        resultDiv.innerHTML = `
-          <div class="alert alert-success animate__animated animate__fadeIn">
-            <h5>Resultados para "${busqueda}"</h5>
-            <div class="row">
-              <div class="col-md-4 mb-2"><p>Imagen 1 (simulada)</p><button class="btn btn-outline-primary btn-sm" onclick="downloadResource('Imagen: ${busqueda} 1')">Descargar</button></div>
-              <div class="col-md-4 mb-2"><p>Imagen 2 (simulada)</p><button class="btn btn-outline-primary btn-sm" onclick="downloadResource('Imagen: ${busqueda} 2')">Descargar</button></div>
-              <div class="col-md-4 mb-2"><p>Imagen 3 (simulada)</p><button class="btn btn-outline-primary btn-sm" onclick="downloadResource('Imagen: ${busqueda} 3')">Descargar</button></div>
-            </div>
-          </div>
-        `;
-      }, 1000);
-    }
-
-    // Placeholder dinámico
+    // Placeholder dinámico para el chat
     const placeholders = [
       'Pregunta cómo usar el generador...',
       'Consulta dónde encontrar recursos...',
-      'Escribe cómo unirme a un foro...'
+      'Escribe cómo descargar un recurso...'
     ];
     let placeholderIndex = 0;
     const userInput = document.getElementById('userInput');
@@ -645,7 +627,7 @@
         const responses = {
           '¿Cómo usar el generador de cuestionarios?': '<strong>IA:</strong> Ve a "IA y Herramientas", haz clic en "Probar ahora" en la tarjeta del generador, selecciona un tema (por ejemplo, "Matemáticas - Fracciones") y un nivel, luego presiona "Generar".',
           '¿Cómo cambiar el tema?': '<strong>IA:</strong> Haz clic en el ícono de luna o sol en la barra de navegación, a la izquierda de "Inicio".',
-          '¿Dónde encontrar recursos?': '<strong>IA:</strong> En la sección "Recursos" puedes descargar plantillas, evaluaciones, presentaciones, o usar herramientas como el generador de rúbricas. También revisa "Biblioteca" para libros y artículos.',
+          '¿Dónde encontrar recursos?': '<strong>IA:</strong> En la sección "Recursos" puedes descargar plantillas, evaluaciones y presentaciones. También revisa "Biblioteca" para libros y artículos.',
           '¿Cómo buscar en la biblioteca?': '<strong>IA:</strong> En "Biblioteca", usa la barra de búsqueda para encontrar libros, artículos o guías. Prueba palabras como "matemáticas" o "historia".',
           '¿Cómo unirme a un foro?': '<strong>IA:</strong> En "Comunidad", haz clic en "Ver Foro" en uno de los foros de "Explorar Foros" para participar.',
           '¿Cómo descargar un recurso?': '<strong>IA:</strong> En "Recursos" o "Biblioteca", haz clic en el botón "Descargar" junto al recurso. Recibirás una confirmación simulada.',
@@ -672,10 +654,10 @@
       const asistenciaInput = document.getElementById('asistenciaInput');
       const feedback = document.getElementById('asistenciaFeedback');
       if (!asistenciaInput.value.trim()) {
-        feedback.innerHTML = '<div class="alert alert-warning animate__animated animate__fadeIn">Por favor, escribe una consulta.</div>';
+        feedback.innerHTML = '<div class="alert alert-warning">Por favor, escribe una consulta.</div>';
         return;
       }
-      feedback.innerHTML = '<div class="alert alert-success animate__animated animate__fadeIn">Mensaje enviado. Un representante te contactará pronto.</div>';
+      feedback.innerHTML = '<div class="alert alert-success">Mensaje enviado. Un representante te contactará pronto.</div>';
       asistenciaInput.value = '';
       setTimeout(() => feedback.innerHTML = '', 3000);
     }

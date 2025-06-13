@@ -111,6 +111,87 @@
       .card-body { padding: 1rem; }
       section { padding: 2rem 0 !important; }
     }
+    /* Cambios para la sección IA y Herramientas */
+    section {
+      background: linear-gradient(135deg, #1e40af, #06b6d4);
+      position: relative;
+      overflow: hidden;
+    }
+    section .card {
+      background: #ffffff;
+      border: none;
+      border-radius: 16px;
+      padding: 1.5rem;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    section .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+    }
+    section .card h5 {
+      color: #2563eb;
+      font-size: 1.4rem;
+      margin-bottom: 0.75rem;
+    }
+    section .card p {
+      color: #6b7280;
+      flex-grow: 1;
+    }
+    section .card .btn {
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+    }
+    section .card .btn:hover {
+      background: #1e40af;
+      transform: translateY(-2px);
+    }
+    section h1, section h3 {
+      color: #ffffff;
+    }
+    section p.lead {
+      color: #e0f2fe;
+    }
+    .dark-mode section {
+      background: linear-gradient(135deg, #1e293b, #0f766e);
+    }
+    .dark-mode section .card {
+      background: #334155;
+    }
+    .dark-mode section .card h5 {
+      color: #93c5fd;
+    }
+    .dark-mode section .card p {
+      color: #94a3b8;
+    }
+    .dark-mode section .card .btn {
+      background: #93c5fd;
+      color: #1e293b;
+    }
+    .dark-mode section .card .btn:hover {
+      background: #2563eb;
+    }
+    .dark-mode section h1, .dark-mode section h3 {
+      color: #f1f5f9;
+    }
+    .dark-mode section p.lead {
+      color: #bfdbfe;
+    }
+    /* Íconos futuristas */
+    .card-title i {
+      font-size: 1.5rem;
+      color: #2563eb;
+      margin-right: 0.5rem;
+    }
+    .dark-mode .card-title i {
+      color: #93c5fd;
+    }
   </style>
 </head>
 <body>
@@ -158,81 +239,81 @@
         <div class="col-md-4 mb-3">
           <div class="card h-100 animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
             <div class="card-body">
-              <h5 class="card-title">Generador de Cuestionarios</h5>
+              <h5 class="card-title"><i class="bi bi-question-circle"></i> Generador de Cuestionarios</h5>
               <p class="card-text">Crea cuestionarios personalizados para tus clases.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#quizModal" data-bs-toggle="tooltip" title="Probar generador">Probar ahora</button>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#quizModal" data-bs-toggle="tooltip" title="Probar generador">Probar ahora</button>
             </div>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <div class="card h-100 animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
             <div class="card-body">
-              <h5 class="card-title">Corrector Automático</h5>
+              <h5 class="card-title"><i class="bi bi-pencil-square"></i> Corrector Automático</h5>
               <p class="card-text">Corrige textos y exámenes de forma rápida.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#correctorModal" data-bs-toggle="tooltip" title="Probar corrector">Probar ahora</button>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#correctorModal" data-bs-toggle="tooltip" title="Probar corrector">Probar ahora</button>
             </div>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <div class="card h-100 animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
             <div class="card-body">
-              <h5 class="card-title">Asistente de Planificación</h5>
+              <h5 class="card-title"><i class="bi bi-calendar-check"></i> Asistente de Planificación</h5>
               <p class="card-text">Genera planes de clase detallados.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#planModal" data-bs-toggle="tooltip" title="Probar planificador">Probar ahora</button>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#planModal" data-bs-toggle="tooltip" title="Probar planificador">Probar ahora</button>
             </div>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <div class="card h-100 animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
             <div class="card-body">
-              <h5 class="card-title">Cálculos Educativos</h5>
+              <h5 class="card-title"><i class="bi bi-calculator"></i> Cálculos Educativos</h5>
               <p class="card-text">Realiza cálculos matemáticos y promedia calificaciones.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#calculadoraModal" data-bs-toggle="tooltip" title="Probar cálculos">Probar ahora</button>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#calculadoraModal" data-bs-toggle="tooltip" title="Probar cálculos">Probar ahora</button>
             </div>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <div class="card h-100 animate__animated animate__fadeInUp" style="animation-delay: 0.5s;">
             <div class="card-body">
-              <h5 class="card-title">Cronómetro/Temporizador</h5>
+              <h5 class="card-title"><i class="bi bi-stopwatch"></i> Cronómetro/Temporizador</h5>
               <p class="card-text">Gestiona el tiempo en tus actividades de clase.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#cronometroModal" data-bs-toggle="tooltip" title="Probar cronómetro">Probar ahora</button>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cronometroModal" data-bs-toggle="tooltip" title="Probar cronómetro">Probar ahora</button>
             </div>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <div class="card h-100 animate__animated animate__fadeInUp" style="animation-delay: 0.6s;">
             <div class="card-body">
-              <h5 class="card-title">Conversor de Unidades</h5>
+              <h5 class="card-title"><i class="bi bi-arrow-left-right"></i> Conversor de Unidades</h5>
               <p class="card-text">Convierte unidades para ciencias y matemáticas.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#conversorModal" data-bs-toggle="tooltip" title="Probar conversor">Probar ahora</button>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#conversorModal" data-bs-toggle="tooltip" title="Probar conversor">Probar ahora</button>
             </div>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <div class="card h-100 animate__animated animate__fadeInUp" style="animation-delay: 0.7s;">
             <div class="card-body">
-              <h5 class="card-title">Simulador de Experimentos</h5>
+              <h5 class="card-title"><i class="bi bi-flask"></i> Simulador de Experimentos</h5>
               <p class="card-text">Simula laboratorios virtuales de ciencias.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#simuladorModal" data-bs-toggle="tooltip" title="Probar simulador">Probar ahora</button>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#simuladorModal" data-bs-toggle="tooltip" title="Probar simulador">Probar ahora</button>
             </div>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <div class="card h-100 animate__animated animate__fadeInUp" style="animation-delay: 0.8s;">
             <div class="card-body">
-              <h5 class="card-title">Visor de Ecuaciones</h5>
+              <h5 class="card-title"><i class="bi bi-function"></i> Visor de Ecuaciones</h5>
               <p class="card-text">Renderiza ecuaciones matemáticas en LaTeX.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#ecuacionesModal" data-bs-toggle="tooltip" title="Probar visor">Probar ahora</button>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ecuacionesModal" data-bs-toggle="tooltip" title="Probar visor">Probar ahora</button>
             </div>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <div class="card h-100 animate__animated animate__fadeInUp" style="animation-delay: 0.9s;">
             <div class="card-body">
-              <h5 class="card-title">Grabador de Notas de Voz</h5>
+              <h5 class="card-title"><i class="bi bi-mic"></i> Grabador de Notas de Voz</h5>
               <p class="card-text">Graba ideas o feedback para tus clases.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#grabadorModal" data-bs-toggle="tooltip" title="Probar grabador">Probar ahora</button>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#grabadorModal" data-bs-toggle="tooltip" title="Probar grabador">Probar ahora</button>
             </div>
           </div>
         </div>
@@ -244,27 +325,27 @@
         <div class="col-md-4 mb-3">
           <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
             <div class="card-body">
-              <h5 class="card-title">Cuestionario IA</h5>
+              <h5 class="card-title"><i class="bi bi-question-circle"></i> Cuestionario IA</h5>
               <p class="card-text">Genera cuestionarios en segundos.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#quizModal">Probar</button>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#quizModal">Probar</button>
             </div>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
             <div class="card-body">
-              <h5 class="card-title">Planificador</h5>
+              <h5 class="card-title"><i class="bi bi-calendar-check"></i> Planificador</h5>
               <p class="card-text">Crea planes de clase rápidamente.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#planModal">Probar</button>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#planModal">Probar</button>
             </div>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
             <div class="card-body">
-              <h5 class="card-title">Cálculos Educativos</h5>
+              <h5 class="card-title"><i class="bi bi-calculator"></i> Cálculos Educativos</h5>
               <p class="card-text">Calcula y promedia notas fácilmente.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#calculadoraModal">Probar</button>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#calculadoraModal">Probar</button>
             </div>
           </div>
         </div>

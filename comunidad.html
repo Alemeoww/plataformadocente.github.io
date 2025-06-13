@@ -96,7 +96,7 @@
     .dark-mode .chat-message.user-message { background: #334155; }
     .dark-mode .chat-message.bot-message { background: #1e40af; }
     .dark-mode h1, .dark-mode h3 { color: #f1f5f9; }
-    .dark-mode .dark-mode p.lead { color: #94a3b8; }
+    .dark-mode p.lead { color: #94a3b8; }
     .dark-mode .breadcrumb-item a { color: #93c5fd; }
     .dark-mode .breadcrumb-item.active { color: #94a3b8; }
     .dark-mode .btn-outline-primary { border-color: #93c5fd; color: #93c5fd; }
@@ -109,6 +109,106 @@
       p.lead { font-size: 1rem; }
       .card-body { padding: 1rem; }
       section { padding: 2rem 0 !important; }
+    }
+    /* Cambios para la sección Comunidad */
+    section {
+      background: linear-gradient(135deg, #7c3aed, #db2777);
+      position: relative;
+      overflow: hidden;
+    }
+    section .card {
+      background: #ffffff;
+      border: none;
+      border-radius: 16px;
+      padding: 1.5rem;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    section .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+    }
+    section .card h5 {
+      color: #2563eb;
+      font-size: 1.4rem;
+      margin-bottom: 0.75rem;
+    }
+    section .card p {
+      color: #6b7280;
+      flex-grow: 1;
+    }
+    section .card .btn {
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+    }
+    section .card .btn:hover {
+      background: #1e40af;
+      transform: translateY(-2px);
+    }
+    section h1, section h3 {
+      color: #ffffff;
+    }
+    section p.lead {
+      color: #e0f2fe;
+    }
+    .dark-mode section {
+      background: linear-gradient(135deg, #312e81, #831843);
+    }
+    .dark-mode section .card {
+      background: #334155;
+    }
+    .dark-mode section .card h5 {
+      color: #93c5fd;
+    }
+    .dark-mode section .card p {
+      color: #94a3b8;
+    }
+    .dark-mode section .card .btn {
+      background: #93c5fd;
+      color: #1e293b;
+    }
+    .dark-mode section .card .btn:hover {
+      background: #2563eb;
+    }
+    .dark-mode section h1, .dark-mode section h3 {
+      color: #f1f5f9;
+    }
+    .dark-mode section p.lead {
+      color: #bfdbfe;
+    }
+    /* Íconos de comunidad */
+    .card-title i {
+      font-size: 1.5rem;
+      color: #2563eb;
+      margin-right: 0.5rem;
+    }
+    .dark-mode .card-title i {
+      color: #93c5fd;
+    }
+    /* Estilo para la lista de actividad reciente */
+    section .activity-card {
+      background: #ffffff;
+      border: none;
+      border-radius: 16px;
+      padding: 1.5rem;
+    }
+    section .activity-card .list-group-item {
+      background: #ffffff;
+      border: none;
+      color: #1e293b;
+    }
+    .dark-mode section .activity-card {
+      background: #334155;
+    }
+    .dark-mode section .activity-card .list-group-item {
+      background: #334155;
+      color: #f1f5f9;
     }
   </style>
 </head>
@@ -153,7 +253,7 @@
 
       <!-- Actividad reciente -->
       <h3 class="mt-5">Actividad Reciente</h3>
-      <div class="card mb-3 animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+      <div class="card mb-3 animate__animated animate__fadeInUp activity-card" style="animation-delay: 0.1s;">
         <div class="card-body">
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Juan Pérez comentó en el foro de Matemáticas hace 15 min.</li>
@@ -170,30 +270,30 @@
         <div class="col-md-4 mb-3">
           <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
             <div class="card-body">
-              <h5 class="card-title">Estrategias para Enseñar Matemáticas</h5>
+              <h5 class="card-title"><i class="bi bi-chat-left-text"></i> Estrategias para Enseñar Matemáticas</h5>
               <p class="card-text">Comparte métodos para hacer las clases más dinámicas.</p>
               <span class="badge bg-primary">125 mensajes</span>
-              <button class="btn btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#foroMatModal" data-bs-toggle="tooltip" title="Ver foro">Ver Foro</button>
+              <button class="btn mt-2" data-bs-toggle="modal" data-bs-target="#foroMatModal" title="Ver foro">Ver Foro</button>
             </div>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
             <div class="card-body">
-              <h5 class="card-title">Innovaciones en la Enseñanza de Ciencias</h5>
+              <h5 class="card-title"><i class="bi bi-lightbulb"></i> Innovaciones en la Enseñanza de Ciencias</h5>
               <p class="card-text">Discute experimentos y enfoques prácticos.</p>
               <span class="badge bg-primary">89 mensajes</span>
-              <button class="btn btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#foroCienciasModal" data-bs-toggle="tooltip" title="Ver foro">Ver Foro</button>
+              <button class="btn mt-2" data-bs-toggle="modal" data-bs-target="#foroCienciasModal" title="Ver foro">Ver Foro</button>
             </div>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
             <div class="card-body">
-              <h5 class="card-title">Uso de Tecnología en el Aula</h5>
+              <h5 class="card-title"><i class="bi bi-laptop"></i> Uso de Tecnología en el Aula</h5>
               <p class="card-text">Explora herramientas digitales para la educación.</p>
               <span class="badge bg-primary">150 mensajes</span>
-              <button class="btn btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#foroTecModal" data-bs-toggle="tooltip" title="Ver foro">Ver Foro</button>
+              <button class="btn mt-2" data-bs-toggle="modal" data-bs-target="#foroTecModal" title="Ver foro">Ver Foro</button>
             </div>
           </div>
         </div>
@@ -205,40 +305,40 @@
         <div class="col-md-3 mb-3">
           <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
             <div class="card-body">
-              <h5 class="card-title">Docentes de Primaria</h5>
+              <h5 class="card-title"><i class="bi bi-people-fill"></i> Docentes de Primaria</h5>
               <p class="card-text">Recursos y estrategias para primaria.</p>
               <span class="badge bg-success">300 miembros</span>
-              <button class="btn btn-outline-primary mt-2" onclick="joinGroup('Docentes de Primaria')" data-bs-toggle="tooltip" title="Unirse al grupo">Unirse</button>
+              <button class="btn mt-2" onclick="joinGroup('Docentes de Primaria')" title="Unirse al grupo">Unirse</button>
             </div>
           </div>
         </div>
         <div class="col-md-3 mb-3">
           <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
             <div class="card-body">
-              <h5 class="card-title">Docentes de Ciencias</h5>
+              <h5 class="card-title"><i class="bi bi-flask"></i> Docentes de Ciencias</h5>
               <p class="card-text">Comparte experimentos y planes.</p>
               <span class="badge bg-success">200 miembros</span>
-              <button class="btn btn-outline-primary mt-2" onclick="joinGroup('Docentes de Ciencias')" data-bs-toggle="tooltip" title="Unirse al grupo">Unirse</button>
+              <button class="btn mt-2" onclick="joinGroup('Docentes de Ciencias')" title="Unirse al grupo">Unirse</button>
             </div>
           </div>
         </div>
         <div class="col-md-3 mb-3">
           <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
             <div class="card-body">
-              <h5 class="card-title">Educación Inclusiva</h5>
+              <h5 class="card-title"><i class="bi bi-universal-access"></i> Educación Inclusiva</h5>
               <p class="card-text">Estrategias para aulas diversas.</p>
               <span class="badge bg-success">150 miembros</span>
-              <button class="btn btn-outline-primary mt-2" onclick="joinGroup('Educación Inclusiva')" data-bs-toggle="tooltip" title="Unirse al grupo">Unirse</button>
+              <button class="btn mt-2" onclick="joinGroup('Educación Inclusiva')" title="Unirse al grupo">Unirse</button>
             </div>
           </div>
         </div>
         <div class="col-md-3 mb-3">
           <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
             <div class="card-body">
-              <h5 class="card-title">Docentes de Secundaria</h5>
+              <h5 class="card-title"><i class="bi bi-person-gear"></i> Docentes de Secundaria</h5>
               <p class="card-text">Apoyo para enseñanza secundaria.</p>
               <span class="badge bg-success">250 miembros</span>
-              <button class="btn btn-outline-primary mt-2" onclick="joinGroup('Docentes de Secundaria')" data-bs-toggle="tooltip" title="Unirse al grupo">Unirse</button>
+              <button class="btn mt-2" onclick="joinGroup('Docentes de Secundaria')" title="Unirse al grupo">Unirse</button>
             </div>
           </div>
         </div>
@@ -250,27 +350,27 @@
         <div class="col-md-4 mb-3">
           <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
             <div class="card-body">
-              <h5 class="card-title">Foro Popular</h5>
+              <h5 class="card-title"><i class="bi bi-star-fill"></i> Foro Popular</h5>
               <p class="card-text">Debate sobre tecnología en el aula.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#foroTecModal">Ver</button>
+              <button class="btn" data-bs-toggle="modal" data-bs-target="#foroTecModal">Ver</button>
             </div>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
             <div class="card-body">
-              <h5 class="card-title">Grupo Activo</h5>
+              <h5 class="card-title"><i class="bi bi-people-fill"></i> Grupo Activo</h5>
               <p class="card-text">Únete a Docentes de Primaria.</p>
-              <button class="btn btn-outline-primary" onclick="joinGroup('Docentes de Primaria')">Unirse</button>
+              <button class="btn" onclick="joinGroup('Docentes de Primaria')">Unirse</button>
             </div>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
             <div class="card-body">
-              <h5 class="card-title">Hilo Destacado</h5>
+              <h5 class="card-title"><i class="bi bi-chat-left-text"></i> Hilo Destacado</h5>
               <p class="card-text">Estrategias para matemáticas dinámicas.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#foroMatModal">Ver</button>
+              <button class="btn" data-bs-toggle="modal" data-bs-target="#foroMatModal">Ver</button>
             </div>
           </div>
         </div>
@@ -352,12 +452,12 @@
   </footer>
 
   <!-- Botón de asistencia -->
-  <button id="botonAsistencia" class="btn shadow" data-bs-toggle="modal" data-bs-target="#ayudaModal" data-bs-toggle="tooltip" title="Obtén ayuda">
+  <button id="botonAsistencia" class="btn shadow" data-bs-toggle="modal" data-bs-target="#ayudaModal" title="Obtén ayuda">
     <i class="bi bi-question-circle-fill fs-5"></i>
   </button>
 
   <!-- Botón de volver arriba -->
-  <button id="botonVolverArriba" class="btn shadow" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" data-bs-toggle="tooltip" title="Volver arriba">
+  <button id="botonVolverArriba" class="btn shadow" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Volver arriba">
     <i class="bi bi-arrow-up fs-5"></i>
   </button>
 
@@ -393,7 +493,7 @@
           <div class="chat-container" id="chatContainer"></div>
           <div class="input-group mt-3">
             <input type="text" id="userInput" class="form-control" placeholder="Escribe tu pregunta..." aria-label="Escribe tu pregunta">
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="tooltip" title="Seleccionar pregunta">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Seleccionar pregunta">
               <i class="bi bi-list"></i>
             </button>
             <ul class="dropdown-menu">
@@ -408,7 +508,7 @@
               <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Cómo generar un plan de clase?')">¿Cómo generar un plan de clase?</a></li>
               <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Qué recursos hay en la biblioteca?')">¿Qué recursos hay en la biblioteca?</a></li>
             </ul>
-            <button class="btn btn-primary" onclick="sendMessage()" data-bs-toggle="tooltip" title="Enviar pregunta">Enviar</button>
+            <button class="btn btn-primary" onclick="sendMessage()" title="Enviar pregunta">Enviar</button>
           </div>
         </div>
         <div class="modal-footer">
@@ -444,7 +544,7 @@
   <script src="bootstrap-5.3.6-dist/js/bootstrap.bundle.min.js"></script>
   <script>
     // Inicializar tooltips
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    const tooltipTriggerList = document.querySelectorAll('[title]');
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
     // Alternar modo oscuro
