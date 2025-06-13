@@ -4,72 +4,189 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Plataforma Docente</title>
-  <link href="bootstrap-5.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; }
     #botonAsistencia, #botonVolverArriba { position: fixed; bottom: 20px; z-index: 1000; }
-    #botonAsistencia { right: 20px; }
-    #botonVolverArriba { right: 140px; display: none; }
+    #botonAsistencia {
+      right: 20px;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ef4444, #b91c1c);
+      animation: pulse 2s infinite;
+    }
+    #botonVolverArriba {
+      right: 100px;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: none;
+      background: #4b5563;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
     .chat-container { max-height: 300px; overflow-y: auto; }
     .chat-message { margin-bottom: 10px; padding: 10px; border-radius: 10px; }
-    .user-message { background-color: #e9ecef; text-align: right; }
-    .bot-message { background-color: #d1e7dd; }
-    .navbar-nav .nav-link.active { background-color: #0056b3; border-radius: 5px; }
-    .card, .modal-content { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    .btn { transition: background-color 0.3s, transform 0.2s; }
+    .user-message { background-color: #e2e8f0; text-align: right; }
+    .bot-message { background-color: #bfdbfe; }
+    .navbar { background: #1e3a8a !important; }
+    .navbar-nav .nav-link { color: #f1f5f9; transition: color 0.3s; font-size: 0.95rem; }
+    .navbar-nav .nav-link:hover { color: #bfdbfe; }
+    .navbar-nav .nav-link.active { background: #3b82f6; border-radius: 6px; }
+    .navbar-nav .nav-link i { font-size: 1rem; margin-right: 6px; }
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    }
+    .modal-content { border-radius: 16px; }
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+      border: none;
+      border-radius: 8px;
+    }
+    .btn-outline-primary {
+      border-color: #3b82f6;
+      color: #3b82f6;
+      border-radius: 8px;
+    }
+    .btn { transition: transform 0.2s; }
     .btn:hover { transform: translateY(-2px); }
-    .bg-light { background: linear-gradient(to bottom, #f8f9fa, #e9ecef) !important; }
-    .navbar-nav .nav-link i { margin-right: 5px; }
-    /* Estilos para modo oscuro */
+    section { background: #f1f5f9; padding: 3.5rem 0 !important; }
+    h1, h3 { font-weight: 600; color: #1e293b; }
+    p.lead { color: #475569; }
     .dark-mode {
-      background-color: #343a40;
-      color: #f8f9fa;
+      background: #0f172a;
+      color: #f1f5f9;
     }
-    .dark-mode .navbar-dark.bg-primary {
-      background-color: #1a252f !important;
-    }
-    .dark-mode .bg-light {
-      background: linear-gradient(to bottom, #495057, #343a40) !important;
-    }
+    .dark-mode .navbar { background: #0d1a3a !important; }
+    .dark-mode section { background: #1e293b; }
     .dark-mode .card {
-      background-color: #6c757d;
-      color: #f8f9fa;
+      background: #1e293b;
+      border-color: #334155;
+      color: #f1f5f9;
     }
     .dark-mode .modal-content {
-      background-color: #495057;
-      color: #f8f9fa;
+      background: #1e293b;
+      color: #f1f5f9;
     }
-    .dark-mode .alert-success {
-      background-color: #2a7a39;
-      color: #f8f9fa;
+    .dark-mode .chat-message.user-message { background: #334155; }
+    .dark-mode .chat-message.bot-message { background: #1e40af; }
+    .dark-mode h1, .dark-mode h3 { color: #f1f5f9; }
+    .dark-mode p.lead { color: #94a3b8; }
+    .dark-mode .btn-outline-primary { border-color: #93c5fd; color: #93c5fd; }
+    @media (max-width: 576px) {
+      h1 { font-size: 2rem; }
+      p.lead { font-size: 1rem; }
+      .card-body { padding: 1rem; }
+      section { padding: 2rem 0 !important; }
     }
-    .dark-mode .alert-warning {
-      background-color: #8a6d3b;
-      color: #f8f9fa;
+    /* Cambios para la sección Inicio */
+    section#inicio {
+      background: #e0f2fe;
+      position: relative;
+      overflow: hidden;
     }
-    .dark-mode .btn-outline-primary {
-      color: #f8f9fa;
-      border-color: #f8f9fa;
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
     }
-    .dark-mode .btn-outline-primary:hover {
-      background-color: #f8f9fa;
-      color: #343a40;
+    .particles span {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: rgba(59, 130, 246, 0.3);
+      border-radius: 50%;
+      animation: float 15s linear infinite;
     }
-    .dark-mode .chat-message.user-message {
-      background-color: #495057;
-      color: #f8f9fa;
+    @keyframes float {
+      0% { transform: translateY(100vh) scale(0.5); opacity: 0.5; }
+      100% { transform: translateY(-10vh) scale(1); opacity: 0; }
     }
-    .dark-mode .chat-message.bot-message {
-      background-color: #2a7a39;
-      color: #f8f9fa;
+    section#inicio .card {
+      background: #ffffff;
+      border: none;
+      border-radius: 16px;
+      padding: 2rem;
+      min-height: 250px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    section#inicio .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2);
+    }
+    section#inicio .card h5 {
+      color: #1e3a8a;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    section#inicio .card p {
+      color: #475569;
+      flex-grow: 1;
+    }
+    section#inicio .card .btn {
+      background: #3b82f6;
+      color: #ffffff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+    }
+    section#inicio .card .btn:hover {
+      background: #1e3a8a;
+      transform: translateY(-2px);
+    }
+    .dark-mode section#inicio {
+      background: #1e293b;
+    }
+    .dark-mode section#inicio .card {
+      background: #334155;
+    }
+    .dark-mode section#inicio .card h5 {
+      color: #93c5fd;
+    }
+    .dark-mode section#inicio .card p {
+      color: #94a3b8;
+    }
+    .dark-mode section#inicio .card .btn {
+      background: #93c5fd;
+      color: #1e293b;
+    }
+    .dark-mode section#inicio .card .btn:hover {
+      background: #3b82f6;
+    }
+    .dark-mode .particles span {
+      background: rgba(147, 197, 253, 0.3);
     }
   </style>
 </head>
 <body>
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="index.html">Plataforma Docente</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContenido" aria-controls="navbarContenido" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,7 +200,7 @@
             </a>
           </li>
           <li class="nav-item"><a class="nav-link active" href="index.html"><i class="bi bi-house"></i> Inicio</a></li>
-          <li class="nav-item"><a class="nav-link" href="ia.html"><i class="bi bi-robot"></i> IA Educativa</a></li>
+          <li class="nav-item"><a class="nav-link" href="ia.html"><i class="bi bi-robot"></i> IA y Herramientas</a></li>
           <li class="nav-item"><a class="nav-link" href="comunidad.html"><i class="bi bi-people"></i> Comunidad</a></li>
           <li class="nav-item"><a class="nav-link" href="biblioteca.html"><i class="bi bi-book"></i> Biblioteca</a></li>
           <li class="nav-item"><a class="nav-link" href="recursos.html"><i class="bi bi-folder"></i> Recursos</a></li>
@@ -93,81 +210,55 @@
   </nav>
 
   <!-- Contenido principal -->
-  <section class="p-5 bg-light">
-    <div class="container">
-      <h1 class="display-4 text-center fw-bold">Bienvenidos a la Plataforma Docente</h1>
-      <p class="lead text-center">Tu espacio para aprender, compartir y optimizar tu enseñanza con herramientas innovadoras.</p>
-      <!-- Características -->
+  <section id="inicio">
+    <div class="particles">
+      <span style="left: 10%; animation-delay: 0s;"></span>
+      <span style="left: 20%; animation-delay: 2s;"></span>
+      <span style="left: 30%; animation-delay: 4s;"></span>
+      <span style="left: 40%; animation-delay: 6s;"></span>
+      <span style="left: 50%; animation-delay: 8s;"></span>
+      <span style="left: 60%; animation-delay: 10s;"></span>
+      <span style="left: 70%; animation-delay: 12s;"></span>
+      <span style="left: 80%; animation-delay: 14s;"></span>
+      <span style="left: 90%; animation-delay: 16s;"></span>
+    </div>
+    <div class="container position-relative">
+      <h1 class="display-4 text-center fw-bold animate__animated animate__fadeIn" style="animation-delay: 0.2s;"><i class="bi bi-house"></i> Bienvenidos a la Plataforma Docente</h1>
+      <p class="lead text-center animate__animated animate__fadeIn" style="animation-delay: 0.4s;">Tu espacio para aprender, compartir y optimizar tu enseñanza con herramientas innovadoras.</p>
       <div class="row mt-5">
-        <div class="col-md-3 mb-4">
-          <div class="card h-100 text-center">
-            <div class="card-body">
-              <i class="bi bi-gear display-4 text-primary"></i>
-              <h5 class="card-title">Herramientas de IA</h5>
-              <p class="card-text">Genera cuestionarios, corrige textos y planifica clases con inteligencia artificial.</p>
-              <a href="ia.html" class="btn btn-outline-primary" data-bs-toggle="tooltip" title="Explora IA">Explorar</a>
+        <div class="col-md-3 mb-3">
+          <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+            <div class="card-body text-center">
+              <h5 class="card-title"><i class="bi bi-robot fs-3"></i> IA y Herramientas</h5>
+              <p class="card-text">Genera cuestionarios, planes de clase y más con nuestras herramientas de inteligencia artificial.</p>
+              <a href="ia.html" class="btn btn-primary">Explorar</a>
             </div>
           </div>
         </div>
-        <div class="col-md-3 mb-4">
-          <div class="card h-100 text-center">
-            <div class="card-body">
-              <i class="bi bi-people display-4 text-primary"></i>
-              <h5 class="card-title">Comunidad</h5>
-              <p class="card-text">Conecta con otros docentes, comparte ideas y participa en foros.</p>
-              <a href="comunidad.html" class="btn btn-outline-primary" data-bs-toggle="tooltip" title="Únete a la comunidad">Explorar</a>
+        <div class="col-md-3 mb-3">
+          <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+            <div class="card-body text-center">
+              <h5 class="card-title"><i class="bi bi-book fs-3"></i> Biblioteca</h5>
+              <p class="card-text">Accede a libros digitales, artículos y guías para enriquecer tus clases.</p>
+              <a href="biblioteca.html" class="btn btn-primary">Explorar</a>
             </div>
           </div>
         </div>
-        <div class="col-md-3 mb-4">
-          <div class="card h-100 text-center">
-            <div class="card-body">
-              <i class="bi bi-book display-4 text-primary"></i>
-              <h5 class="card-title">Biblioteca</h5>
-              <p class="card-text">Accede a libros digitales, artículos y guías educativas.</p>
-              <a href="biblioteca.html" class="btn btn-outline-primary" data-bs-toggle="tooltip" title="Ver biblioteca">Explorar</a>
+        <div class="col-md-3 mb-3">
+          <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
+            <div class="card-body text-center">
+              <h5 class="card-title"><i class="bi bi-people fs-3"></i> Comunidad</h5>
+              <p class="card-text">Conecta con otros docentes, comparte recursos y participa en foros.</p>
+              <a href="comunidad.html" class="btn btn-primary">Explorar</a>
             </div>
           </div>
         </div>
-        <div class="col-md-3 mb-4">
-          <div class="card h-100 text-center">
-            <div class="card-body">
-              <i class="bi bi-folder display-4 text-primary"></i>
-              <h5 class="card-title">Recursos Educativos</h5>
-              <p class="card-text">Descarga plantillas, evaluaciones y presentaciones para tus clases.</p>
-              <a href="recursos.html" class="btn btn-outline-primary" data-bs-toggle="tooltip" title="Explorar Recursos">Explorar</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Destacados -->
-      <h3 class="text-center mt-5">Destacados</h3>
-      <div class="row mt-3">
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Foro Popular</h5>
-              <p class="card-text">Únete al debate sobre estrategias para enseñar matemáticas.</p>
-              <a href="comunidad.html" class="btn btn-outline-primary">Ver Foro</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Recurso Nuevo</h5>
-              <p class="card-text">Descarga la nueva guía de fracciones para primaria.</p>
-              <a href="recursos.html" class="btn btn-outline-primary">Descargar</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Libro Destacado</h5>
-              <p class="card-text">Explora "Historia Universal" en la biblioteca.</p>
-              <a href="biblioteca.html" class="btn btn-outline-primary">Leer</a>
+        <div class="col-md-3 mb-3">
+          <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+            <div class="card-body text-center">
+              <h5 class="card-title"><i class="bi bi-folder fs-3"></i> Recursos</h5>
+              <p class="card-text">Descarga plantillas, evaluaciones y herramientas para tus clases.</p>
+              <a href="recursos.html" class="btn btn-primary">Explorar</a>
             </div>
           </div>
         </div>
@@ -176,15 +267,18 @@
   </section>
 
   <!-- Footer -->
-  <footer class="bg-primary text-white text-center p-3">
+  <footer class="bg-dark text-white text-center p-3">
     <p>© 2025 Plataforma Docente</p>
   </footer>
 
   <!-- Botón de asistencia -->
-  <button id="botonAsistencia" class="btn btn-danger shadow px-4 py-2 rounded" data-bs-toggle="modal" data-bs-target="#ayudaModal" data-bs-toggle="tooltip" title="Obtén ayuda">Ayuda</button>
+  <button id="botonAsistencia" class="btn shadow" data-bs-toggle="modal" data-bs-target="#ayudaModal" data-bs-tooltip="tooltip" title="Obtén ayuda">
+    <i class="bi bi-question-circle-fill fs-5"></i>
+  </button>
+
   <!-- Botón de volver arriba -->
-  <button id="botonVolverArriba" class="btn btn-secondary shadow px-4 py-2 rounded" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" data-bs-toggle="tooltip" title="Volver arriba">
-    <i class="bi bi-arrow-up"></i>
+  <button id="botonVolverArriba" class="btn shadow" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" data-bs-tooltip="tooltip" title="Volver arriba">
+    <i class="bi bi-arrow-up fs-5"></i>
   </button>
 
   <!-- Modal inicial de ayuda -->
@@ -197,8 +291,8 @@
         </div>
         <div class="modal-body text-center">
           <p>Elige una opción:</p>
-          <button class="btn btn-primary mb-3 w-100" data-bs-toggle="modal" data-bs-target="#chatIAModal" onclick="document.querySelector('#ayudaModal').classList.remove('show');">Preguntar a la IA</button>
-          <button class="btn btn-secondary w-100" data-bs-toggle="modal" data-bs-target="#asistenciaModal" onclick="document.querySelector('#ayudaModal').classList.remove('show');">Contactar Asistencia</button>
+          <button class="btn btn-primary mb-3 w-100" data-bs-toggle="modal" data-bs-target="#chatIAModal" data-bs-dismiss="modal">Preguntar a la IA</button>
+          <button class="btn btn-secondary w-100" data-bs-toggle="modal" data-bs-target="#asistenciaModal" data-bs-dismiss="modal">Contactar Asistencia</button>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -219,7 +313,7 @@
           <div class="chat-container" id="chatContainer"></div>
           <div class="input-group mt-3">
             <input type="text" id="userInput" class="form-control" placeholder="Escribe tu pregunta..." aria-label="Escribe tu pregunta">
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="tooltip" title="Seleccionar pregunta">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-tooltip="tooltip" title="Seleccionar pregunta">
               <i class="bi bi-list"></i>
             </button>
             <ul class="dropdown-menu">
@@ -234,11 +328,11 @@
               <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Cómo generar un plan de clase?')">¿Cómo generar un plan de clase?</a></li>
               <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Qué recursos hay en la biblioteca?')">¿Qué recursos hay en la biblioteca?</a></li>
             </ul>
-            <button class="btn btn-primary" onclick="sendMessage()" data-bs-toggle="tooltip" title="Enviar pregunta">Enviar</button>
+            <button class="btn btn-primary" onclick="sendMessage()" data-bs-tooltip="tooltip" title="Enviar pregunta">Enviar</button>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#ayudaModal" onclick="document.querySelector('#chatIAModal').classList.remove('show');">Volver</button>
+          <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#ayudaModal" data-bs-dismiss="modal">Volver</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
         </div>
       </div>
@@ -259,7 +353,7 @@
           <div id="asistenciaFeedback" class="mt-2"></div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#ayudaModal" onclick="document.querySelector('#asistenciaModal').classList.remove('show');">Volver</button>
+          <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#ayudaModal" data-bs-dismiss="modal">Volver</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
           <button type="button" class="btn btn-primary" onclick="submitAsistencia()">Enviar</button>
         </div>
@@ -267,10 +361,10 @@
     </div>
   </div>
 
-  <script src="bootstrap-5.3.6-dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     // Inicializar tooltips
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-tooltip="tooltip"]');
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
     // Alternar modo oscuro
@@ -279,11 +373,9 @@
       document.body.classList.toggle('dark-mode');
       const icon = document.querySelector('#themeToggle i');
       if (document.body.classList.contains('dark-mode')) {
-        icon.classList.remove('bi-moon-stars-fill');
-        icon.classList.add('bi-sun-fill');
+        icon.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
       } else {
-        icon.classList.remove('bi-sun-fill');
-        icon.classList.add('bi-moon-stars-fill');
+        icon.classList.replace('bi-sun-fill', 'bi-moon-stars-fill');
       }
       localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
     });
@@ -291,18 +383,14 @@
     // Cargar tema guardado
     if (localStorage.getItem('theme') === 'dark') {
       document.body.classList.add('dark-mode');
-      document.querySelector('#themeToggle i').classList.remove('bi-moon-stars-fill');
-      document.querySelector('#themeToggle i').classList.add('bi-sun-fill');
+      const icon = document.querySelector('#themeToggle i');
+      icon.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
     }
 
     // Mostrar botón de volver arriba
     window.addEventListener('scroll', () => {
       const button = document.getElementById('botonVolverArriba');
-      if (window.scrollY > 300) {
-        button.style.display = 'block';
-      } else {
-        button.style.display = 'none';
-      }
+      button.style.display = window.scrollY > 300 ? 'flex' : 'none';
     });
 
     // Placeholder dinámico para el chat
@@ -326,52 +414,45 @@
 
     // Chat con IA
     function sendMessage() {
-      const userInput = document.getElementById('userInput');
       const chatContainer = document.getElementById('chatContainer');
       const message = userInput.value.trim();
-
       if (!message) return;
 
-      // Añadir mensaje del usuario
       const userMessage = document.createElement('div');
       userMessage.className = 'chat-message user-message animate__animated animate__fadeInRight';
       userMessage.innerHTML = `<strong>Tú:</strong> ${message}`;
       chatContainer.appendChild(userMessage);
 
-      // Mostrar "Escribiendo..."
       const typingMessage = document.createElement('div');
       typingMessage.className = 'chat-message bot-message animate__animated animate__fadeInLeft';
       typingMessage.innerHTML = '<strong>IA:</strong> Escribiendo...';
       chatContainer.appendChild(typingMessage);
       chatContainer.scrollTop = chatContainer.scrollHeight;
 
-      // Respuesta simulada de la IA
       setTimeout(() => {
         chatContainer.removeChild(typingMessage);
         let response = '<strong>IA:</strong> Lo siento, no tengo una respuesta específica para eso. ¿Puedes dar más detalles?';
         const responses = {
-          '¿Cómo usar el generador de cuestionarios?': '<strong>IA:</strong> Ve a "IA Educativa", haz clic en "Probar ahora" en la tarjeta del generador, selecciona un tema (por ejemplo, "Matemáticas - Fracciones") y un nivel, luego presiona "Generar".',
+          '¿Cómo usar el generador de cuestionarios?': '<strong>IA:</strong> Ve a "IA y Herramientas", haz clic en "Probar ahora" en la tarjeta del generador, selecciona un tema (por ejemplo, "Matemáticas - Fracciones") y un nivel, luego presiona "Generar".',
           '¿Cómo cambiar el tema?': '<strong>IA:</strong> Haz clic en el ícono de luna o sol en la barra de navegación, a la izquierda de "Inicio".',
           '¿Dónde encontrar recursos?': '<strong>IA:</strong> En la sección "Recursos" puedes descargar plantillas, evaluaciones y presentaciones. También revisa "Biblioteca" para libros y artículos.',
           '¿Cómo buscar en la biblioteca?': '<strong>IA:</strong> En "Biblioteca", usa la barra de búsqueda para encontrar libros, artículos o guías. Prueba palabras como "matemáticas" o "historia".',
-          '¿Cómo unirme a un foro?': '<strong>IA:</strong> En "Comunidad", haz clic en "Ver grupos" o "Explorar foros" y selecciona un grupo o foro para participar.',
+          '¿Cómo unirme a un foro?': '<strong>IA:</strong> En "Comunidad", haz clic en "Ver Foro" en uno de los foros de "Explorar Foros" para participar.',
           '¿Cómo descargar un recurso?': '<strong>IA:</strong> En "Recursos" o "Biblioteca", haz clic en el botón "Descargar" junto al recurso. Recibirás una confirmación simulada.',
           '¿Qué es el modo oscuro?': '<strong>IA:</strong> El modo oscuro cambia la interfaz a colores oscuros para mayor comodidad visual. Actívalo con el ícono de luna/sol en la barra de navegación.',
           '¿Cómo participar en un grupo de la comunidad?': '<strong>IA:</strong> En "Comunidad", selecciona un grupo en "Grupos de Interés" y haz clic en "Unirse". Recibirás una confirmación.',
-          '¿Cómo generar un plan de clase?': '<strong>IA:</strong> En "IA Educativa", usa el Asistente de Planificación, ingresa el tema y duración, y haz clic en "Generar Plan".',
+          '¿Cómo generar un plan de clase?': '<strong>IA:</strong> En "IA y Herramientas", usa el Asistente de Planificación, ingresa el tema, objetivos y duración, y haz clic en "Generar Plan".',
           '¿Qué recursos hay en la biblioteca?': '<strong>IA:</strong> La biblioteca ofrece libros digitales (como "Historia Universal"), artículos académicos y guías (como "Matemáticas Básicas"). Usa la búsqueda para explorarlos.'
         };
 
         response = responses[message] || response;
-
         const botMessage = document.createElement('div');
         botMessage.className = 'chat-message bot-message animate__animated animate__fadeInLeft';
         botMessage.innerHTML = response;
         chatContainer.appendChild(botMessage);
-
-        // Limpiar input y desplazar chat
-        userInput.value = '';
         chatContainer.scrollTop = chatContainer.scrollHeight;
+
+        userInput.value = '';
       }, 1000);
     }
 
@@ -380,10 +461,10 @@
       const asistenciaInput = document.getElementById('asistenciaInput');
       const feedback = document.getElementById('asistenciaFeedback');
       if (!asistenciaInput.value.trim()) {
-        feedback.innerHTML = '<div class="alert alert-warning">Por favor, escribe una consulta.</div>';
+        feedback.innerHTML = '<div class="alert alert-warning animate__animated animate__fadeIn">Por favor, escribe una consulta.</div>';
         return;
       }
-      feedback.innerHTML = '<div class="alert alert-success">Mensaje enviado. Un representante te contactará pronto.</div>';
+      feedback.innerHTML = '<div class="alert alert-success animate__animated animate__fadeIn">Mensaje enviado. Un representante te contactará pronto.</div>';
       asistenciaInput.value = '';
       setTimeout(() => feedback.innerHTML = '', 3000);
     }

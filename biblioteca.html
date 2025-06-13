@@ -4,71 +4,154 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Biblioteca - Plataforma Docente</title>
-  <link href="bootstrap-5.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; }
     #botonAsistencia, #botonVolverArriba { position: fixed; bottom: 20px; z-index: 1000; }
-    #botonAsistencia { right: 20px; }
-    #botonVolverArriba { right: 140px; display: none; }
+    #botonAsistencia {
+      right: 20px;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ef4444, #b91c1c);
+      animation: pulse 2s infinite;
+    }
+    #botonVolverArriba {
+      right: 100px;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: none;
+      background: #4b5563;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
     .chat-container { max-height: 300px; overflow-y: auto; }
     .chat-message { margin-bottom: 10px; padding: 10px; border-radius: 10px; }
-    .user-message { background-color: #e9ecef; text-align: right; }
-    .bot-message { background-color: #d1e7dd; }
-    .navbar-nav .nav-link.active { background-color: #0056b3; border-radius: 5px; }
-    .card, .modal-content { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    .btn { transition: background-color 0.3s, transform 0.2s; }
+    .user-message { background-color: #e2e8f0; text-align: right; }
+    .bot-message { background-color: #bfdbfe; }
+    .navbar { background: #1e3a8a !important; }
+    .navbar-nav .nav-link { color: #f1f5f9; transition: color 0.3s; font-size: 0.95rem; }
+    .navbar-nav .nav-link:hover { color: #bfdbfe; }
+    .navbar-nav .nav-link.active { background: #3b82f6; border-radius: 6px; }
+    .navbar-nav .nav-link i { font-size: 1rem; margin-right: 6px; }
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s;
+      opacity: 0;
+    }
+    .card.card-loaded { opacity: 1; }
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    }
+    .modal-content { border-radius: 16px; }
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+      border: none;
+      border-radius: 8px;
+    }
+    .btn-outline-primary {
+      border-color: #3b82f6;
+      color: #3b82f6;
+      border-radius: 8px;
+    }
+    .btn { transition: transform 0.2s; }
     .btn:hover { transform: translateY(-2px); }
-    .bg-light { background: linear-gradient(to bottom, #f8f9fa, #e9ecef) !important; }
-    .navbar-nav .nav-link i { margin-right: 5px; }
-    /* Estilos para modo oscuro */
+    section { background: #f1f5f9; padding: 3.5rem 0 !important; }
+    h1, h3 { font-weight: 600; color: #1e293b; }
+    p.lead { color: #475569; }
+    .breadcrumb { background: transparent; }
+    .breadcrumb-item a { color: #3b82f6; }
+    .breadcrumb-item.active { color: #475569; }
+    .alert-success, .alert-warning { border-radius: 8px; }
+    .input-group .form-control {
+      border-radius: 8px 0 0 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .input-group .btn-primary { border-radius: 0 8px 8px 0; }
+    .badge-list .badge {
+      background: #f8fafc;
+      border: 1px solid #3b82f6;
+      color: #3b82f6;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .badge-list .badge:hover {
+      background: #3b82f6;
+      color: #f1f5f9;
+    }
+    .badge-list .badge.active {
+      background: #3b82f6;
+      color: #f1f5f9;
+    }
+    .carousel-item { padding: 1rem; }
     .dark-mode {
-      background-color: #343a40;
-      color: #f8f9fa;
+      background: #0f172a;
+      color: #f1f5f9;
     }
-    .dark-mode .navbar-dark.bg-primary {
-      background-color: #1a252f !important;
-    }
-    .dark-mode .bg-light {
-      background: linear-gradient(to bottom, #495057, #343a40) !important;
-    }
+    .dark-mode .navbar { background: #0d1a3a !important; }
+    .dark-mode section { background: #1e293b; }
     .dark-mode .card {
-      background-color: #6c757d;
-      color: #f8f9fa;
+      background: #1e293b;
+      border-color: #334155;
+      color: #f1f5f9;
     }
     .dark-mode .modal-content {
-      background-color: #495057;
-      color: #f8f9fa;
+      background: #1e293b;
+      color: #f1f5f9;
     }
-    .dark-mode .alert-success {
-      background-color: #2a7a39;
-      color: #f8f9fa;
+    .dark-mode .chat-message.user-message { background: #334155; }
+    .dark-mode .chat-message.bot-message { background: #1e40af; }
+    .dark-mode h1, .dark-mode h3 { color: #f1f5f9; }
+    .dark-mode p.lead { color: #94a3b8; }
+    .dark-mode .breadcrumb-item a { color: #93c5fd; }
+    .dark-mode .breadcrumb-item.active { color: #94a3b8; }
+    .dark-mode .btn-outline-primary { border-color: #93c5fd; color: #93c5fd; }
+    .dark-mode .alert-success { background-color: #2a7a39; color: #f8f9fa; }
+    .dark-mode .alert-warning { background-color: #8a6d3b; color: #f8f9fa; }
+    .dark-mode .input-group .form-control {
+      background: #1e293b;
+      border-color: #334155;
+      color: #f1f5f9;
     }
-    .dark-mode .alert-warning {
-      background-color: #8a6d3b;
-      color: #f8f9fa;
+    .dark-mode .badge-list .badge {
+      background: #1e293b;
+      border-color: #93c5fd;
+      color: #93c5fd;
     }
-    .dark-mode .btn-outline-primary {
-      color: #f8f9fa;
-      border-color: #f8f9fa;
+    .dark-mode .badge-list .badge:hover,
+    .dark-mode .badge-list .badge.active {
+      background: #93c5fd;
+      color: #1e293b;
     }
-    .dark-mode .btn-outline-primary:hover {
-      background-color: #f8f9fa;
-      color: #343a40;
-    }
-    .dark-mode .chat-message.user-message {
-      background-color: #495057;
-      color: #f8f9fa;
-    }
-    .dark-mode .chat-message.bot-message {
-      background-color: #2a7a39;
-      color: #f8f9fa;
+    @media (max-width: 576px) {
+      h1 { font-size: 2rem; }
+      p.lead { font-size: 1rem; }
+      .card-body { padding: 1rem; }
+      section { padding: 2rem 0 !important; }
+      .badge-list .badge { font-size: 0.8rem; margin-bottom: 0.5rem; }
     }
   </style>
 </head>
 <body>
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="index.html">Plataforma Docente</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContenido" aria-controls="navbarContenido" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,7 +165,7 @@
             </a>
           </li>
           <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house"></i> Inicio</a></li>
-          <li class="nav-item"><a class="nav-link" href="ia.html"><i class="bi bi-robot"></i> IA Educativa</a></li>
+          <li class="nav-item"><a class="nav-link" href="ia.html"><i class="bi bi-robot"></i> IA y Herramientas</a></li>
           <li class="nav-item"><a class="nav-link" href="comunidad.html"><i class="bi bi-people"></i> Comunidad</a></li>
           <li class="nav-item"><a class="nav-link active" href="biblioteca.html"><i class="bi bi-book"></i> Biblioteca</a></li>
           <li class="nav-item"><a class="nav-link" href="recursos.html"><i class="bi bi-folder"></i> Recursos</a></li>
@@ -100,234 +183,102 @@
   </nav>
 
   <!-- Contenido principal -->
-  <section class="p-5 bg-light">
+  <section>
     <div class="container">
       <h1 class="display-4 text-center fw-bold"><i class="bi bi-book"></i> Biblioteca Digital</h1>
-      <p class="lead text-center">Accede a libros, artículos y guías educativas para enriquecer tus clases.</p>
+      <p class="lead text-center">Explora una amplia colección de libros digitales, artículos académicos, guías prácticas y materiales interactivos para enriquecer tus clases.</p>
 
-      <!-- Buscador -->
+      <!-- Categorías destacadas -->
+      <div class="row mt-4 justify-content-center">
+        <div class="col-md-10 text-center">
+          <div class="badge-list d-flex flex-wrap justify-content-center">
+            <span class="badge active" onclick="filterByCategory('all')">Todas</span>
+            <span class="badge" onclick="filterByCategory('Historia')">Historia</span>
+            <span class="badge" onclick="filterByCategory('Matemáticas')">Matemáticas</span>
+            <span class="badge" onclick="filterByCategory('Ciencias')">Ciencias</span>
+            <span class="badge" onclick="filterByCategory('Literatura')">Literatura</span>
+            <span class="badge" onclick="filterByCategory('Tecnología')">Tecnología</span>
+            <span class="badge" onclick="filterByCategory('Pedagogía')">Pedagogía</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de búsqueda -->
+      <div class="row mt-5 justify-content-center">
+        <div class="col-md-8">
+          <div class="input-group">
+            <input type="text" id="searchInput" class="form-control" placeholder="Busca 'Historia Universal' o 'Física'..." aria-label="Busca recursos">
+            <button class="btn btn-primary" onclick="searchResources()" data-bs-toggle="tooltip" title="Buscar">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carrusel de recursos destacados -->
       <div class="row mt-5">
-        <div class="col-md-8 offset-md-2">
-          <div class="input-group mb-3">
-            <input type="text" id="searchInput" class="form-control" placeholder="Busca libros, artículos o guías..." aria-label="Busca recursos">
-            <select class="form-select" id="nivelFiltro" style="max-width: 200px;">
-              <option value="">Todos los niveles</option>
-              <option value="Primaria">Primaria</option>
-              <option value="Secundaria">Secundaria</option>
-              <option value="Bachillerato">Bachillerato</option>
-            </select>
-            <button class="btn btn-primary" onclick="searchLibrary()" data-bs-toggle="tooltip" title="Buscar recursos">Buscar</button>
-          </div>
-          <div id="searchResults" class="mt-3"></div>
-        </div>
-      </div>
-
-      <!-- Recursos destacados -->
-      <h3 class="mt-5">Recursos Destacados</h3>
-      <div class="row">
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Historia Universal</h5>
-              <p class="card-text">Libro digital sobre historia mundial para secundaria.</p>
-              <button class="btn btn-outline-primary" onclick="downloadResource('Historia Universal')" data-bs-toggle="tooltip" title="Descargar libro">Descargar</button>
+        <div class="col-12">
+          <div id="carouselDestacados" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div class="card mx-auto" style="max-width: 600px;">
+                  <div class="card-body text-center">
+                    <h5 class="card-title"><i class="bi bi-book fs-5 me-2"></i>Historia Universal</h5>
+                    <p class="card-text">Un libro digital completo sobre la historia mundial, ideal para clases de secundaria.</p>
+                    <button class="btn btn-outline-primary" onclick="downloadResource('Historia Universal')" data-bs-toggle="tooltip" title="Descargar libro">Descargar</button>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="card mx-auto" style="max-width: 600px;">
+                  <div class="card-body text-center">
+                    <h5 class="card-title"><i class="bi bi-journal fs-5 me-2"></i>Matemáticas Básicas</h5>
+                    <p class="card-text">Guía práctica con ejercicios para estudiantes de primaria.</p>
+                    <button class="btn btn-outline-primary" onclick="downloadResource('Matemáticas Básicas')" data-bs-toggle="tooltip" title="Descargar guía">Descargar</button>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="card mx-auto" style="max-width: 600px;">
+                  <div class="card-body text-center">
+                    <h5 class="card-title"><i class="bi bi-book fs-5 me-2"></i>Literatura Clásica</h5>
+                    <p class="card-text">Colección de obras esenciales para el estudio de la literatura.</p>
+                    <button class="btn btn-outline-primary" onclick="downloadResource('Literatura Clásica')" data-bs-toggle="tooltip" title="Descargar libro">Descargar</button>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Guía de Matemáticas Básicas</h5>
-              <p class="card-text">Guía práctica para enseñar fracciones y álgebra.</p>
-              <button class="btn btn-outline-primary" onclick="downloadResource('Guía de Matemáticas Básicas')" data-bs-toggle="tooltip" title="Descargar guía">Descargar</button>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Artículos de Biología</h5>
-              <p class="card-text">Compilación de artículos para bachillerato.</p>
-              <button class="btn btn-outline-primary" onclick="downloadResource('Artículos de Biología')" data-bs-toggle="tooltip" title="Descargar artículos">Descargar</button>
-            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselDestacados" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselDestacados" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Siguiente</span>
+            </button>
           </div>
         </div>
       </div>
 
-      <!-- Categorías -->
-      <h3 class="mt-5">Explorar por Categoría</h3>
-      <div class="row">
-        <div class="col-md-3 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Matemáticas</h5>
-              <p class="card-text">Libros y guías para todos los niveles.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#catMatModal" data-bs-toggle="tooltip" title="Ver categoría">Explorar</button>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Ciencias</h5>
-              <p class="card-text">Artículos y experimentos prácticos.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#catCienciasModal" data-bs-toggle="tooltip" title="Ver categoría">Explorar</button>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Historia</h5>
-              <p class="card-text">Textos históricos y cronologías.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#catHistoriaModal" data-bs-toggle="tooltip" title="Ver categoría">Explorar</button>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Literatura</h5>
-              <p class="card-text">Obras clásicas y guías de análisis.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#catLitModal" data-bs-toggle="tooltip" title="Ver categoría">Explorar</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Destacados -->
-      <h3 class="text-center mt-5">Destacados</h3>
-      <div class="row mt-3">
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Libro Popular</h5>
-              <p class="card-text">Explora "Historia Universal" para secundaria.</p>
-              <button class="btn btn-outline-primary" onclick="downloadResource('Historia Universal')">Descargar</button>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Guía Recomendada</h5>
-              <p class="card-text">Guía de Matemáticas Básicas para primaria.</p>
-              <button class="btn btn-outline-primary" onclick="downloadResource('Guía de Matemáticas Básicas')">Descargar</button>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Nueva Categoría</h5>
-              <p class="card-text">Revisa Literatura para análisis de poesía.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#catLitModal">Explorar</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- Resultados -->
+      <h3 class="mt-5">Recursos Disponibles</h3>
+      <div class="row mt-3" id="resourceList"></div>
     </div>
   </section>
 
-  <!-- Modal Categoría Matemáticas -->
-  <div class="modal fade" id="catMatModal" tabindex="-1" aria-labelledby="catMatModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="catMatModalLabel">Categoría: Matemáticas</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <ul class="list-group">
-            <li class="list-group-item">Guía de Fracciones (Primaria) <button class="btn btn-outline-primary btn-sm float-end" onclick="downloadResource('Guía de Fracciones')">Descargar</button></li>
-            <li class="list-group-item">Álgebra Básica (Secundaria) <button class="btn btn-outline-primary btn-sm float-end" onclick="downloadResource('Álgebra Básica')">Descargar</button></li>
-            <li class="list-group-item">Cálculo Diferencial (Bachillerato) <button class="btn btn-outline-primary btn-sm float-end" onclick="downloadResource('Cálculo Diferencial')">Descargar</button></li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal Categoría Ciencias -->
-  <div class="modal fade" id="catCienciasModal" tabindex="-1" aria-labelledby="catCienciasModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="catCienciasModalLabel">Categoría: Ciencias</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <ul class="list-group">
-            <li class="list-group-item">Biología Celular (Secundaria) <button class="btn btn-outline-primary btn-sm float-end" onclick="downloadResource('Biología Celular')">Descargar</button></li>
-            <li class="list-group-item">Experimentos de Física (Bachillerato) <button class="btn btn-outline-primary btn-sm float-end" onclick="downloadResource('Experimentos de Física')">Descargar</button></li>
-            <li class="list-group-item">Química Básica (Primaria) <button class="btn btn-outline-primary btn-sm float-end" onclick="downloadResource('Química Básica')">Descargar</button></li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal Categoría Historia -->
-  <div class="modal fade" id="catHistoriaModal" tabindex="-1" aria-labelledby="catHistoriaModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="catHistoriaModalLabel">Categoría: Historia</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <ul class="list-group">
-            <li class="list-group-item">Historia Antigua (Secundaria) <button class="btn btn-outline-primary btn-sm float-end" onclick="downloadResource('Historia Antigua')">Descargar</button></li>
-            <li class="list-group-item">Revolución Industrial (Bachillerato) <button class="btn btn-outline-primary btn-sm float-end" onclick="downloadResource('Revolución Industrial')">Descargar</button></li>
-            <li class="list-group-item">Historia Local (Primaria) <button class="btn btn-outline-primary btn-sm float-end" onclick="downloadResource('Historia Local')">Descargar</button></li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal Categoría Literatura -->
-  <div class="modal fade" id="catLitModal" tabindex="-1" aria-labelledby="catLitModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="catLitModalLabel">Categoría: Literatura</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <ul class="list-group">
-            <li class="list-group-item">Poesía Clásica (Bachillerato) <button class="btn btn-outline-primary btn-sm float-end" onclick="downloadResource('Poesía Clásica')">Descargar</button></li>
-            <li class="list-group-item">Cuentos Infantiles (Primaria) <button class="btn btn-outline-primary btn-sm float-end" onclick="downloadResource('Cuentos Infantiles')">Descargar</button></li>
-            <li class="list-group-item">Novelas Modernas (Secundaria) <button class="btn btn-outline-primary btn-sm float-end" onclick="downloadResource('Novelas Modernas')">Descargar</button></li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Footer -->
-  <footer class="bg-primary text-white text-center p-3">
+  <footer class="bg-dark text-white text-center p-3">
     <p>© 2025 Plataforma Docente</p>
   </footer>
 
   <!-- Botón de asistencia -->
-  <button id="botonAsistencia" class="btn btn-danger shadow px-4 py-2 rounded" data-bs-toggle="modal" data-bs-target="#ayudaModal" data-bs-toggle="tooltip" title="Obtén ayuda">Ayuda</button>
+  <button id="botonAsistencia" class="btn shadow" data-bs-toggle="modal" data-bs-target="#ayudaModal" data-bs-tooltip="tooltip" title="Obtén ayuda">
+    <i class="bi bi-question-circle-fill fs-5"></i>
+  </button>
 
   <!-- Botón de volver arriba -->
-  <button id="botonVolverArriba" class="btn btn-secondary shadow px-4 py-2 rounded" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" data-bs-toggle="tooltip" title="Volver arriba">
-    <i class="bi bi-arrow-up"></i>
+  <button id="botonVolverArriba" class="btn shadow" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" data-bs-tooltip="tooltip" title="Volver arriba">
+    <i class="bi bi-arrow-up fs-5"></i>
   </button>
 
   <!-- Modal inicial de ayuda -->
@@ -340,8 +291,8 @@
         </div>
         <div class="modal-body text-center">
           <p>Elige una opción:</p>
-          <button class="btn btn-primary mb-3 w-100" data-bs-toggle="modal" data-bs-target="#chatIAModal" onclick="document.querySelector('#ayudaModal').classList.remove('show');">Preguntar a la IA</button>
-          <button class="btn btn-secondary w-100" data-bs-toggle="modal" data-bs-target="#asistenciaModal" onclick="document.querySelector('#ayudaModal').classList.remove('show');">Contactar Asistencia</button>
+          <button class="btn btn-primary mb-3 w-100" data-bs-toggle="modal" data-bs-target="#chatIAModal" data-bs-dismiss="modal">Preguntar a la IA</button>
+          <button class="btn btn-secondary w-100" data-bs-toggle="modal" data-bs-target="#asistenciaModal" data-bs-dismiss="modal">Contactar Asistencia</button>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -362,7 +313,7 @@
           <div class="chat-container" id="chatContainer"></div>
           <div class="input-group mt-3">
             <input type="text" id="userInput" class="form-control" placeholder="Escribe tu pregunta..." aria-label="Escribe tu pregunta">
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="tooltip" title="Seleccionar pregunta">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-tooltip="tooltip" title="Seleccionar pregunta">
               <i class="bi bi-list"></i>
             </button>
             <ul class="dropdown-menu">
@@ -377,11 +328,11 @@
               <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Cómo generar un plan de clase?')">¿Cómo generar un plan de clase?</a></li>
               <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Qué recursos hay en la biblioteca?')">¿Qué recursos hay en la biblioteca?</a></li>
             </ul>
-            <button class="btn btn-primary" onclick="sendMessage()" data-bs-toggle="tooltip" title="Enviar pregunta">Enviar</button>
+            <button class="btn btn-primary" onclick="sendMessage()" data-bs-tooltip="tooltip" title="Enviar pregunta">Enviar</button>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#ayudaModal" onclick="document.querySelector('#chatIAModal').classList.remove('show');">Volver</button>
+          <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#ayudaModal" data-bs-dismiss="modal">Volver</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
         </div>
       </div>
@@ -402,7 +353,7 @@
           <div id="asistenciaFeedback" class="mt-2"></div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#ayudaModal" onclick="document.querySelector('#asistenciaModal').classList.remove('show');">Volver</button>
+          <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#ayudaModal" data-bs-dismiss="modal">Volver</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
           <button type="button" class="btn btn-primary" onclick="submitAsistencia()">Enviar</button>
         </div>
@@ -410,10 +361,10 @@
     </div>
   </div>
 
-  <script src="bootstrap-5.3.6-dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     // Inicializar tooltips
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-tooltip="tooltip"]');
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
     // Alternar modo oscuro
@@ -422,11 +373,9 @@
       document.body.classList.toggle('dark-mode');
       const icon = document.querySelector('#themeToggle i');
       if (document.body.classList.contains('dark-mode')) {
-        icon.classList.remove('bi-moon-stars-fill');
-        icon.classList.add('bi-sun-fill');
+        icon.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
       } else {
-        icon.classList.remove('bi-sun-fill');
-        icon.classList.add('bi-moon-stars-fill');
+        icon.classList.replace('bi-sun-fill', 'bi-moon-stars-fill');
       }
       localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
     });
@@ -434,68 +383,82 @@
     // Cargar tema guardado
     if (localStorage.getItem('theme') === 'dark') {
       document.body.classList.add('dark-mode');
-      document.querySelector('#themeToggle i').classList.remove('bi-moon-stars-fill');
-      document.querySelector('#themeToggle i').classList.add('bi-sun-fill');
+      const icon = document.querySelector('#themeToggle i');
+      icon.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
     }
 
     // Mostrar botón de volver arriba
     window.addEventListener('scroll', () => {
       const button = document.getElementById('botonVolverArriba');
-      if (window.scrollY > 300) {
-        button.style.display = 'block';
-      } else {
-        button.style.display = 'none';
-      }
+      button.style.display = window.scrollY > 300 ? 'flex' : 'none';
     });
 
-    // Buscar en la biblioteca
-    function searchLibrary() {
-      const query = document.getElementById('searchInput').value.trim().toLowerCase();
-      const nivel = document.getElementById('nivelFiltro').value;
-      const resultDiv = document.getElementById('searchResults');
+    // Filtrar por categoría
+    let currentCategory = 'all';
+    function filterByCategory(category) {
+      currentCategory = category;
+      searchResources();
+      document.querySelectorAll('.badge-list .badge').forEach(b => b.classList.remove('active'));
+      const activeBadge = document.querySelector(`.badge-list .badge[onclick="filterByCategory('${category}')"]`);
+      if (activeBadge) activeBadge.classList.add('active');
+    }
 
-      if (!query) {
-        resultDiv.innerHTML = '<div class="alert alert-warning">Por favor, ingresa un término de búsqueda.</div>';
-        return;
+    // Buscar recursos
+    function searchResources() {
+      const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
+      const resourceList = document.getElementById('resourceList');
+      const resources = [
+        { title: 'Historia Universal', description: 'Libro digital sobre historia mundial.', icon: 'bi-book', category: 'Historia' },
+        { title: 'Matemáticas Básicas', description: 'Guía práctica para primaria.', icon: 'bi-journal', category: 'Matemáticas' },
+        { title: 'Ciencias Naturales', description: 'Artículo sobre ecosistemas.', icon: 'bi-file-text', category: 'Ciencias' },
+        { title: 'Literatura Clásica', description: 'Colección de obras esenciales.', icon: 'bi-book', category: 'Literatura' },
+        { title: 'Física para Secundaria', description: 'Guía de ejercicios resueltos.', icon: 'bi-journal', category: 'Ciencias' },
+        { title: 'Tecnología en el Aula', description: 'Artículo sobre herramientas digitales.', icon: 'bi-file-text', category: 'Tecnología' },
+        { title: 'Guía de Pedagogía', description: 'Manual para docentes.', icon: 'bi-journal', category: 'Pedagogía' },
+        { title: 'Química Orgánica', description: 'Libro digital introductorio.', icon: 'bi-book', category: 'Ciencias' },
+        { title: 'Geografía Universal', description: 'Atlas interactivo digital.', icon: 'bi-globe', category: 'Historia' }
+      ];
+
+      let filtered = resources;
+      if (currentCategory !== 'all') {
+        filtered = filtered.filter(r => r.category.toLowerCase() === currentCategory.toLowerCase());
+      }
+      if (searchInput) {
+        filtered = filtered.filter(r => r.title.toLowerCase().includes(searchInput) || r.description.toLowerCase().includes(searchInput));
       }
 
-      resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
+      resourceList.innerHTML = filtered.length ? filtered.map((r, index) => `
+        <div class="col-md-4 mb-3">
+          <div class="card animate__animated animate__fadeInUp card-loaded" style="animation-delay: ${0.1 * (index + 1)}s;">
+            <div class="card-body">
+              <h5 class="card-title"><i class="bi ${r.icon} fs-5 me-2"></i>${r.title}</h5>
+              <p class="card-text">${r.description}</p>
+              <button class="btn btn-outline-primary" onclick="downloadResource('${r.title}')" data-bs-tooltip="tooltip" title="Descargar ${r.title.toLowerCase()}">Descargar</button>
+            </div>
+          </div>
+        </div>
+      `).join('') : `
+        <div class="col-12">
+          <div class="alert alert-warning animate__animated animate__fadeIn">No se encontraron resultados.</div>
+        </div>
+      `;
 
-      setTimeout(() => {
-        const resources = [
-          { title: 'Historia Universal', nivel: 'Secundaria', type: 'Libro' },
-          { title: 'Guía de Matemáticas Básicas', nivel: 'Primaria', type: 'Guía' },
-          { title: 'Artículos de Biología', nivel: 'Bachillerato', type: 'Artículo' },
-          { title: 'Álgebra Básica', nivel: 'Secundaria', type: 'Libro' },
-          { title: 'Poesía Clásica', nivel: 'Bachillerato', type: 'Libro' }
-        ];
-
-        const filtered = resources.filter(r => 
-          r.title.toLowerCase().includes(query) && 
-          (!nivel || r.nivel === nivel)
-        );
-
-        if (filtered.length === 0) {
-          resultDiv.innerHTML = '<div class="alert alert-warning">No se encontraron resultados.</div>';
-          return;
-        }
-
-        let html = '<div class="alert alert-success"><h5>Resultados:</h5><ul class="list-group">';
-        filtered.forEach(r => {
-          html += `<li class="list-group-item">${r.title} (${r.nivel}, ${r.type}) <button class="btn btn-outline-primary btn-sm float-end" onclick="downloadResource('${r.title}')">Descargar</button></li>`;
-        });
-        html += '</ul></div>';
-        resultDiv.innerHTML = html;
-      }, 1000);
+      // Reinicializar tooltips para elementos dinámicos
+      const newTooltips = document.querySelectorAll('[data-bs-tooltip="tooltip"]');
+      newTooltips.forEach(tooltip => new bootstrap.Tooltip(tooltip));
     }
 
     // Descargar recurso
-    function downloadResource(resourceName) {
-      const feedback = document.createElement('div');
-      feedback.className = 'alert alert-success mt-3';
-      feedback.innerHTML = `¡Descargando "${resourceName}"!`;
-      document.querySelector('.container').appendChild(feedback);
-      setTimeout(() => feedback.remove(), 3000);
+    function downloadResource(title) {
+      const resourceList = document.getElementById('resourceList');
+      resourceList.innerHTML = `
+        <div class="col-12">
+          <div class="alert alert-success animate__animated animate__fadeIn">
+            Descargando "${title}"... (Simulación completada).
+          </div>
+        </div>
+      `;
+      setTimeout(() => searchResources(), 3000);
     }
 
     // Placeholder dinámico para el chat
@@ -519,10 +482,8 @@
 
     // Chat con IA
     function sendMessage() {
-      const userInput = document.getElementById('userInput');
       const chatContainer = document.getElementById('chatContainer');
       const message = userInput.value.trim();
-
       if (!message) return;
 
       const userMessage = document.createElement('div');
@@ -540,27 +501,26 @@
         chatContainer.removeChild(typingMessage);
         let response = '<strong>IA:</strong> Lo siento, no tengo una respuesta específica para eso. ¿Puedes dar más detalles?';
         const responses = {
-          '¿Cómo usar el generador de cuestionarios?': '<strong>IA:</strong> Ve a "IA Educativa", haz clic en "Probar ahora" en la tarjeta del generador, selecciona un tema (por ejemplo, "Matemáticas - Fracciones") y un nivel, luego presiona "Generar".',
+          '¿Cómo usar el generador de cuestionarios?': '<strong>IA:</strong> Ve a "IA y Herramientas", haz clic en "Probar ahora" en la tarjeta del generador, selecciona un tema (por ejemplo, "Matemáticas - Fracciones") y un nivel, luego presiona "Generar".',
           '¿Cómo cambiar el tema?': '<strong>IA:</strong> Haz clic en el ícono de luna o sol en la barra de navegación, a la izquierda de "Inicio".',
           '¿Dónde encontrar recursos?': '<strong>IA:</strong> En la sección "Recursos" puedes descargar plantillas, evaluaciones y presentaciones. También revisa "Biblioteca" para libros y artículos.',
           '¿Cómo buscar en la biblioteca?': '<strong>IA:</strong> En "Biblioteca", usa la barra de búsqueda para encontrar libros, artículos o guías. Prueba palabras como "matemáticas" o "historia".',
-          '¿Cómo unirme a un foro?': '<strong>IA:</strong> En "Comunidad", haz clic en "Ver grupos" o "Explorar foros" y selecciona un grupo o foro para participar.',
+          '¿Cómo unirme a un foro?': '<strong>IA:</strong> En "Comunidad", haz clic en "Ver Foro" en uno de los foros de "Explorar Foros" para participar.',
           '¿Cómo descargar un recurso?': '<strong>IA:</strong> En "Recursos" o "Biblioteca", haz clic en el botón "Descargar" junto al recurso. Recibirás una confirmación simulada.',
           '¿Qué es el modo oscuro?': '<strong>IA:</strong> El modo oscuro cambia la interfaz a colores oscuros para mayor comodidad visual. Actívalo con el ícono de luna/sol en la barra de navegación.',
           '¿Cómo participar en un grupo de la comunidad?': '<strong>IA:</strong> En "Comunidad", selecciona un grupo en "Grupos de Interés" y haz clic en "Unirse". Recibirás una confirmación.',
-          '¿Cómo generar un plan de clase?': '<strong>IA:</strong> En "IA Educativa", usa el Asistente de Planificación, ingresa el tema, objetivos y duración, y haz clic en "Generar Plan".',
-          '¿Qué recursos hay en la biblioteca?': '<strong>IA:</strong> La biblioteca ofrece libros digitales (como "Historia Universal"), artículos académicos y guías (como "Matemáticas Básicas"). Usa la búsqueda para explorarlos.'
+          '¿Cómo generar un plan de clase?': '<strong>IA:</strong> En "IA y Herramientas", usa el Asistente de Planificación, ingresa el tema, objetivos y duración, y haz clic en "Generar Plan".',
+          '¿Qué recursos hay en la biblioteca?': '<strong>IA:</strong> La biblioteca ofrece libros digitales como "Historia Universal" y "Literatura Clásica", guías como "Matemáticas Básicas" y "Física para Secundaria", artículos como "Ciencias Naturales" y "Tecnología en el Aula", y materiales interactivos como "Geografía Universal". Usa la búsqueda para explorarlos.'
         };
 
         response = responses[message] || response;
-
         const botMessage = document.createElement('div');
         botMessage.className = 'chat-message bot-message animate__animated animate__fadeInLeft';
         botMessage.innerHTML = response;
         chatContainer.appendChild(botMessage);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
 
         userInput.value = '';
-        chatContainer.scrollTop = chatContainer.scrollHeight;
       }, 1000);
     }
 
@@ -569,14 +529,16 @@
       const asistenciaInput = document.getElementById('asistenciaInput');
       const feedback = document.getElementById('asistenciaFeedback');
       if (!asistenciaInput.value.trim()) {
-        feedback.innerHTML = '<div class="alert alert-warning">Por favor, escribe una consulta.</div>';
+        feedback.innerHTML = '<div class="alert alert-warning animate__animated animate__fadeIn">Por favor, escribe una consulta.</div>';
         return;
       }
-      feedback.innerHTML = '<div class="alert alert-success">Mensaje enviado. Un representante te contactará pronto.</div>';
+      feedback.innerHTML = '<div class="alert alert-success animate__animated animate__fadeIn">Mensaje enviado. Un representante te contactará pronto.</div>';
       asistenciaInput.value = '';
       setTimeout(() => feedback.innerHTML = '', 3000);
     }
+
+    // Inicializar carga de recursos
+    window.addEventListener('load', searchResources);
   </script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
 </body>
 </html>

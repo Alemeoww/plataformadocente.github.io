@@ -3,72 +3,119 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>IA Educativa - Plataforma Docente</title>
+  <title>IA y Herramientas - Plataforma Docente</title>
   <link href="bootstrap-5.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.1/math.min.js"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <style>
     html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; }
     #botonAsistencia, #botonVolverArriba { position: fixed; bottom: 20px; z-index: 1000; }
-    #botonAsistencia { right: 20px; }
-    #botonVolverArriba { right: 140px; display: none; }
+    #botonAsistencia {
+      right: 20px;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ef4444, #b91c1c);
+      animation: pulse 2s infinite;
+    }
+    #botonVolverArriba {
+      right: 100px;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: none;
+      background: #4b5563;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
     .chat-container { max-height: 300px; overflow-y: auto; }
     .chat-message { margin-bottom: 10px; padding: 10px; border-radius: 10px; }
-    .user-message { background-color: #e9ecef; text-align: right; }
-    .bot-message { background-color: #d1e7dd; }
-    .navbar-nav .nav-link.active { background-color: #0056b3; border-radius: 5px; }
-    .card, .modal-content { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    .btn { transition: background-color 0.3s, transform 0.2s; }
+    .user-message { background-color: #e2e8f0; text-align: right; }
+    .bot-message { background-color: #bfdbfe; }
+    .navbar { background: #1e3a8a !important; }
+    .navbar-nav .nav-link { color: #f1f5f9; transition: color 0.3s; font-size: 0.95rem; }
+    .navbar-nav .nav-link:hover { color: #bfdbfe; }
+    .navbar-nav .nav-link.active { background: #3b82f6; border-radius: 6px; }
+    .navbar-nav .nav-link i { font-size: 1rem; margin-right: 6px; }
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    }
+    .modal-content { border-radius: 16px; }
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+      border: none;
+      border-radius: 8px;
+    }
+    .btn-outline-primary {
+      border-color: #3b82f6;
+      color: #3b82f6;
+      border-radius: 8px;
+    }
+    .btn { transition: transform 0.2s; }
     .btn:hover { transform: translateY(-2px); }
-    .bg-light { background: linear-gradient(to bottom, #f8f9fa, #e9ecef) !important; }
-    .navbar-nav .nav-link i { margin-right: 5px; }
-    /* Estilos para modo oscuro */
+    section { background: #f1f5f9; padding: 3.5rem 0 !important; }
+    h1, h3 { font-weight: 600; color: #1e293b; }
+    p.lead { color: #475569; }
+    .breadcrumb { background: transparent; }
+    .breadcrumb-item a { color: #3b82f6; }
+    .breadcrumb-item.active { color: #475569; }
+    .timer-display { font-size: 2rem; font-weight: 600; color: #1e293b; }
+    .alert-success, .alert-warning { border-radius: 8px; }
     .dark-mode {
-      background-color: #343a40;
-      color: #f8f9fa;
+      background: #0f172a;
+      color: #f1f5f9;
     }
-    .dark-mode .navbar-dark.bg-primary {
-      background-color: #1a252f !important;
-    }
-    .dark-mode .bg-light {
-      background: linear-gradient(to bottom, #495057, #343a40) !important;
-    }
+    .dark-mode .navbar { background: #0d1a3a !important; }
+    .dark-mode section { background: #1e293b; }
     .dark-mode .card {
-      background-color: #6c757d;
-      color: #f8f9fa;
+      background: #1e293b;
+      border-color: #334155;
+      color: #f1f5f9;
     }
     .dark-mode .modal-content {
-      background-color: #495057;
-      color: #f8f9fa;
+      background: #1e293b;
+      color: #f1f5f9;
     }
-    .dark-mode .alert-success {
-      background-color: #2a7a39;
-      color: #f8f9fa;
-    }
-    .dark-mode .alert-warning {
-      background-color: #8a6d3b;
-      color: #f8f9fa;
-    }
-    .dark-mode .btn-outline-primary {
-      color: #f8f9fa;
-      border-color: #f8f9fa;
-    }
-    .dark-mode .btn-outline-primary:hover {
-      background-color: #f8f9fa;
-      color: #343a40;
-    }
-    .dark-mode .chat-message.user-message {
-      background-color: #495057;
-      color: #f8f9fa;
-    }
-    .dark-mode .chat-message.bot-message {
-      background-color: #2a7a39;
-      color: #f8f9fa;
+    .dark-mode .chat-message.user-message { background: #334155; }
+    .dark-mode .chat-message.bot-message { background: #1e40af; }
+    .dark-mode h1, .dark-mode h3 { color: #f1f5f9; }
+    .dark-mode p.lead { color: #94a3b8; }
+    .dark-mode .breadcrumb-item a { color: #93c5fd; }
+    .dark-mode .breadcrumb-item.active { color: #94a3b8; }
+    .dark-mode .btn-outline-primary { border-color: #93c5fd; color: #93c5fd; }
+    .dark-mode .alert-success { background-color: #2a7a39; color: #f8f9fa; }
+    .dark-mode .alert-warning { background-color: #8a6d3b; color: #f8f9fa; }
+    .dark-mode .timer-display { color: #f1f5f9; }
+    @media (max-width: 576px) {
+      h1 { font-size: 2rem; }
+      p.lead { font-size: 1rem; }
+      .card-body { padding: 1rem; }
+      section { padding: 2rem 0 !important; }
     }
   </style>
 </head>
 <body>
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="index.html">Plataforma Docente</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContenido" aria-controls="navbarContenido" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,7 +129,7 @@
             </a>
           </li>
           <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house"></i> Inicio</a></li>
-          <li class="nav-item"><a class="nav-link active" href="ia.html"><i class="bi bi-robot"></i> IA Educativa</a></li>
+          <li class="nav-item"><a class="nav-link active" href="ia.html"><i class="bi bi-robot"></i> IA y Herramientas</a></li>
           <li class="nav-item"><a class="nav-link" href="comunidad.html"><i class="bi bi-people"></i> Comunidad</a></li>
           <li class="nav-item"><a class="nav-link" href="biblioteca.html"><i class="bi bi-book"></i> Biblioteca</a></li>
           <li class="nav-item"><a class="nav-link" href="recursos.html"><i class="bi bi-folder"></i> Recursos</a></li>
@@ -95,29 +142,30 @@
   <nav aria-label="breadcrumb" class="container mt-3">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
-      <li class="breadcrumb-item active" aria-current="page">IA Educativa</li>
+      <li class="breadcrumb-item active" aria-current="page">IA y Herramientas</li>
     </ol>
   </nav>
 
   <!-- Contenido principal -->
-  <section class="p-5 bg-light">
+  <section>
     <div class="container">
-      <h1 class="display-4 text-center fw-bold"><i class="bi bi-robot"></i> Herramientas de IA Educativa</h1>
-      <p class="lead text-center">Optimiza tu enseñanza con nuestras herramientas impulsadas por inteligencia artificial.</p>
+      <h1 class="display-4 text-center fw-bold"><i class="bi bi-robot"></i> IA y Herramientas</h1>
+      <p class="lead text-center">Utiliza inteligencia artificial y herramientas prácticas para mejorar tus clases.</p>
 
       <!-- Herramientas -->
+      <h3 class="mt-5">Herramientas</h3>
       <div class="row mt-5">
-        <div class="col-md-4 mb-4">
-          <div class="card h-100">
+        <div class="col-md-4 mb-3">
+          <div class="card h-100 animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
             <div class="card-body">
               <h5 class="card-title">Generador de Cuestionarios</h5>
-              <p class="card-text">Crea cuestionarios personalizados en segundos.</p>
+              <p class="card-text">Crea cuestionarios personalizados para tus clases.</p>
               <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#quizModal" data-bs-toggle="tooltip" title="Probar generador">Probar ahora</button>
             </div>
           </div>
         </div>
-        <div class="col-md-4 mb-4">
-          <div class="card h-100">
+        <div class="col-md-4 mb-3">
+          <div class="card h-100 animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
             <div class="card-body">
               <h5 class="card-title">Corrector Automático</h5>
               <p class="card-text">Corrige textos y exámenes de forma rápida.</p>
@@ -125,12 +173,66 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 mb-4">
-          <div class="card h-100">
+        <div class="col-md-4 mb-3">
+          <div class="card h-100 animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
             <div class="card-body">
               <h5 class="card-title">Asistente de Planificación</h5>
-              <p class="card-text">Planifica clases según tus necesidades.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#planificadorModal" data-bs-toggle="tooltip" title="Probar planificador">Probar ahora</button>
+              <p class="card-text">Genera planes de clase detallados.</p>
+              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#planModal" data-bs-toggle="tooltip" title="Probar planificador">Probar ahora</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card h-100 animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+            <div class="card-body">
+              <h5 class="card-title">Cálculos Educativos</h5>
+              <p class="card-text">Realiza cálculos matemáticos y promedia calificaciones.</p>
+              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#calculadoraModal" data-bs-toggle="tooltip" title="Probar cálculos">Probar ahora</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card h-100 animate__animated animate__fadeInUp" style="animation-delay: 0.5s;">
+            <div class="card-body">
+              <h5 class="card-title">Cronómetro/Temporizador</h5>
+              <p class="card-text">Gestiona el tiempo en tus actividades de clase.</p>
+              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#cronometroModal" data-bs-toggle="tooltip" title="Probar cronómetro">Probar ahora</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card h-100 animate__animated animate__fadeInUp" style="animation-delay: 0.6s;">
+            <div class="card-body">
+              <h5 class="card-title">Conversor de Unidades</h5>
+              <p class="card-text">Convierte unidades para ciencias y matemáticas.</p>
+              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#conversorModal" data-bs-toggle="tooltip" title="Probar conversor">Probar ahora</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card h-100 animate__animated animate__fadeInUp" style="animation-delay: 0.7s;">
+            <div class="card-body">
+              <h5 class="card-title">Simulador de Experimentos</h5>
+              <p class="card-text">Simula laboratorios virtuales de ciencias.</p>
+              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#simuladorModal" data-bs-toggle="tooltip" title="Probar simulador">Probar ahora</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card h-100 animate__animated animate__fadeInUp" style="animation-delay: 0.8s;">
+            <div class="card-body">
+              <h5 class="card-title">Visor de Ecuaciones</h5>
+              <p class="card-text">Renderiza ecuaciones matemáticas en LaTeX.</p>
+              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#ecuacionesModal" data-bs-toggle="tooltip" title="Probar visor">Probar ahora</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card h-100 animate__animated animate__fadeInUp" style="animation-delay: 0.9s;">
+            <div class="card-body">
+              <h5 class="card-title">Grabador de Notas de Voz</h5>
+              <p class="card-text">Graba ideas o feedback para tus clases.</p>
+              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#grabadorModal" data-bs-toggle="tooltip" title="Probar grabador">Probar ahora</button>
             </div>
           </div>
         </div>
@@ -139,30 +241,30 @@
       <!-- Destacados -->
       <h3 class="text-center mt-5">Destacados</h3>
       <div class="row mt-3">
-        <div class="col-md-4 mb-4">
-          <div class="card">
+        <div class="col-md-4 mb-3">
+          <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
             <div class="card-body">
-              <h5 class="card-title">Nuevo Tema</h5>
-              <p class="card-text">Prueba el generador con "Ciencias - Biología".</p>
+              <h5 class="card-title">Cuestionario IA</h5>
+              <p class="card-text">Genera cuestionarios en segundos.</p>
               <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#quizModal">Probar</button>
             </div>
           </div>
         </div>
-        <div class="col-md-4 mb-4">
-          <div class="card">
+        <div class="col-md-4 mb-3">
+          <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
             <div class="card-body">
-              <h5 class="card-title">Corrección Avanzada</h5>
-              <p class="card-text">Corrige textos con tildes y gramática.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#correctorModal">Probar</button>
+              <h5 class="card-title">Planificador</h5>
+              <p class="card-text">Crea planes de clase rápidamente.</p>
+              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#planModal">Probar</button>
             </div>
           </div>
         </div>
-        <div class="col-md-4 mb-4">
-          <div class="card">
+        <div class="col-md-4 mb-3">
+          <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
             <div class="card-body">
-              <h5 class="card-title">Plan Personalizado</h5>
-              <p class="card-text">Crea planes con objetivos claros.</p>
-              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#planificadorModal">Probar</button>
+              <h5 class="card-title">Cálculos Educativos</h5>
+              <p class="card-text">Calcula y promedia notas fácilmente.</p>
+              <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#calculadoraModal">Probar</button>
             </div>
           </div>
         </div>
@@ -180,25 +282,24 @@
         </div>
         <div class="modal-body">
           <div class="mb-3">
-            <label for="quizTema" class="form-label">Selecciona un tema</label>
-            <select class="form-select" id="quizTema">
-              <option value="Matemáticas - Fracciones">Matemáticas - Fracciones</option>
-              <option value="Historia - Revolución Industrial">Historia - Revolución Industrial</option>
-              <option value="Literatura - Poesía">Literatura - Poesía</option>
-              <option value="Ciencias - Biología">Ciencias - Biología</option>
-              <option value="Geografía - Climas">Geografía - Climas</option>
+            <label for="quizTema" class="form-label">Tema del cuestionario</label>
+            <input type="text" class="form-control" id="quizTema" placeholder="Ej. Matemáticas - Fracciones">
+          </div>
+          <div class="mb-3">
+            <label for="quizNivel" class="form-label">Nivel educativo</label>
+            <select class="form-select" id="quizNivel">
+              <option value="Primaria">Primaria</option>
+              <option value="Secundaria">Secundaria</option>
+              <option value="Bachillerato">Bachillerato</option>
             </select>
           </div>
           <div class="mb-3">
-            <label for="quizNivel" class="form-label">Nivel de dificultad</label>
-            <select class="form-select" id="quizNivel">
-              <option value="Básico">Básico</option>
-              <option value="Intermedio">Intermedio</option>
-              <option value="Avanzado">Avanzado</option>
-            </select>
+            <label for="quizPreguntas" class="form-label">Número de preguntas</label>
+            <input type="number" class="form-control" id="quizPreguntas" min="1" max="20" value="5">
           </div>
-          <button class="btn btn-primary" onclick="generateQuiz()">Generar Cuestionario</button>
-          <div id="quizResult" class="mt-3"></div>
+          <button class="btn btn-primary me-2" onclick="generateQuiz()">Generar Cuestionario</button>
+          <button class="btn btn-outline-primary" onclick="generateRandomQuestion()">Pregunta Aleatoria</button>
+          <div id="quizResult" class="mt-3 animate__animated animate__fadeIn"></div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -217,11 +318,11 @@
         </div>
         <div class="modal-body">
           <div class="mb-3">
-            <label for="textoCorrector" class="form-label">Ingresa el texto a corregir</label>
-            <textarea class="form-control" id="textoCorrector" rows="5" placeholder="Escribe aquí el texto..."></textarea>
+            <label for="correctorInput" class="form-label">Pega el texto a corregir</label>
+            <textarea class="form-control" id="correctorInput" rows="5" placeholder="Escribe o pega el texto aquí..."></textarea>
           </div>
           <button class="btn btn-primary" onclick="correctText()">Corregir Texto</button>
-          <div id="correctorResult" class="mt-3"></div>
+          <div id="correctorResult" class="mt-3 animate__animated animate__fadeIn"></div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -231,28 +332,201 @@
   </div>
 
   <!-- Modal Asistente de Planificación -->
-  <div class="modal fade" id="planificadorModal" tabindex="-1" aria-labelledby="planificadorModalLabel" aria-hidden="true">
+  <div class="modal fade" id="planModal" tabindex="-1" aria-labelledby="planModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="planificadorModalLabel">Asistente de Planificación</h5>
+          <h5 class="modal-title" id="planModalLabel">Asistente de Planificación</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div class="mb-3">
-            <label for="temaPlan" class="form-label">Tema de la clase</label>
-            <input type="text" class="form-control" id="temaPlan" placeholder="Ej. Fracciones">
+            <label for="planTema" class="form-label">Tema de la clase</label>
+            <input type="text" class="form-control" id="planTema" placeholder="Ej. Introducción a las fracciones">
           </div>
           <div class="mb-3">
-            <label for="objetivosPlan" class="form-label">Objetivos de aprendizaje</label>
-            <textarea class="form-control" id="objetivosPlan" rows="3" placeholder="Ej. Comprender suma de fracciones"></textarea>
+            <label for="planObjetivos" class="form-label">Objetivos de aprendizaje</label>
+            <textarea class="form-control" id="planObjetivos" rows="3" placeholder="Describa los objetivos..."></textarea>
           </div>
           <div class="mb-3">
-            <label for="duracionPlan" class="form-label">Duración (minutos)</label>
-            <input type="number" class="form-control" id="duracionPlan" placeholder="Ej. 60">
+            <label for="planDuracion" class="form-label">Duración (minutos)</label>
+            <input type="number" class="form-control" id="planDuracion" min="30" max="120" value="60">
           </div>
           <button class="btn btn-primary" onclick="generatePlan()">Generar Plan</button>
-          <div id="planResult" class="mt-3"></div>
+          <div id="planResult" class="mt-3 animate__animated animate__fadeIn"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Cálculos Educativos -->
+  <div class="modal fade" id="calculadoraModal" tabindex="-1" aria-labelledby="calculadoraModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="calculadoraModalLabel">Cálculos Educativos</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="calcTipo" class="form-label">Tipo de cálculo</label>
+            <select class="form-select" id="calcTipo" onchange="toggleCalcInputs()">
+              <option value="Calculadora">Calculadora</option>
+              <option value="Calificaciones">Calificaciones</option>
+            </select>
+          </div>
+          <div id="calcInputContainer" class="mb-3">
+            <label for="calcInput" class="form-label">Ingresa tu cálculo</label>
+            <input type="text" class="form-control" id="calcInput" placeholder="Ej. 2 + 2 * sin(30)">
+          </div>
+          <div id="gradesInputContainer" class="mb-3 d-none">
+            <label for="gradesInput" class="form-label">Ingresa las calificaciones (separadas por comas)</label>
+            <input type="text" class="form-control" id="gradesInput" placeholder="Ej. 85, 90, 75">
+            <label for="gradeScale" class="form-label mt-2">Escala de calificaciones</label>
+            <select class="form-select" id="gradeScale">
+              <option value="100">0-100</option>
+              <option value="10">0-10</option>
+              <option value="5">0-5</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" onclick="calcular()">Calcular</button>
+          <div id="calcResult" class="mt-3 animate__animated animate__fadeIn"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Cronómetro/Temporizador -->
+  <div class="modal fade" id="cronometroModal" tabindex="-1" aria-labelledby="cronometroModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cronometroModalLabel">Cronómetro/Temporizador</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <div class="timer-display" id="timerDisplay">00:00</div>
+          <div class="mb-3">
+            <label for="timerInput" class="form-label">Minutos</label>
+            <input type="number" class="form-control" id="timerInput" min="1" max="60" value="5">
+          </div>
+          <button class="btn btn-primary me-2" onclick="startTimer()">Iniciar</button>
+          <button class="btn btn-secondary" onclick="resetTimer()">Reiniciar</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Conversor de Unidades -->
+  <div class="modal fade" id="conversorModal" tabindex="-1" aria-labelledby="conversorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="conversorModalLabel">Conversor de Unidades</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="convTipo" class="form-label">Tipo de unidad</label>
+            <select class="form-select" id="convTipo">
+              <option value="Longitud">Longitud</option>
+              <option value="Masa">Masa</option>
+              <option value="Temperatura">Temperatura</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="convDe" class="form-label">De</label>
+            <select class="form-select" id="convDe"></select>
+          </div>
+          <div class="mb-3">
+            <label for="convA" class="form-label">A</label>
+            <select class="form-select" id="convA"></select>
+          </div>
+          <div class="mb-3">
+            <label for="convValor" class="form-label">Valor</label>
+            <input type="number" class="form-control" id="convValor" step="any">
+          </div>
+          <button class="btn btn-primary" onclick="convertirUnidad()">Convertir</button>
+          <div id="convResult" class="mt-3 animate__animated animate__fadeIn"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Simulador de Experimentos -->
+  <div class="modal fade" id="simuladorModal" tabindex="-1" aria-labelledby="simuladorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="simuladorModalLabel">Simulador de Experimentos</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="simTipo" class="form-label">Tipo de experimento</label>
+            <select class="form-select" id="simTipo">
+              <option value="Física: Movimiento">Física: Movimiento</option>
+              <option value="Química: Reacciones">Química: Reacciones</option>
+              <option value="Biología: Celular">Biología: Celular</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" onclick="simularExperimento()">Simular</button>
+          <div id="simResult" class="mt-3 animate__animated animate__fadeIn"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Visor de Ecuaciones -->
+  <div class="modal fade" id="ecuacionesModal" tabindex="-1" aria-labelledby="ecuacionesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="ecuacionesModalLabel">Visor de Ecuaciones</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="eqInput" class="form-label">Ingresa la ecuación en LaTeX</label>
+            <textarea class="form-control" id="eqInput" rows="3" placeholder="Ej. E = mc^2"></textarea>
+          </div>
+          <button class="btn btn-primary" onclick="renderEcuacion()">Renderizar</button>
+          <div id="eqResult" class="mt-3 animate__animated animate__fadeIn"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Grabador de Notas de Voz -->
+  <div class="modal fade" id="grabadorModal" tabindex="-1" aria-labelledby="grabadorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="grabadorModalLabel">Grabador de Notas de Voz</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <button class="btn btn-primary me-2" id="startRecord" onclick="startRecording()">Grabar</button>
+          <button class="btn btn-secondary me-2" id="stopRecord" onclick="stopRecording()" disabled>Detener</button>
+          <div id="audioResult" class="mt-3 animate__animated animate__fadeIn"></div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -262,16 +536,18 @@
   </div>
 
   <!-- Footer -->
-  <footer class="bg-primary text-white text-center p-3">
+  <footer class="bg-dark text-white text-center p-3">
     <p>© 2025 Plataforma Docente</p>
   </footer>
 
   <!-- Botón de asistencia -->
-  <button id="botonAsistencia" class="btn btn-danger shadow px-4 py-2 rounded" data-bs-toggle="modal" data-bs-target="#ayudaModal" data-bs-toggle="tooltip" title="Obtén ayuda">Ayuda</button>
+  <button id="botonAsistencia" class="btn shadow" data-bs-toggle="modal" data-bs-target="#ayudaModal" data-bs-toggle="tooltip" title="Obtén ayuda">
+    <i class="bi bi-question-circle-fill fs-5"></i>
+  </button>
 
   <!-- Botón de volver arriba -->
-  <button id="botonVolverArriba" class="btn btn-secondary shadow px-4 py-2 rounded" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" data-bs-toggle="tooltip" title="Volver arriba">
-    <i class="bi bi-arrow-up"></i>
+  <button id="botonVolverArriba" class="btn shadow" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" data-bs-toggle="tooltip" title="Volver arriba">
+    <i class="bi bi-arrow-up fs-5"></i>
   </button>
 
   <!-- Modal inicial de ayuda -->
@@ -386,7 +662,7 @@
     window.addEventListener('scroll', () => {
       const button = document.getElementById('botonVolverArriba');
       if (window.scrollY > 300) {
-        button.style.display = 'block';
+        button.style.display = 'flex';
       } else {
         button.style.display = 'none';
       }
@@ -394,85 +670,87 @@
 
     // Generar cuestionario
     function generateQuiz() {
-      const tema = document.getElementById('quizTema').value;
+      const tema = document.getElementById('quizTema').value.trim();
+      const nivel = document.getElementById('quizNivel').value;
+      const numPreguntas = parseInt(document.getElementById('quizPreguntas').value);
+      const resultDiv = document.getElementById('quizResult');
+
+      if (!tema || numPreguntas < 1 || numPreguntas > 20) {
+        resultDiv.innerHTML = '<div class="alert alert-warning">Por favor, ingresa un tema válido y un número de preguntas entre 1 y 20.</div>';
+        return;
+      }
+
+      resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
+
+      setTimeout(() => {
+        let html = '<div class="alert alert-success"><h5>Cuestionario generado:</h5><ol>';
+        for (let i = 1; i <= numPreguntas; i++) {
+          html += `<li>Pregunta ${i} sobre ${tema} (${nivel}) <button class="btn btn-outline-primary btn-sm" onclick="showAnswer(${i})">Ver respuesta</button><div id="answer${i}" class="mt-2" style="display:none;">Respuesta simulada para la pregunta ${i}.</div></li>`;
+        }
+        html += '</ol></div>';
+        resultDiv.innerHTML = html;
+      }, 1000);
+    }
+
+    // Generar pregunta aleatoria
+    function generateRandomQuestion() {
+      const tema = document.getElementById('quizTema').value.trim() || 'General';
       const nivel = document.getElementById('quizNivel').value;
       const resultDiv = document.getElementById('quizResult');
 
       resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
 
       setTimeout(() => {
-        const quizzes = {
-          'Matemáticas - Fracciones': {
-            Básico: '1. ¿Qué es 1/2 + 1/4?<br>2. Divide 3/5 entre 2.',
-            Intermedio: '1. Resuelve 2/3 + 4/9.<br>2. Multiplica 5/6 x 3/4.',
-            Avanzado: '1. Simplifica (2/7 + 3/14) ÷ 1/2.<br>2. Resuelve 4/5 - 2/3.'
-          },
-          'Historia - Revolución Industrial': {
-            Básico: '1. ¿En qué siglo comenzó la Revolución Industrial?<br>2. ¿Qué es una máquina de vapor?',
-            Intermedio: '1. Nombra dos inventos de la Revolución Industrial.<br>2. ¿Qué fue el telar mecánico?',
-            Avanzado: '1. Explica el impacto de la Revolución Industrial en la urbanización.<br>2. ¿Cómo influyó el ferrocarril en la economía?'
-          },
-          'Literatura - Poesía': {
-            Básico: '1. ¿Qué es una rima?<br>2. Nombra un poeta famoso.',
-            Intermedio: '1. Define un soneto.<br>2. ¿Qué es una metáfora?',
-            Avanzado: '1. Analiza el uso de la aliteración en un poema.<br>2. Explica la estructura de un haiku.'
-          },
-          'Ciencias - Biología': {
-            Básico: '1. ¿Qué es una célula?<br>2. Nombra dos tipos de tejidos.',
-            Intermedio: '1. Describe la función del ADN.<br>2. ¿Qué es la fotosíntesis?',
-            Avanzado: '1. Explica la mitosis.<br>2. Analiza el ciclo del carbono.'
-          },
-          'Geografía - Climas': {
-            Básico: '1. ¿Qué es el clima?<br>2. Nombra un clima cálido.',
-            Intermedio: '1. Diferencia clima tropical y polar.<br>2. ¿Qué es la corriente del Golfo?',
-            Avanzado: '1. Analiza el impacto del cambio climático en los climas.<br>2. Explica la distribución de los desiertos.'
-          }
-        };
-
         resultDiv.innerHTML = `
           <div class="alert alert-success">
-            <h5>Cuestionario: ${tema} (${nivel})</h5>
-            <p>${quizzes[tema][nivel]}</p>
+            <h5>Pregunta aleatoria:</h5>
+            <p>Pregunta sobre ${tema} (${nivel})</p>
+            <button class="btn btn-outline-primary btn-sm" onclick="showRandomAnswer()">Ver respuesta</button>
+            <div id="randomAnswer" class="mt-2" style="display:none;">Respuesta simulada para la pregunta aleatoria.</div>
           </div>
         `;
       }, 1000);
+    }
+
+    function showRandomAnswer() {
+      document.getElementById('randomAnswer').style.display = 'block';
+    }
+
+    function showAnswer(index) {
+      document.getElementById(`answer${index}`).style.display = 'block';
     }
 
     // Corregir texto
     function correctText() {
-      const texto = document.getElementById('textoCorrector').value.trim();
+      const text = document.getElementById('correctorInput').value.trim();
       const resultDiv = document.getElementById('correctorResult');
 
-      if (!texto) {
-        resultDiv.innerHTML = '<div class="alert alert-warning">Por favor, ingresa un texto.</div>';
+      if (!text) {
+        resultDiv.innerHTML = '<div class="alert alert-warning">Por favor, ingresa un texto para corregir.</div>';
         return;
       }
 
       resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
 
       setTimeout(() => {
-        const correccion = texto
-          .replace(/k/g, 'c')
-          .replace(/([.!?])\s*([a-z])/g, (match, p1, p2) => p1 + ' ' + p2.toUpperCase())
-          .replace(/a'/g, 'á').replace(/e'/g, 'é').replace(/i'/g, 'í').replace(/o'/g, 'ó').replace(/u'/g, 'ú');
         resultDiv.innerHTML = `
           <div class="alert alert-success">
-            <h5>Texto corregido:</h5>
-            <p>${correccion}</p>
+            <h5>Corrección:</h5>
+            <p>Texto corregido: ${text.replace(/[.,!?]/g, '')} (simulación).</p>
           </div>
         `;
       }, 1000);
     }
 
-    // Generar plan
+    // Generar plan de clase
     function generatePlan() {
-      const tema = document.getElementById('temaPlan').value.trim();
-      const objetivos = document.getElementById('objetivosPlan').value.trim();
-      const duracion = document.getElementById('duracionPlan').value;
+      const tema = document.getElementById('planTema').value.trim();
+      const objetivos = document.getElementById('planObjetivos').value.trim();
+      const duracion = parseInt(document.getElementById('planDuracion').value);
       const resultDiv = document.getElementById('planResult');
 
-      if (!tema || !duracion || !objetivos) {
-        resultDiv.innerHTML = '<div class="alert alert-warning">Por favor, completa todos los campos.</div>';
+      if (!tema || !objetivos || duracion < 30 || duracion > 120) {
+        resultDiv.innerHTML = '<div class="alert alert-warning">Por favor, completa todos los campos con valores válidos.</div>';
         return;
       }
 
@@ -481,17 +759,237 @@
       setTimeout(() => {
         resultDiv.innerHTML = `
           <div class="alert alert-success">
-            <h5>Plan de clase: ${tema}</h5>
-            <p>Duración: ${duracion} min</p>
+            <h5>Plan de clase:</h5>
+            <p><strong>Tema:</strong> ${tema}</p>
             <p><strong>Objetivos:</strong> ${objetivos}</p>
-            <ul>
-              <li>Introducción (10% del tiempo): Presentar ${tema}.</li>
-              <li>Actividad principal (${Math.floor(duracion * 0.6)} min): Ejercicios prácticos.</li>
-              <li>Cierre (10 min): Resumen y tarea.</li>
-            </ul>
+            <p><strong>Duración:</strong> ${duracion} minutos</p>
+            <p><strong>Actividades:</strong> Introducción (10 min), Desarrollo (40 min), Cierre (10 min).</p>
           </div>
         `;
       }, 1000);
+    }
+
+    // Cálculos Educativos
+    function toggleCalcInputs() {
+      const tipo = document.getElementById('calcTipo').value;
+      document.getElementById('calcInputContainer').classList.toggle('d-none', tipo !== 'Calculadora');
+      document.getElementById('gradesInputContainer').classList.toggle('d-none', tipo !== 'Calificaciones');
+    }
+
+    function calcular() {
+      const tipo = document.getElementById('calcTipo').value;
+      const resultDiv = document.getElementById('calcResult');
+
+      if (tipo === 'Calculadora') {
+        const input = document.getElementById('calcInput').value.trim();
+        if (!input) {
+          resultDiv.innerHTML = '<div class="alert alert-warning">Por favor, ingresa un cálculo.</div>';
+          return;
+        }
+        resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
+        setTimeout(() => {
+          try {
+            const resultado = math.evaluate(input);
+            resultDiv.innerHTML = `
+              <div class="alert alert-success">
+                <h5>Resultado:</h5>
+                <p>${resultado}</p>
+              </div>
+            `;
+          } catch (error) {
+            resultDiv.innerHTML = '<div class="alert alert-warning">Cálculo inválido. Revisa la expresión.</div>';
+          }
+        }, 1000);
+      } else {
+        const grades = document.getElementById('gradesInput').value.trim().split(',').map(n => parseFloat(n.trim()));
+        const scale = parseInt(document.getElementById('gradeScale').value);
+        if (!grades.length || grades.some(isNaN)) {
+          resultDiv.innerHTML = '<div class="alert alert-warning">Ingresa calificaciones válidas separadas por comas.</div>';
+          return;
+        }
+        resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
+        setTimeout(() => {
+          const promedio = grades.reduce((a, b) => a + b, 0) / grades.length;
+          let scaled = promedio;
+          if (scale === 10) scaled = promedio / 10;
+          if (scale === 5) scaled = promedio / 20;
+          resultDiv.innerHTML = `
+            <div class="alert alert-success">
+              <h5>Resultado:</h5>
+              <p>Promedio: ${promedio.toFixed(2)} (escala 0-100)</p>
+              <p>Promedio escalado (0-${scale}): ${scaled.toFixed(2)}</p>
+            </div>
+          `;
+        }, 1000);
+      }
+    }
+
+    // Cronómetro/Temporizador
+    let timerInterval;
+    function startTimer() {
+      const minutos = parseInt(document.getElementById('timerInput').value);
+      if (minutos < 1 || minutos > 60) {
+        document.getElementById('timerDisplay').innerHTML = '<div class="alert alert-warning">Ingresa un valor entre 1 y 60 minutos.</div>';
+        return;
+      }
+      let seconds = minutos * 60;
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        const min = Math.floor(seconds / 60);
+        const sec = seconds % 60;
+        document.getElementById('timerDisplay').textContent = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+        seconds--;
+        if (seconds < 0) {
+          clearInterval(timerInterval);
+          document.getElementById('timerDisplay').textContent = '00:00';
+          alert('¡Tiempo terminado!');
+        }
+      }, 1000);
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      document.getElementById('timerDisplay').textContent = '00:00';
+    }
+
+    // Conversor de Unidades
+    const unidades = {
+      Longitud: ['metros', 'kilómetros', 'centímetros', 'milímetros'],
+      Masa: ['kilogramos', 'gramos', 'toneladas'],
+      Temperatura: ['Celsius', 'Fahrenheit', 'Kelvin']
+    };
+
+    function updateUnidades() {
+      const tipo = document.getElementById('convTipo').value;
+      const deSelect = document.getElementById('convDe');
+      const aSelect = document.getElementById('convA');
+      deSelect.innerHTML = '';
+      aSelect.innerHTML = '';
+      unidades[tipo].forEach(u => {
+        deSelect.innerHTML += `<option value="${u}">${u}</option>`;
+        aSelect.innerHTML += `<option value="${u}">${u}</option>`;
+      });
+    }
+
+    document.getElementById('convTipo').addEventListener('change', updateUnidades);
+    updateUnidades();
+
+    function convertirUnidad() {
+      const tipo = document.getElementById('convTipo').value;
+      const de = document.getElementById('convDe').value;
+      const a = document.getElementById('convA').value;
+      const valor = parseFloat(document.getElementById('convValor').value);
+      const resultDiv = document.getElementById('convResult');
+
+      if (isNaN(valor)) {
+        resultDiv.innerHTML = '<div class="alert alert-warning">Ingresa un valor válido.</div>';
+        return;
+      }
+
+      resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
+
+      setTimeout(() => {
+        let resultado;
+        if (tipo === 'Longitud') {
+          const factores = { metros: 1, kilómetros: 1000, centímetros: 0.01, milímetros: 0.001 };
+          resultado = valor * factores[de] / factores[a];
+        } else if (tipo === 'Masa') {
+          const factores = { kilogramos: 1, gramos: 0.001, toneladas: 1000 };
+          resultado = valor * factores[de] / factores[a];
+        } else if (tipo === 'Temperatura') {
+          if (de === 'Celsius' && a === 'Fahrenheit') resultado = (valor * 9/5) + 32;
+          else if (de === 'Fahrenheit' && a === 'Celsius') resultado = (valor - 32) * 5/9;
+          else if (de === 'Celsius' && a === 'Kelvin') resultado = valor + 273.15;
+          else if (de === 'Kelvin' && a === 'Celsius') resultado = valor - 273.15;
+          else if (de === 'Fahrenheit' && a === 'Kelvin') resultado = (valor - 32) * 5/9 + 273.15;
+          else if (de === 'Kelvin' && a === 'Fahrenheit') resultado = (valor - 273.15) * 9/5 + 32;
+          else resultado = valor;
+        }
+        resultDiv.innerHTML = `
+          <div class="alert alert-success">
+            <h5>Resultado:</h5>
+            <p>${valor} ${de} = ${resultado.toFixed(2)} ${a}</p>
+          </div>
+        `;
+      }, 1000);
+    }
+
+    // Simulador de Experimentos
+    function simularExperimento() {
+      const tipo = document.getElementById('simTipo').value;
+      const resultDiv = document.getElementById('simResult');
+
+      resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
+
+      setTimeout(() => {
+        resultDiv.innerHTML = `
+          <div class="alert alert-success">
+            <h5>Simulación:</h5>
+            <p>Simulación de ${tipo}. Resultados: (descripción simulada).</p>
+          </div>
+        `;
+      }, 1000);
+    }
+
+    // Visor de Ecuaciones
+    function renderEcuacion() {
+      const input = document.getElementById('eqInput').value.trim();
+      const resultDiv = document.getElementById('eqResult');
+
+      if (!input) {
+        resultDiv.innerHTML = '<div class="alert alert-warning">Ingresa una ecuación válida.</div>';
+        return;
+      }
+
+      resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
+
+      setTimeout(() => {
+        try {
+          resultDiv.innerHTML = `
+            <div class="alert alert-success">
+              <h5>Ecuación:</h5>
+              <p>$$${input}$$</p>
+            </div>
+          `;
+          MathJax.typeset();
+        } catch (error) {
+          resultDiv.innerHTML = '<div class="alert alert-warning">Ecuación inválida. Revisa el formato LaTeX.</div>';
+        }
+      }, 1000);
+    }
+
+    // Grabador de Notas de Voz
+    let mediaRecorder;
+    let audioChunks = [];
+
+    async function startRecording() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+        mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+        mediaRecorder.onstop = () => {
+          const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+          const audioUrl = URL.createObjectURL(audioBlob);
+          document.getElementById('audioResult').innerHTML = `
+            <div class="alert alert-success">
+              <h5>Grabación:</h5>
+              <audio controls src="${audioUrl}"></audio>
+            </div>
+          `;
+        };
+        mediaRecorder.start();
+        document.getElementById('startRecord').disabled = true;
+        document.getElementById('stopRecord').disabled = false;
+      } catch (error) {
+        document.getElementById('audioResult').innerHTML = '<div class="alert alert-warning">Error al acceder al micrófono.</div>';
+      }
+    }
+
+    function stopRecording() {
+      mediaRecorder.stop();
+      document.getElementById('startRecord').disabled = false;
+      document.getElementById('stopRecord').disabled = true;
     }
 
     // Placeholder dinámico para el chat
@@ -521,25 +1019,22 @@
 
       if (!message) return;
 
-      // Añadir mensaje del usuario
       const userMessage = document.createElement('div');
       userMessage.className = 'chat-message user-message animate__animated animate__fadeInRight';
       userMessage.innerHTML = `<strong>Tú:</strong> ${message}`;
       chatContainer.appendChild(userMessage);
 
-      // Mostrar "Escribiendo..."
       const typingMessage = document.createElement('div');
       typingMessage.className = 'chat-message bot-message animate__animated animate__fadeInLeft';
       typingMessage.innerHTML = '<strong>IA:</strong> Escribiendo...';
       chatContainer.appendChild(typingMessage);
       chatContainer.scrollTop = chatContainer.scrollHeight;
 
-      // Respuesta simulada de la IA
       setTimeout(() => {
         chatContainer.removeChild(typingMessage);
         let response = '<strong>IA:</strong> Lo siento, no tengo una respuesta específica para eso. ¿Puedes dar más detalles?';
         const responses = {
-          '¿Cómo usar el generador de cuestionarios?': '<strong>IA:</strong> Ve a "IA Educativa", haz clic en "Probar ahora" en la tarjeta del generador, selecciona un tema (por ejemplo, "Matemáticas - Fracciones") y un nivel, luego presiona "Generar".',
+          '¿Cómo usar el generador de cuestionarios?': '<strong>IA:</strong> Ve a "IA y Herramientas", haz clic en "Probar ahora" en la tarjeta del generador, selecciona un tema (por ejemplo, "Matemáticas - Fracciones") y un nivel, luego presiona "Generar".',
           '¿Cómo cambiar el tema?': '<strong>IA:</strong> Haz clic en el ícono de luna o sol en la barra de navegación, a la izquierda de "Inicio".',
           '¿Dónde encontrar recursos?': '<strong>IA:</strong> En la sección "Recursos" puedes descargar plantillas, evaluaciones y presentaciones. También revisa "Biblioteca" para libros y artículos.',
           '¿Cómo buscar en la biblioteca?': '<strong>IA:</strong> En "Biblioteca", usa la barra de búsqueda para encontrar libros, artículos o guías. Prueba palabras como "matemáticas" o "historia".',
@@ -547,7 +1042,7 @@
           '¿Cómo descargar un recurso?': '<strong>IA:</strong> En "Recursos" o "Biblioteca", haz clic en el botón "Descargar" junto al recurso. Recibirás una confirmación simulada.',
           '¿Qué es el modo oscuro?': '<strong>IA:</strong> El modo oscuro cambia la interfaz a colores oscuros para mayor comodidad visual. Actívalo con el ícono de luna/sol en la barra de navegación.',
           '¿Cómo participar en un grupo de la comunidad?': '<strong>IA:</strong> En "Comunidad", selecciona un grupo en "Grupos de Interés" y haz clic en "Unirse". Recibirás una confirmación.',
-          '¿Cómo generar un plan de clase?': '<strong>IA:</strong> En "IA Educativa", usa el Asistente de Planificación, ingresa el tema, objetivos y duración, y haz clic en "Generar Plan".',
+          '¿Cómo generar un plan de clase?': '<strong>IA:</strong> En "IA y Herramientas", usa el Asistente de Planificación, ingresa el tema, objetivos y duración, y haz clic en "Generar Plan".',
           '¿Qué recursos hay en la biblioteca?': '<strong>IA:</strong> La biblioteca ofrece libros digitales (como "Historia Universal"), artículos académicos y guías (como "Matemáticas Básicas"). Usa la búsqueda para explorarlos.'
         };
 
@@ -558,7 +1053,6 @@
         botMessage.innerHTML = response;
         chatContainer.appendChild(botMessage);
 
-        // Limpiar input y desplazar chat
         userInput.value = '';
         chatContainer.scrollTop = chatContainer.scrollHeight;
       }, 1000);
@@ -577,6 +1071,5 @@
       setTimeout(() => feedback.innerHTML = '', 3000);
     }
   </script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
 </body>
 </html>
