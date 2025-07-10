@@ -712,445 +712,157 @@
   </div>
 
   <script src="bootstrap-5.3.6-dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    // Inicializar tooltips
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+<script src="ia-responses.js"></script>
+<script>
+  // Inicializar tooltips
+  const tooltipTriggerList = document.querySelectorAll('[title]');
+  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
-    // Alternar modo oscuro
-    document.getElementById('themeToggle').addEventListener('click', (e) => {
-      e.preventDefault();
-      document.body.classList.toggle('dark-mode');
-      const icon = document.querySelector('#themeToggle i');
-      if (document.body.classList.contains('dark-mode')) {
-        icon.classList.remove('bi-moon-stars-fill');
-        icon.classList.add('bi-sun-fill');
-      } else {
-        icon.classList.remove('bi-sun-fill');
-        icon.classList.add('bi-moon-stars-fill');
-      }
-      localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
-    });
-
-    // Cargar tema guardado
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark-mode');
-      document.querySelector('#themeToggle i').classList.remove('bi-moon-stars-fill');
-      document.querySelector('#themeToggle i').classList.add('bi-sun-fill');
+  // Alternar modo oscuro
+  document.getElementById('themeToggle').addEventListener('click', (e) => {
+    e.preventDefault();
+    document.body.classList.toggle('dark-mode');
+    const icon = document.querySelector('#themeToggle i');
+    if (document.body.classList.contains('dark-mode')) {
+      icon.classList.remove('bi-moon-stars-fill');
+      icon.classList.add('bi-sun-fill');
+    } else {
+      icon.classList.remove('bi-sun-fill');
+      icon.classList.add('bi-moon-stars-fill');
     }
+    localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+  });
 
-    // Mostrar botón de volver arriba
-    window.addEventListener('scroll', () => {
-      const button = document.getElementById('botonVolverArriba');
+  // Cargar tema guardado
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+    document.querySelector('#themeToggle i').classList.remove('bi-moon-stars-fill');
+    document.querySelector('#themeToggle i').classList.add('bi-sun-fill');
+  }
+
+  // Mostrar botón de volver arriba
+  window.addEventListener('scroll', () => {
+    const button = document.getElementById('botonVolverArriba');
+    if (button) {
       if (window.scrollY > 300) {
         button.style.display = 'flex';
       } else {
         button.style.display = 'none';
       }
-    });
-
-    // Generar cuestionario
-    function generateQuiz() {
-      const tema = document.getElementById('quizTema').value.trim();
-      const nivel = document.getElementById('quizNivel').value;
-      const numPreguntas = parseInt(document.getElementById('quizPreguntas').value);
-      const resultDiv = document.getElementById('quizResult');
-
-      if (!tema || numPreguntas < 1 || numPreguntas > 20) {
-        resultDiv.innerHTML = '<div class="alert alert-warning">Por favor, ingresa un tema válido y un número de preguntas entre 1 y 20.</div>';
-        return;
-      }
-
-      resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
-
-      setTimeout(() => {
-        let html = '<div class="alert alert-success"><h5>Cuestionario generado:</h5><ol>';
-        for (let i = 1; i <= numPreguntas; i++) {
-          html += `<li>Pregunta ${i} sobre ${tema} (${nivel}) <button class="btn btn-outline-primary btn-sm" onclick="showAnswer(${i})">Ver respuesta</button><div id="answer${i}" class="mt-2" style="display:none;">Respuesta simulada para la pregunta ${i}.</div></li>`;
-        }
-        html += '</ol></div>';
-        resultDiv.innerHTML = html;
-      }, 1000);
     }
+  });
 
-    // Generar pregunta aleatoria
-    function generateRandomQuestion() {
-      const tema = document.getElementById('quizTema').value.trim() || 'General';
-      const nivel = document.getElementById('quizNivel').value;
-      const resultDiv = document.getElementById('quizResult');
-
-      resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
-
-      setTimeout(() => {
-        resultDiv.innerHTML = `
-          <div class="alert alert-success">
-            <h5>Pregunta aleatoria:</h5>
-            <p>Pregunta sobre ${tema} (${nivel})</p>
-            <button class="btn btn-outline-primary btn-sm" onclick="showRandomAnswer()">Ver respuesta</button>
-            <div id="randomAnswer" class="mt-2" style="display:none;">Respuesta simulada para la pregunta aleatoria.</div>
-          </div>
-        `;
-      }, 1000);
-    }
-
-    function showRandomAnswer() {
-      document.getElementById('randomAnswer').style.display = 'block';
-    }
-
-    function showAnswer(index) {
-      document.getElementById(`answer${index}`).style.display = 'block';
-    }
-
-    // Corregir texto
-    function correctText() {
-      const text = document.getElementById('correctorInput').value.trim();
-      const resultDiv = document.getElementById('correctorResult');
-
-      if (!text) {
-        resultDiv.innerHTML = '<div class="alert alert-warning">Por favor, ingresa un texto para corregir.</div>';
-        return;
-      }
-
-      resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
-
-      setTimeout(() => {
-        resultDiv.innerHTML = `
-          <div class="alert alert-success">
-            <h5>Corrección:</h5>
-            <p>Texto corregido: ${text.replace(/[.,!?]/g, '')} (simulación).</p>
-          </div>
-        `;
-      }, 1000);
-    }
-
-    // Generar plan de clase
-    function generatePlan() {
-      const tema = document.getElementById('planTema').value.trim();
-      const objetivos = document.getElementById('planObjetivos').value.trim();
-      const duracion = parseInt(document.getElementById('planDuracion').value);
-      const resultDiv = document.getElementById('planResult');
-
-      if (!tema || !objetivos || duracion < 30 || duracion > 120) {
-        resultDiv.innerHTML = '<div class="alert alert-warning">Por favor, completa todos los campos con valores válidos.</div>';
-        return;
-      }
-
-      resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
-
-      setTimeout(() => {
-        resultDiv.innerHTML = `
-          <div class="alert alert-success">
-            <h5>Plan de clase:</h5>
-            <p><strong>Tema:</strong> ${tema}</p>
-            <p><strong>Objetivos:</strong> ${objetivos}</p>
-            <p><strong>Duración:</strong> ${duracion} minutos</p>
-            <p><strong>Actividades:</strong> Introducción (10 min), Desarrollo (40 min), Cierre (10 min).</p>
-          </div>
-        `;
-      }, 1000);
-    }
-
-    // Cálculos Educativos
-    function toggleCalcInputs() {
-      const tipo = document.getElementById('calcTipo').value;
-      document.getElementById('calcInputContainer').classList.toggle('d-none', tipo !== 'Calculadora');
-      document.getElementById('gradesInputContainer').classList.toggle('d-none', tipo !== 'Calificaciones');
-    }
-
-    function calcular() {
-      const tipo = document.getElementById('calcTipo').value;
-      const resultDiv = document.getElementById('calcResult');
-
-      if (tipo === 'Calculadora') {
-        const input = document.getElementById('calcInput').value.trim();
-        if (!input) {
-          resultDiv.innerHTML = '<div class="alert alert-warning">Por favor, ingresa un cálculo.</div>';
-          return;
-        }
-        resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
-        setTimeout(() => {
-          try {
-            const resultado = math.evaluate(input);
-            resultDiv.innerHTML = `
-              <div class="alert alert-success">
-                <h5>Resultado:</h5>
-                <p>${resultado}</p>
-              </div>
-            `;
-          } catch (error) {
-            resultDiv.innerHTML = '<div class="alert alert-warning">Cálculo inválido. Revisa la expresión.</div>';
-          }
-        }, 1000);
-      } else {
-        const grades = document.getElementById('gradesInput').value.trim().split(',').map(n => parseFloat(n.trim()));
-        const scale = parseInt(document.getElementById('gradeScale').value);
-        if (!grades.length || grades.some(isNaN)) {
-          resultDiv.innerHTML = '<div class="alert alert-warning">Ingresa calificaciones válidas separadas por comas.</div>';
-          return;
-        }
-        resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
-        setTimeout(() => {
-          const promedio = grades.reduce((a, b) => a + b, 0) / grades.length;
-          let scaled = promedio;
-          if (scale === 10) scaled = promedio / 10;
-          if (scale === 5) scaled = promedio / 20;
-          resultDiv.innerHTML = `
-            <div class="alert alert-success">
-              <h5>Resultado:</h5>
-              <p>Promedio: ${promedio.toFixed(2)} (escala 0-100)</p>
-              <p>Promedio escalado (0-${scale}): ${scaled.toFixed(2)}</p>
-            </div>
-          `;
-        }, 1000);
-      }
-    }
-
-    // Cronómetro/Temporizador
-    let timerInterval;
-    function startTimer() {
-      const minutos = parseInt(document.getElementById('timerInput').value);
-      if (minutos < 1 || minutos > 60) {
-        document.getElementById('timerDisplay').innerHTML = '<div class="alert alert-warning">Ingresa un valor entre 1 y 60 minutos.</div>';
-        return;
-      }
-      let seconds = minutos * 60;
-      clearInterval(timerInterval);
-      timerInterval = setInterval(() => {
-        const min = Math.floor(seconds / 60);
-        const sec = seconds % 60;
-        document.getElementById('timerDisplay').textContent = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
-        seconds--;
-        if (seconds < 0) {
-          clearInterval(timerInterval);
-          document.getElementById('timerDisplay').textContent = '00:00';
-          alert('¡Tiempo terminado!');
-        }
-      }, 1000);
-    }
-
-    function resetTimer() {
-      clearInterval(timerInterval);
-      document.getElementById('timerDisplay').textContent = '00:00';
-    }
-
-    // Conversor de Unidades
-    const unidades = {
-      Longitud: ['metros', 'kilómetros', 'centímetros', 'milímetros'],
-      Masa: ['kilogramos', 'gramos', 'toneladas'],
-      Temperatura: ['Celsius', 'Fahrenheit', 'Kelvin']
-    };
-
-    function updateUnidades() {
-      const tipo = document.getElementById('convTipo').value;
-      const deSelect = document.getElementById('convDe');
-      const aSelect = document.getElementById('convA');
-      deSelect.innerHTML = '';
-      aSelect.innerHTML = '';
-      unidades[tipo].forEach(u => {
-        deSelect.innerHTML += `<option value="${u}">${u}</option>`;
-        aSelect.innerHTML += `<option value="${u}">${u}</option>`;
-      });
-    }
-
-    document.getElementById('convTipo').addEventListener('change', updateUnidades);
-    updateUnidades();
-
-    function convertirUnidad() {
-      const tipo = document.getElementById('convTipo').value;
-      const de = document.getElementById('convDe').value;
-      const a = document.getElementById('convA').value;
-      const valor = parseFloat(document.getElementById('convValor').value);
-      const resultDiv = document.getElementById('convResult');
-
-      if (isNaN(valor)) {
-        resultDiv.innerHTML = '<div class="alert alert-warning">Ingresa un valor válido.</div>';
-        return;
-      }
-
-      resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
-
-      setTimeout(() => {
-        let resultado;
-        if (tipo === 'Longitud') {
-          const factores = { metros: 1, kilómetros: 1000, centímetros: 0.01, milímetros: 0.001 };
-          resultado = valor * factores[de] / factores[a];
-        } else if (tipo === 'Masa') {
-          const factores = { kilogramos: 1, gramos: 0.001, toneladas: 1000 };
-          resultado = valor * factores[de] / factores[a];
-        } else if (tipo === 'Temperatura') {
-          if (de === 'Celsius' && a === 'Fahrenheit') resultado = (valor * 9/5) + 32;
-          else if (de === 'Fahrenheit' && a === 'Celsius') resultado = (valor - 32) * 5/9;
-          else if (de === 'Celsius' && a === 'Kelvin') resultado = valor + 273.15;
-          else if (de === 'Kelvin' && a === 'Celsius') resultado = valor - 273.15;
-          else if (de === 'Fahrenheit' && a === 'Kelvin') resultado = (valor - 32) * 5/9 + 273.15;
-          else if (de === 'Kelvin' && a === 'Fahrenheit') resultado = (valor - 273.15) * 9/5 + 32;
-          else resultado = valor;
-        }
-        resultDiv.innerHTML = `
-          <div class="alert alert-success">
-            <h5>Resultado:</h5>
-            <p>${valor} ${de} = ${resultado.toFixed(2)} ${a}</p>
-          </div>
-        `;
-      }, 1000);
-    }
-
-    // Simulador de Experimentos
-    function simularExperimento() {
-      const tipo = document.getElementById('simTipo').value;
-      const resultDiv = document.getElementById('simResult');
-
-      resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
-
-      setTimeout(() => {
-        resultDiv.innerHTML = `
-          <div class="alert alert-success">
-            <h5>Simulación:</h5>
-            <p>Simulación de ${tipo}. Resultados: (descripción simulada).</p>
-          </div>
-        `;
-      }, 1000);
-    }
-
-    // Visor de Ecuaciones
-    function renderEcuacion() {
-      const input = document.getElementById('eqInput').value.trim();
-      const resultDiv = document.getElementById('eqResult');
-
-      if (!input) {
-        resultDiv.innerHTML = '<div class="alert alert-warning">Ingresa una ecuación válida.</div>';
-        return;
-      }
-
-      resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
-
-      setTimeout(() => {
-        try {
-          resultDiv.innerHTML = `
-            <div class="alert alert-success">
-              <h5>Ecuación:</h5>
-              <p>$$${input}$$</p>
-            </div>
-          `;
-          MathJax.typeset();
-        } catch (error) {
-          resultDiv.innerHTML = '<div class="alert alert-warning">Ecuación inválida. Revisa el formato LaTeX.</div>';
-        }
-      }, 1000);
-    }
-
-    // Grabador de Notas de Voz
-    let mediaRecorder;
-    let audioChunks = [];
-
-    async function startRecording() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        mediaRecorder = new MediaRecorder(stream);
-        audioChunks = [];
-        mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-        mediaRecorder.onstop = () => {
-          const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-          const audioUrl = URL.createObjectURL(audioBlob);
-          document.getElementById('audioResult').innerHTML = `
-            <div class="alert alert-success">
-              <h5>Grabación:</h5>
-              <audio controls src="${audioUrl}"></audio>
-            </div>
-          `;
-        };
-        mediaRecorder.start();
-        document.getElementById('startRecord').disabled = true;
-        document.getElementById('stopRecord').disabled = false;
-      } catch (error) {
-        document.getElementById('audioResult').innerHTML = '<div class="alert alert-warning">Error al acceder al micrófono.</div>';
-      }
-    }
-
-    function stopRecording() {
-      mediaRecorder.stop();
-      document.getElementById('startRecord').disabled = false;
-      document.getElementById('stopRecord').disabled = true;
-    }
-
-    // Placeholder dinámico para el chat
-    const placeholders = [
-      'Pregunta cómo usar el generador...',
-      'Consulta dónde encontrar recursos...',
-      'Escribe cómo unirme a un foro...'
-    ];
-    let placeholderIndex = 0;
-    const userInput = document.getElementById('userInput');
+  // Placeholder dinámico para el chat
+  const placeholders = [
+    'Pregunta cómo generar un cuestionario...',
+    'Consulta cómo crear un plan de clase...',
+    'Escribe cómo usar herramientas de IA...'
+  ];
+  let placeholderIndex = 0;
+  const userInput = document.getElementById('userInput');
+  if (userInput) {
     setInterval(() => {
       userInput.placeholder = placeholders[placeholderIndex];
       placeholderIndex = (placeholderIndex + 1) % placeholders.length;
     }, 3000);
+  }
 
-    // Seleccionar pregunta del menú desplegable
-    function selectQuestion(question) {
-      userInput.value = question;
-      sendMessage();
-    }
+  // Seleccionar pregunta del menú desplegable
+  function selectQuestion(question) {
+    console.log('selectQuestion called with:', question); // Depuración
+    const userInput = document.getElementById('userInput');
+    userInput.value = question;
+    sendMessage();
+  }
 
-    // Chat con IA
-    function sendMessage() {
-      const userInput = document.getElementById('userInput');
-      const chatContainer = document.getElementById('chatContainer');
-      const message = userInput.value.trim();
+  // Chat con IA
+  function sendMessage() {
+    const userInput = document.getElementById('userInput');
+    const chatContainer = document.getElementById('chatContainer');
+    const message = userInput.value.trim();
+    const page = window.location.pathname.split('/').pop() || 'index.html';
 
-      if (!message) return;
+    if (!message) return;
 
-      const userMessage = document.createElement('div');
-      userMessage.className = 'chat-message user-message animate__animated animate__fadeInRight';
-      userMessage.innerHTML = `<strong>Tú:</strong> ${message}`;
-      chatContainer.appendChild(userMessage);
+    const userMessage = document.createElement('div');
+    userMessage.className = 'chat-message user-message animate__animated animate__fadeInRight';
+    userMessage.innerHTML = `<strong>Tú:</strong> ${message}`;
+    chatContainer.appendChild(userMessage);
 
-      const typingMessage = document.createElement('div');
-      typingMessage.className = 'chat-message bot-message animate__animated animate__fadeInLeft';
-      typingMessage.innerHTML = '<strong>IA:</strong> Escribiendo...';
-      chatContainer.appendChild(typingMessage);
+    const typingMessage = document.createElement('div');
+    typingMessage.className = 'chat-message bot-message animate__animated animate__fadeInLeft';
+    typingMessage.innerHTML = '<strong>IA:</strong> Escribiendo<span class="typing"></span>';
+    chatContainer.appendChild(typingMessage);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+
+    setTimeout(() => {
+      chatContainer.removeChild(typingMessage);
+      const response = getResponse(message, page);
+
+      const botMessage = document.createElement('div');
+      botMessage.className = 'chat-message bot-message animate__animated animate__fadeInLeft';
+      botMessage.innerHTML = response;
+      chatContainer.appendChild(botMessage);
+
+      userInput.value = '';
       chatContainer.scrollTop = chatContainer.scrollHeight;
+    }, 1000);
+  }
 
-      setTimeout(() => {
-        chatContainer.removeChild(typingMessage);
-        let response = '<strong>IA:</strong> Lo siento, no tengo una respuesta específica para eso. ¿Puedes dar más detalles?';
-        const responses = {
-          '¿Cómo usar el generador de cuestionarios?': '<strong>IA:</strong> Ve a "IA y Herramientas", haz clic en "Probar ahora" en la tarjeta del generador, selecciona un tema (por ejemplo, "Matemáticas - Fracciones") y un nivel, luego presiona "Generar".',
-          '¿Cómo cambiar el tema?': '<strong>IA:</strong> Haz clic en el ícono de luna o sol en la barra de navegación, a la izquierda de "Inicio".',
-          '¿Dónde encontrar recursos?': '<strong>IA:</strong> En la sección "Recursos" puedes descargar plantillas, evaluaciones y presentaciones. También revisa "Biblioteca" para libros y artículos.',
-          '¿Cómo buscar en la biblioteca?': '<strong>IA:</strong> En "Biblioteca", usa la barra de búsqueda para encontrar libros, artículos o guías. Prueba palabras como "matemáticas" o "historia".',
-          '¿Cómo unirme a un foro?': '<strong>IA:</strong> En "Comunidad", haz clic en "Ver grupos" o "Explorar foros" y selecciona un grupo o foro para participar.',
-          '¿Cómo descargar un recurso?': '<strong>IA:</strong> En "Recursos" o "Biblioteca", haz clic en el botón "Descargar" junto al recurso. Recibirás una confirmación simulada.',
-          '¿Qué es el modo oscuro?': '<strong>IA:</strong> El modo oscuro cambia la interfaz a colores oscuros para mayor comodidad visual. Actívalo con el ícono de luna/sol en la barra de navegación.',
-          '¿Cómo participar en un grupo de la comunidad?': '<strong>IA:</strong> En "Comunidad", selecciona un grupo en "Grupos de Interés" y haz clic en "Unirse". Recibirás una confirmación.',
-          '¿Cómo generar un plan de clase?': '<strong>IA:</strong> En "IA y Herramientas", usa el Asistente de Planificación, ingresa el tema, objetivos y duración, y haz clic en "Generar Plan".',
-          '¿Qué recursos hay en la biblioteca?': '<strong>IA:</strong> La biblioteca ofrece libros digitales (como "Historia Universal"), artículos académicos y guías (como "Matemáticas Básicas"). Usa la búsqueda para explorarlos.'
-        };
-
-        response = responses[message] || response;
-
-        const botMessage = document.createElement('div');
-        botMessage.className = 'chat-message bot-message animate__animated animate__fadeInLeft';
-        botMessage.innerHTML = response;
-        chatContainer.appendChild(botMessage);
-
-        userInput.value = '';
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-      }, 1000);
+  // Enviar mensaje de asistencia
+  function submitAsistencia() {
+    const asistenciaInput = document.getElementById('asistenciaInput');
+    const feedback = document.getElementById('asistenciaFeedback');
+    if (!asistenciaInput.value.trim()) {
+      feedback.innerHTML = '<div class="alert alert-warning">Por favor, escribe una consulta.</div>';
+      return;
     }
+    feedback.innerHTML = '<div class="alert alert-success">Mensaje enviado. Un representante te contactará pronto.</div>';
+    asistenciaInput.value = '';
+    setTimeout(() => feedback.innerHTML = '', 3000);
+  }
 
-    // Enviar mensaje de asistencia
-    function submitAsistencia() {
-      const asistenciaInput = document.getElementById('asistenciaInput');
-      const feedback = document.getElementById('asistenciaFeedback');
-      if (!asistenciaInput.value.trim()) {
-        feedback.innerHTML = '<div class="alert alert-warning">Por favor, escribe una consulta.</div>';
-        return;
-      }
-      feedback.innerHTML = '<div class="alert alert-success">Mensaje enviado. Un representante te contactará pronto.</div>';
-      asistenciaInput.value = '';
-      setTimeout(() => feedback.innerHTML = '', 3000);
+  // Generar cuestionario (función existente, sin cambios)
+  function generateQuiz() {
+    const feedback = document.createElement('div');
+    feedback.className = 'alert alert-success mt-3 animate__animated animate__fadeIn';
+    feedback.innerHTML = '¡Cuestionario generado! (Simulación)';
+    document.querySelector('.container').appendChild(feedback);
+    setTimeout(() => feedback.remove(), 3000);
+  }
+
+  // Generar plan de clase (función existente, sin cambios)
+  function generatePlan() {
+    const feedback = document.createElement('div');
+    feedback.className = 'alert alert-success mt-3 animate__animated animate__fadeIn';
+    feedback.innerHTML = '¡Plan de clase generado! (Simulación)';
+    document.querySelector('.container').appendChild(feedback);
+    setTimeout(() => feedback.remove(), 3000);
+  }
+
+  // Actualizar sugerencias y manejar clics con delegación de eventos
+  window.addEventListener('load', () => {
+    console.log('Window loaded, initializing suggestions'); // Depuración
+    updateSuggestions();
+    const dropdown = document.querySelector('.dropdown-menu');
+    if (dropdown) {
+      dropdown.addEventListener('click', (e) => {
+        const item = e.target.closest('.dropdown-item');
+        if (item) {
+          e.preventDefault();
+          const question = item.getAttribute('data-question');
+          console.log('Dropdown item clicked with question:', question); // Depuración
+          if (question) {
+            selectQuestion(question);
+          } else {
+            console.error('No data-question attribute found on dropdown item');
+          }
+        }
+      });
+    } else {
+      console.error('Dropdown menu not found on load');
     }
-  </script>
+  });
+</script>
 </body>
 </html>

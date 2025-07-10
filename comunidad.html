@@ -542,130 +542,160 @@
   </div>
 
   <script src="bootstrap-5.3.6-dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    // Inicializar tooltips
-    const tooltipTriggerList = document.querySelectorAll('[title]');
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+<script src="ia-responses.js"></script>
+<script>
+  // Inicializar tooltips
+  const tooltipTriggerList = document.querySelectorAll('[title]');
+  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
-    // Alternar modo oscuro
-    document.getElementById('themeToggle').addEventListener('click', (e) => {
-      e.preventDefault();
-      document.body.classList.toggle('dark-mode');
-      const icon = document.querySelector('#themeToggle i');
-      if (document.body.classList.contains('dark-mode')) {
-        icon.classList.remove('bi-moon-stars-fill');
-        icon.classList.add('bi-sun-fill');
-      } else {
-        icon.classList.remove('bi-sun-fill');
-        icon.classList.add('bi-moon-stars-fill');
-      }
-      localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
-    });
-
-    // Cargar tema guardado
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark-mode');
-      document.querySelector('#themeToggle i').classList.remove('bi-moon-stars-fill');
-      document.querySelector('#themeToggle i').classList.add('bi-sun-fill');
+  // Alternar modo oscuro
+  document.getElementById('themeToggle').addEventListener('click', (e) => {
+    e.preventDefault();
+    document.body.classList.toggle('dark-mode');
+    const icon = document.querySelector('#themeToggle i');
+    if (document.body.classList.contains('dark-mode')) {
+      icon.classList.remove('bi-moon-stars-fill');
+      icon.classList.add('bi-sun-fill');
+    } else {
+      icon.classList.remove('bi-sun-fill');
+      icon.classList.add('bi-moon-stars-fill');
     }
+    localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+  });
 
-    // Mostrar botón de volver arriba
-    window.addEventListener('scroll', () => {
-      const button = document.getElementById('botonVolverArriba');
+  // Cargar tema guardado
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+    document.querySelector('#themeToggle i').classList.remove('bi-moon-stars-fill');
+    document.querySelector('#themeToggle i').classList.add('bi-sun-fill');
+  }
+
+  // Mostrar botón de volver arriba
+  window.addEventListener('scroll', () => {
+    const button = document.getElementById('botonVolverArriba');
+    if (button) {
       if (window.scrollY > 300) {
         button.style.display = 'flex';
       } else {
         button.style.display = 'none';
       }
-    });
-
-    // Unirse a un grupo
-    function joinGroup(groupName) {
-      const feedback = document.createElement('div');
-      feedback.className = 'alert alert-success mt-3 animate__animated animate__fadeIn';
-      feedback.innerHTML = `¡Te has unido al grupo "${groupName}"!`;
-      document.querySelector('.container').appendChild(feedback);
-      setTimeout(() => feedback.remove(), 3000);
     }
+  });
 
-    // Placeholder dinámico para el chat
-    const placeholders = [
-      'Pregunta cómo usar el generador...',
-      'Consulta dónde encontrar recursos...',
-      'Escribe cómo unirme a un foro...'
-    ];
-    let placeholderIndex = 0;
-    const userInput = document.getElementById('userInput');
+  // Placeholder dinámico para el chat
+  const placeholders = [
+    'Pregunta cómo encontrar un foro...',
+    'Consulta cómo compartir ideas...',
+    'Escribe cómo unirte a un grupo...'
+  ];
+  let placeholderIndex = 0;
+  const userInput = document.getElementById('userInput');
+  if (userInput) {
     setInterval(() => {
       userInput.placeholder = placeholders[placeholderIndex];
       placeholderIndex = (placeholderIndex + 1) % placeholders.length;
     }, 3000);
+  }
 
-    // Seleccionar pregunta del menú desplegable
-    function selectQuestion(question) {
-      userInput.value = question;
-      sendMessage();
-    }
+  // Seleccionar pregunta del menú desplegable
+  function selectQuestion(question) {
+    console.log('selectQuestion called with:', question); // Depuración
+    const userInput = document.getElementById('userInput');
+    userInput.value = question;
+    sendMessage();
+  }
 
-    // Chat con IA
-    function sendMessage() {
-      const userInput = document.getElementById('userInput');
-      const chatContainer = document.getElementById('chatContainer');
-      const message = userInput.value.trim();
+  // Chat con IA
+  function sendMessage() {
+    const userInput = document.getElementById('userInput');
+    const chatContainer = document.getElementById('chatContainer');
+    const message = userInput.value.trim();
+    const page = window.location.pathname.split('/').pop() || 'index.html';
 
-      if (!message) return;
+    if (!message) return;
 
-      const userMessage = document.createElement('div');
-      userMessage.className = 'chat-message user-message animate__animated animate__fadeInRight';
-      userMessage.innerHTML = `<strong>Tú:</strong> ${message}`;
-      chatContainer.appendChild(userMessage);
+    const userMessage = document.createElement('div');
+    userMessage.className = 'chat-message user-message animate__animated animate__fadeInRight';
+    userMessage.innerHTML = `<strong>Tú:</strong> ${message}`;
+    chatContainer.appendChild(userMessage);
 
-      const typingMessage = document.createElement('div');
-      typingMessage.className = 'chat-message bot-message animate__animated animate__fadeInLeft';
-      typingMessage.innerHTML = '<strong>IA:</strong> Escribiendo...';
-      chatContainer.appendChild(typingMessage);
+    const typingMessage = document.createElement('div');
+    typingMessage.className = 'chat-message bot-message animate__animated animate__fadeInLeft';
+    typingMessage.innerHTML = '<strong>IA:</strong> Escribiendo<span class="typing"></span>';
+    chatContainer.appendChild(typingMessage);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+
+    setTimeout(() => {
+      chatContainer.removeChild(typingMessage);
+      const response = getResponse(message, page);
+
+      const botMessage = document.createElement('div');
+      botMessage.className = 'chat-message bot-message animate__animated animate__fadeInLeft';
+      botMessage.innerHTML = response;
+      chatContainer.appendChild(botMessage);
+
+      userInput.value = '';
       chatContainer.scrollTop = chatContainer.scrollHeight;
+    }, 1000);
+  }
 
-      setTimeout(() => {
-        chatContainer.removeChild(typingMessage);
-        let response = '<strong>IA:</strong> Lo siento, no tengo una respuesta específica para eso. ¿Puedes dar más detalles?';
-        const responses = {
-          '¿Cómo usar el generador de cuestionarios?': '<strong>IA:</strong> Ve a "IA y Herramientas", haz clic en "Probar ahora" en la tarjeta del generador, selecciona un tema (por ejemplo, "Matemáticas - Fracciones") y un nivel, luego presiona "Generar".',
-          '¿Cómo cambiar el tema?': '<strong>IA:</strong> Haz clic en el ícono de luna o sol en la barra de navegación, a la izquierda de "Inicio".',
-          '¿Dónde encontrar recursos?': '<strong>IA:</strong> En la sección "Recursos" puedes descargar plantillas, evaluaciones y presentaciones. También revisa "Biblioteca" para libros y artículos.',
-          '¿Cómo buscar en la biblioteca?': '<strong>IA:</strong> En "Biblioteca", usa la barra de búsqueda para encontrar libros, artículos o guías. Prueba palabras como "matemáticas" o "historia".',
-          '¿Cómo unirme a un foro?': '<strong>IA:</strong> En "Comunidad", haz clic en "Ver Foro" en uno de los foros de "Explorar Foros" para participar.',
-          '¿Cómo descargar un recurso?': '<strong>IA:</strong> En "Recursos" o "Biblioteca", haz clic en el botón "Descargar" junto al recurso. Recibirás una confirmación simulada.',
-          '¿Qué es el modo oscuro?': '<strong>IA:</strong> El modo oscuro cambia la interfaz a colores oscuros para mayor comodidad visual. Actívalo con el ícono de luna/sol en la barra de navegación.',
-          '¿Cómo participar en un grupo de la comunidad?': '<strong>IA:</strong> En "Comunidad", selecciona un grupo en "Grupos de Interés" y haz clic en "Unirse". Recibirás una confirmación.',
-          '¿Cómo generar un plan de clase?': '<strong>IA:</strong> En "IA y Herramientas", usa el Asistente de Planificación, ingresa el tema, objetivos y duración, y haz clic en "Generar Plan".',
-          '¿Qué recursos hay en la biblioteca?': '<strong>IA:</strong> La biblioteca ofrece libros digitales (como "Historia Universal"), artículos académicos y guías (como "Matemáticas Básicas"). Usa la búsqueda para explorarlos.'
-        };
-
-        response = responses[message] || response;
-
-        const botMessage = document.createElement('div');
-        botMessage.className = 'chat-message bot-message animate__animated animate__fadeInLeft';
-        botMessage.innerHTML = response;
-        chatContainer.appendChild(botMessage);
-
-        userInput.value = '';
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-      }, 1000);
+  // Enviar mensaje de asistencia
+  function submitAsistencia() {
+    const asistenciaInput = document.getElementById('asistenciaInput');
+    const feedback = document.getElementById('asistenciaFeedback');
+    if (!asistenciaInput.value.trim()) {
+      feedback.innerHTML = '<div class="alert alert-warning">Por favor, escribe una consulta.</div>';
+      return;
     }
+    feedback.innerHTML = '<div class="alert alert-success">Mensaje enviado. Un representante te contactará pronto.</div>';
+    asistenciaInput.value = '';
+    setTimeout(() => feedback.innerHTML = '', 3000);
+  }
 
-    // Enviar mensaje de asistencia
-    function submitAsistencia() {
-      const asistenciaInput = document.getElementById('asistenciaInput');
-      const feedback = document.getElementById('asistenciaFeedback');
-      if (!asistenciaInput.value.trim()) {
-        feedback.innerHTML = '<div class="alert alert-warning">Por favor, escribe una consulta.</div>';
-        return;
-      }
-      feedback.innerHTML = '<div class="alert alert-success">Mensaje enviado. Un representante te contactará pronto.</div>';
-      asistenciaInput.value = '';
-      setTimeout(() => feedback.innerHTML = '', 3000);
+  // Buscar foros (función existente, sin cambios)
+  function searchForums() {
+    const searchInput = document.getElementById('searchInput');
+    const feedback = document.getElementById('searchFeedback');
+    if (!searchInput.value.trim()) {
+      feedback.innerHTML = '<div class="alert alert-warning">Por favor, escribe un término de búsqueda.</div>';
+      return;
     }
-  </script>
+    feedback.innerHTML = `<div class="alert alert-success">Resultados para "${searchInput.value}" (simulación).</div>`;
+    setTimeout(() => feedback.innerHTML = '', 3000);
+  }
+
+  // Unirse a un grupo (función existente, sin cambios)
+  function joinGroup(groupName) {
+    const feedback = document.createElement('div');
+    feedback.className = 'alert alert-success mt-3 animate__animated animate__fadeIn';
+    feedback.innerHTML = `¡Te has unido a "${groupName}"! (Simulación)`;
+    document.querySelector('.container').appendChild(feedback);
+    setTimeout(() => feedback.remove(), 3000);
+  }
+
+  // Actualizar sugerencias y manejar clics con delegación de eventos
+  window.addEventListener('load', () => {
+    console.log('Window loaded, initializing suggestions'); // Depuración
+    updateSuggestions();
+    const dropdown = document.querySelector('.dropdown-menu');
+    if (dropdown) {
+      dropdown.addEventListener('click', (e) => {
+        const item = e.target.closest('.dropdown-item');
+        if (item) {
+          e.preventDefault();
+          const question = item.getAttribute('data-question');
+          console.log('Dropdown item clicked with question:', question); // Depuración
+          if (question) {
+            selectQuestion(question);
+          } else {
+            console.error('No data-question attribute found on dropdown item');
+          }
+        }
+      });
+    } else {
+      console.error('Dropdown menu not found on load');
+    }
+  });
+</script>
 </body>
 </html>

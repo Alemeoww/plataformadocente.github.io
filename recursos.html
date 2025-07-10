@@ -224,6 +224,16 @@
     .dark-mode .filter-bar button:hover {
       background: #2563eb;
     }
+    /* Efecto de escritura para el chat */
+    .typing::after {
+      content: '...';
+      animation: dots 1s steps(3, end) infinite;
+    }
+    @keyframes dots {
+      0% { content: '.'; }
+      33% { content: '..'; }
+      66% { content: '...'; }
+    }
   </style>
 </head>
 <body>
@@ -478,16 +488,7 @@
               <i class="bi bi-list"></i>
             </button>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Cómo usar el generador de cuestionarios?')">¿Cómo usar el generador de cuestionarios?</a></li>
-              <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Cómo cambiar el tema?')">¿Cómo cambiar el tema?</a></li>
-              <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Dónde encontrar recursos?')">¿Dónde encontrar recursos?</a></li>
-              <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Cómo buscar en la biblioteca?')">¿Cómo buscar en la biblioteca?</a></li>
-              <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Cómo unirme a un foro?')">¿Cómo unirme a un foro?</a></li>
-              <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Cómo descargar un recurso?')">¿Cómo descargar un recurso?</a></li>
-              <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Qué es el modo oscuro?')">¿Qué es el modo oscuro?</a></li>
-              <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Cómo participar en un grupo de la comunidad?')">¿Cómo participar en un grupo de la comunidad?</a></li>
-              <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Cómo generar un plan de clase?')">¿Cómo generar un plan de clase?</a></li>
-              <li><a class="dropdown-item" href="#" onclick="selectQuestion('¿Qué recursos hay en la biblioteca?')">¿Qué recursos hay en la biblioteca?</a></li>
+              <!-- Las sugerencias se llenan dinámicamente con ia-responses.js -->
             </ul>
             <button class="btn btn-primary" onclick="sendMessage()" title="Enviar pregunta">Enviar</button>
           </div>
@@ -523,6 +524,7 @@
   </div>
 
   <script src="bootstrap-5.3.6-dist/js/bootstrap.bundle.min.js"></script>
+  <script src="ia-responses.js"></script>
   <script>
     // Inicializar tooltips
     const tooltipTriggerList = document.querySelectorAll('[title]');
@@ -560,33 +562,10 @@
       }
     });
 
-    // Aplicar filtros
-    function applyFilters() {
-      const categoryFilter = document.getElementById('categoryFilter').value;
-      const subjectFilter = document.getElementById('subjectFilter').value;
-      const feedback = document.getElementById('filterFeedback');
-      if (!categoryFilter && !subjectFilter) {
-        feedback.innerHTML = '<div class="alert alert-warning">Por favor, selecciona al menos un filtro.</div>';
-        return;
-      }
-      const filterText = `${categoryFilter || 'Todas las categorías'} - ${subjectFilter || 'Todas las asignaturas'}`;
-      feedback.innerHTML = `<div class="alert alert-success">Mostrando recursos para "${filterText}" (simulación).</div>`;
-      setTimeout(() => feedback.innerHTML = '', 3000);
-    }
-
-    // Descargar recurso
-    function downloadResource(resourceName) {
-      const feedback = document.createElement('div');
-      feedback.className = 'alert alert-success mt-3 animate__animated animate__fadeIn';
-      feedback.innerHTML = `¡Descargando "${resourceName}"! (Simulación)`;
-      document.querySelector('.container').appendChild(feedback);
-      setTimeout(() => feedback.remove(), 3000);
-    }
-
     // Placeholder dinámico para el chat
     const placeholders = [
-      'Pregunta cómo usar el generador...',
-      'Consulta dónde encontrar recursos...',
+      'Pregunta cómo filtrar recursos...',
+      'Consulta qué son las plantillas...',
       'Escribe cómo descargar un recurso...'
     ];
     let placeholderIndex = 0;
@@ -598,6 +577,8 @@
 
     // Seleccionar pregunta del menú desplegable
     function selectQuestion(question) {
+      console.log('selectQuestion called with:', question); // Depuración
+      const userInput = document.getElementById('userInput');
       userInput.value = question;
       sendMessage();
     }
@@ -607,6 +588,7 @@
       const userInput = document.getElementById('userInput');
       const chatContainer = document.getElementById('chatContainer');
       const message = userInput.value.trim();
+      const page = window.location.pathname.split('/').pop() || 'index.html';
 
       if (!message) return;
 
@@ -617,27 +599,13 @@
 
       const typingMessage = document.createElement('div');
       typingMessage.className = 'chat-message bot-message animate__animated animate__fadeInLeft';
-      typingMessage.innerHTML = '<strong>IA:</strong> Escribiendo...';
+      typingMessage.innerHTML = '<strong>IA:</strong> Escribiendo<span class="typing"></span>';
       chatContainer.appendChild(typingMessage);
       chatContainer.scrollTop = chatContainer.scrollHeight;
 
       setTimeout(() => {
         chatContainer.removeChild(typingMessage);
-        let response = '<strong>IA:</strong> Lo siento, no tengo una respuesta específica para eso. ¿Puedes dar más detalles?';
-        const responses = {
-          '¿Cómo usar el generador de cuestionarios?': '<strong>IA:</strong> Ve a "IA y Herramientas", haz clic en "Probar ahora" en la tarjeta del generador, selecciona un tema (por ejemplo, "Matemáticas - Fracciones") y un nivel, luego presiona "Generar".',
-          '¿Cómo cambiar el tema?': '<strong>IA:</strong> Haz clic en el ícono de luna o sol en la barra de navegación, a la izquierda de "Inicio".',
-          '¿Dónde encontrar recursos?': '<strong>IA:</strong> En la sección "Recursos" puedes descargar plantillas, evaluaciones y presentaciones. También revisa "Biblioteca" para libros y artículos.',
-          '¿Cómo buscar en la biblioteca?': '<strong>IA:</strong> En "Biblioteca", usa la barra de búsqueda para encontrar libros, artículos o guías. Prueba palabras como "matemáticas" o "historia".',
-          '¿Cómo unirme a un foro?': '<strong>IA:</strong> En "Comunidad", haz clic en "Ver Foro" en uno de los foros de "Explorar Foros" para participar.',
-          '¿Cómo descargar un recurso?': '<strong>IA:</strong> En "Recursos" o "Biblioteca", haz clic en el botón "Descargar" junto al recurso. Recibirás una confirmación simulada.',
-          '¿Qué es el modo oscuro?': '<strong>IA:</strong> El modo oscuro cambia la interfaz a colores oscuros para mayor comodidad visual. Actívalo con el ícono de luna/sol en la barra de navegación.',
-          '¿Cómo participar en un grupo de la comunidad?': '<strong>IA:</strong> En "Comunidad", selecciona un grupo en "Grupos de Interés" y haz clic en "Unirse". Recibirás una confirmación.',
-          '¿Cómo generar un plan de clase?': '<strong>IA:</strong> En "IA y Herramientas", usa el Asistente de Planificación, ingresa el tema, objetivos y duración, y haz clic en "Generar Plan".',
-          '¿Qué recursos hay en la biblioteca?': '<strong>IA:</strong> La biblioteca ofrece libros digitales (como "Historia Universal"), artículos académicos y guías (como "Matemáticas Básicas"). Usa la búsqueda para explorarlos.'
-        };
-
-        response = responses[message] || response;
+        const response = getResponse(message, page);
 
         const botMessage = document.createElement('div');
         botMessage.className = 'chat-message bot-message animate__animated animate__fadeInLeft';
@@ -661,6 +629,53 @@
       asistenciaInput.value = '';
       setTimeout(() => feedback.innerHTML = '', 3000);
     }
+
+    // Aplicar filtros
+    function applyFilters() {
+      const categoryFilter = document.getElementById('categoryFilter').value;
+      const subjectFilter = document.getElementById('subjectFilter').value;
+      const feedback = document.getElementById('filterFeedback');
+      if (!categoryFilter && !subjectFilter) {
+        feedback.innerHTML = '<div class="alert alert-warning">Por favor, selecciona al menos un filtro.</div>';
+        return;
+      }
+      const filterText = `${categoryFilter || 'Todas las categorías'} - ${subjectFilter || 'Todas las asignaturas'}`;
+      feedback.innerHTML = `<div class="alert alert-success">Mostrando recursos para "${filterText}" (simulación).</div>`;
+      setTimeout(() => feedback.innerHTML = '', 3000);
+    }
+
+    // Descargar recurso
+    function downloadResource(resourceName) {
+      const feedback = document.createElement('div');
+      feedback.className = 'alert alert-success mt-3 animate__animated animate__fadeIn';
+      feedback.innerHTML = `¡Descargando "${resourceName}"! (Simulación)`;
+      document.querySelector('.container').appendChild(feedback);
+      setTimeout(() => feedback.remove(), 3000);
+    }
+
+    // Actualizar sugerencias y manejar clics con delegación de eventos
+    window.addEventListener('load', () => {
+      console.log('Window loaded, initializing suggestions'); // Depuración
+      updateSuggestions();
+      const dropdown = document.querySelector('.dropdown-menu');
+      if (dropdown) {
+        dropdown.addEventListener('click', (e) => {
+          const item = e.target.closest('.dropdown-item');
+          if (item) {
+            e.preventDefault();
+            const question = item.getAttribute('data-question');
+            console.log('Dropdown item clicked with question:', question); // Depuración
+            if (question) {
+              selectQuestion(question);
+            } else {
+              console.error('No data-question attribute found on dropdown item');
+            }
+          }
+        });
+      } else {
+        console.error('Dropdown menu not found on load');
+      }
+    });
   </script>
 </body>
 </html>
